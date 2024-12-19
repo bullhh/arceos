@@ -128,3 +128,52 @@ cfg_if::cfg_if! {
         }
     }
 }
+
+cfg_if::cfg_if! {
+    if #[cfg(net_dev = "igb")] {
+        use crate::igb::IgbHalImpl;
+        use axhal::mem::phys_to_virt;
+        pub struct IgbDriver;
+        register_net_driver!(IgbDriver, igb_driver::net_igb::IgbNic<IgbHalImpl, 1024, 1>);
+        impl DriverProbe for IgbDriver {
+            #[cfg(bus = "pci")]
+            fn probe_pci(
+                    root: &mut axdriver_pci::PciRoot,
+                    bdf: axdriver_pci::DeviceFunction,
+                    dev_info: &axdriver_pci::DeviceFunctionInfo,
+                ) -> Option<crate::AxDeviceEnum> {
+                    info!("igb bus pci");
+                    use igb_driver::{INTEL_82576, INTEL_VEND, net_igb::IgbNic};
+                    if dev_info.vendor_id == INTEL_VEND && dev_info.device_id == INTEL_82576 {
+                        // Intel 10Gb Network
+                        info!("igb PCI device found at {:?}", bdf);
+
+                        // Initialize the device
+                        // These can be changed according to the requirments specified in the ixgbe init function.
+                        const QN: u16 = 1;
+                        const QS: usize = 1024;
+                        let bar_info = root.bar_info(bdf, 0).unwrap();
+                        match bar_info {
+                            axdriver_pci::BarInfo::Memory {
+                                address,
+                                size,
+                                ..
+                            } => {
+                                let ixgbe_nic = IgbNic::<IgbHalImpl, QS, QN>::init(
+                                    phys_to_virt((address as usize).into()).into(),
+                                    size as usize
+                                )
+                                .expect("failed to initialize ixgbe device");
+                                return Some(AxDeviceEnum::from_net(ixgbe_nic));
+                            }
+                            axdriver_pci::BarInfo::IO { .. } => {
+                                error!("ixgbe: BAR0 is of I/O type");
+                                return None;
+                            }
+                        }
+                    }
+                    None
+            }
+        }
+    }
+}

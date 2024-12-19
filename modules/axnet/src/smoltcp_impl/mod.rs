@@ -10,7 +10,10 @@ use core::cell::RefCell;
 use core::ops::DerefMut;
 
 use axdriver::prelude::*;
-use axdriver_net::{DevError, NetBufPtr};
+// use axdriver_net::{DevError, NetBufPtr};
+// #[cfg(not(feature = "igb"))]
+// use axdriver_net::{DevError, NetBufPtr};
+
 use axhal::time::{wall_time_nanos, NANOS_PER_MICROS};
 use axsync::Mutex;
 use lazyinit::LazyInit;
