@@ -602,7 +602,7 @@ impl<H: IgbHal, const QS: usize> IgbDevice<H, QS> {
         // self.set_flags32(IGB_CTRL_EXT, 1);
         // self.wait_for_link();
         info!("CTRL:{:x}, STATUS:{:x}", self.get_reg32(IGB_CTRL), self.get_reg32(IGB_STATUS));
-        info!("Success to initialize and reset Intel 10G NIC regs.");
+        info!("Success to initialize and reset Intel IGB NIC regs.");
 
         Ok(())
     }

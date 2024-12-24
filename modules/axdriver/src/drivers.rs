@@ -145,9 +145,8 @@ cfg_if::cfg_if! {
                     info!("igb bus pci");
                     use igb_driver::{INTEL_82576, INTEL_VEND, net_igb::IgbNic};
                     if dev_info.vendor_id == INTEL_VEND && dev_info.device_id == INTEL_82576 {
-                        // Intel 10Gb Network
-                        info!("igb PCI device found at {:?}", bdf);
 
+                        info!("igb PCI device found at {:?}", bdf);
                         // Initialize the device
                         // These can be changed according to the requirments specified in the ixgbe init function.
                         const QN: u16 = 1;
@@ -159,15 +158,15 @@ cfg_if::cfg_if! {
                                 size,
                                 ..
                             } => {
-                                let ixgbe_nic = IgbNic::<IgbHalImpl, QS, QN>::init(
+                                let igb_nic = IgbNic::<IgbHalImpl, QS, QN>::init(
                                     phys_to_virt((address as usize).into()).into(),
                                     size as usize
                                 )
-                                .expect("failed to initialize ixgbe device");
-                                return Some(AxDeviceEnum::from_net(ixgbe_nic));
+                                .expect("failed to initialize igb device");
+                                return Some(AxDeviceEnum::from_net(igb_nic));
                             }
                             axdriver_pci::BarInfo::IO { .. } => {
-                                error!("ixgbe: BAR0 is of I/O type");
+                                error!("igb: BAR0 is of I/O type");
                                 return None;
                             }
                         }

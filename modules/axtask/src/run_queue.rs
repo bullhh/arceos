@@ -624,6 +624,7 @@ pub(crate) fn init() {
 
     // Create the `idle` task (not current task).
     const IDLE_TASK_STACK_SIZE: usize = 4096;
+    info!("crate idle task");
     let idle_task = TaskInner::new(|| crate::run_idle(), "idle".into(), IDLE_TASK_STACK_SIZE);
     // idle task should be pinned to the current CPU.
     idle_task.set_cpumask(AxCpuMask::one_shot(cpu_id));
