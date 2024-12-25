@@ -14,7 +14,7 @@ mod interrupts;
 mod igb;
 mod memory;
 
-mod net_buf;
+// mod net_buf;
 pub mod net_igb;
 
 extern crate alloc;
