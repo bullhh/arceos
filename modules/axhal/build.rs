@@ -15,6 +15,7 @@ const BUILTIN_PLATFORM_FAMILIES: &[&str] = &[
     "aarch64-bsta1000b",
     "aarch64-phytium-pi",
     "aarch64-qemu-virt",
+    "aarch64-rk3568-pc",
     "aarch64-raspi",
     "loongarch64-qemu-virt",
     "riscv64-qemu-virt",

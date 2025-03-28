@@ -28,6 +28,9 @@ cfg_if::cfg_if! {
     } else if #[cfg(all(target_arch = "loongarch64", platform_family = "loongarch64-qemu-virt"))] {
         mod loongarch64_qemu_virt;
         pub use self::loongarch64_qemu_virt::*;
+    } else if #[cfg(all(target_arch = "aarch64", platform_family = "aarch64-rk3568-pc"))] {
+        mod aarch64_rk3568_pc;
+        pub use self::aarch64_rk3568_pc::*;
     } else {
         mod dummy;
         pub use self::dummy::*;
