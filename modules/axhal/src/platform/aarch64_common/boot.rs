@@ -5,7 +5,6 @@ use tock_registers::interfaces::{ReadWriteable, Readable, Writeable};
 
 use axconfig::{TASK_STACK_SIZE, plat::PHYS_VIRT_OFFSET};
 
-use any_uart::*;
 
 #[unsafe(link_section = ".bss.stack")]
 static mut BOOT_STACK: [u8; TASK_STACK_SIZE] = [0; TASK_STACK_SIZE];
