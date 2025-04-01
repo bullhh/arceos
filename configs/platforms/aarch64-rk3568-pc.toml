@@ -11,9 +11,9 @@ platform = "aarch64-rk3568-pc"     # str
 family = "aarch64-rk3568-pc"       # str
 
 # Base address of the whole physical memory.
-phys-memory-base = 0x940_0000      # uint
+phys-memory-base = 0x0020_0000      # uint
 # Size of the whole physical memory. (2G)
-phys-memory-size = 0x8000_0000      # uint
+phys-memory-size = 0x0820_0000      # uint
 # Base physical address of the kernel image.
 kernel-base-paddr = 0x28_0000     # uint
 # Base virtual address of the kernel image.

@@ -18,12 +18,22 @@ pub(crate) unsafe fn init_boot_page_table(
     // 0x0000_0000_0000..0x0000_4000_0000, 1G block, device memory
     boot_pt_l1[0] = A64PTE::new_page(
         pa!(0),
-        MappingFlags::READ | MappingFlags::WRITE | MappingFlags::DEVICE,
+        MappingFlags::READ | MappingFlags::WRITE | MappingFlags::EXECUTE,
         true,
     );
     boot_pt_l1[1] = A64PTE::new_page(
         pa!(0x4000_0000),
         MappingFlags::READ | MappingFlags::WRITE | MappingFlags::EXECUTE,
+        true,
+    );
+    boot_pt_l1[2] = A64PTE::new_page(
+        pa!(0x8000_0000),
+        MappingFlags::READ | MappingFlags::WRITE | MappingFlags::EXECUTE,
+        true,
+    );
+    boot_pt_l1[3] = A64PTE::new_page(
+        pa!(0xc000_0000),
+        MappingFlags::READ | MappingFlags::WRITE | MappingFlags::DEVICE,
         true,
     );
 }
