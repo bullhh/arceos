@@ -65,6 +65,16 @@ unsafe fn switch_to_el1() {
 }
 
 unsafe fn init_mmu() {
+        unsafe {
+        core::ptr::write_volatile((0xFE66_0000 as usize) as *mut u8, b'3');
+        core::ptr::write_volatile((0xFE66_0000 as usize) as *mut u8, b'\r');
+        core::ptr::write_volatile((0xFE66_0000 as usize) as *mut u8, b'\n');
+    }
+    // unsafe {
+    //     core::ptr::write_volatile((0xffff_0000_FE66_0000 as usize) as *mut u8, b'4');
+    //     core::ptr::write_volatile((0xffff_0000_FE66_0000 as usize) as *mut u8, b'\r');
+    //     core::ptr::write_volatile((0xffff_0000_FE66_0000 as usize) as *mut u8, b'\n');
+    // }
     MAIR_EL1.set(MemAttr::MAIR_VALUE);
     // Enable TTBR0 and TTBR1 walks, page size = 4K, vaddr size = 48 bits, paddr size = 40 bits.
     let tcr_flags0 = TCR_EL1::EPD0::EnableTTBR0Walks
@@ -89,20 +99,25 @@ unsafe fn init_mmu() {
     // Flush the entire TLB
     crate::arch::flush_tlb(None);
 
+    unsafe {
+        core::ptr::write_volatile((0xFE66_0000 as usize) as *mut u8, b'3');
+        core::ptr::write_volatile((0xFE66_0000 as usize) as *mut u8, b'\r');
+        core::ptr::write_volatile((0xFE66_0000 as usize) as *mut u8, b'\n');
+    }
     // Enable the MMU and turn on I-cache and D-cache
     SCTLR_EL1.modify(SCTLR_EL1::M::Enable + SCTLR_EL1::C::Cacheable + SCTLR_EL1::I::Cacheable);
     barrier::isb(barrier::SY);
 
-    // unsafe {
-    //     core::ptr::write_volatile((0xFE66_0000 as usize) as *mut u8, b'3');
-    //     core::ptr::write_volatile((0xFE66_0000 as usize) as *mut u8, b'\r');
-    //     core::ptr::write_volatile((0xFE66_0000 as usize) as *mut u8, b'\n');
-    // }
-    // unsafe {
-    //     core::ptr::write_volatile((0xffff_0000_FE66_0000 as usize) as *mut u8, b'4');
-    //     core::ptr::write_volatile((0xffff_0000_FE66_0000 as usize) as *mut u8, b'\r');
-    //     core::ptr::write_volatile((0xffff_0000_FE66_0000 as usize) as *mut u8, b'\n');
-    // }
+    unsafe {
+        core::ptr::write_volatile((0xFE66_0000 as usize) as *mut u8, b'5');
+        core::ptr::write_volatile((0xFE66_0000 as usize) as *mut u8, b'\r');
+        core::ptr::write_volatile((0xFE66_0000 as usize) as *mut u8, b'\n');
+    }
+    unsafe {
+        core::ptr::write_volatile((0xffff_0000_FE66_0000 as usize) as *mut u8, b'6');
+        core::ptr::write_volatile((0xffff_0000_FE66_0000 as usize) as *mut u8, b'\r');
+        core::ptr::write_volatile((0xffff_0000_FE66_0000 as usize) as *mut u8, b'\n');
+    }
 }
 
 unsafe fn enable_fp() {

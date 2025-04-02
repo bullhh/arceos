@@ -20,10 +20,11 @@ pub fn start_secondary_cpus(primary_cpu_id: usize) {
             debug!("starting CPU {}...", i);
             axhal::mp::start_secondary_cpu(i, stack_top);
             logic_cpu_id += 1;
-
+            info!("me1");
             while ENTERED_CPUS.load(Ordering::Acquire) <= logic_cpu_id {
                 core::hint::spin_loop();
             }
+            info!("me2");
         }
     }
 }

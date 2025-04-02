@@ -11,9 +11,9 @@ platform = "aarch64-rk3568-pc"     # str
 family = "aarch64-rk3568-pc"       # str
 
 # Base address of the whole physical memory.
-phys-memory-base = 0x0020_0000      # uint
+phys-memory-base = 0x0940_0000      # uint
 # Size of the whole physical memory. (2G)
-phys-memory-size = 0x0820_0000      # uint
+phys-memory-size = 0xe6c0_0000      # uint
 # Base physical address of the kernel image.
 kernel-base-paddr = 0x28_0000     # uint
 # Base virtual address of the kernel image.
@@ -88,4 +88,4 @@ gicd-paddr = 0xFD46_0000        # uint
 psci-method = "smc"             # str
 
 # CPU Hardware ID list
-cpu-id-list = [0x200, 0x300, 0x00, 0x100]
+cpu-id-list = [0x0, 0x100, 0x200, 0x300]

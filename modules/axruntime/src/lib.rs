@@ -170,7 +170,7 @@ pub extern "C" fn rust_main(cpu_id: usize, dtb: usize) -> ! {
 
     #[cfg(feature = "smp")]
     self::mp::start_secondary_cpus(cpu_id);
-
+    
     #[cfg(feature = "irq")]
     {
         info!("Initialize interrupt handlers...");

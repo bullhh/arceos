@@ -55,9 +55,8 @@ impl DW8250 {
 
         let get_baud_divider = |baudrate| (UART_SRC_CLK << (BST_UART_DLF_LEN - 4)) / baudrate;
         let divider = get_baud_divider(BAUDRATE);
-
         // Waiting to be no USR_BUSY.
-        while self.regs().usr.get() & 0b1 != 0 {}
+        while self.regs().usr.get() & 0b1 == 0 {}
 
         // bst_serial_hw_init_clk_rst
 
@@ -166,4 +165,16 @@ pub fn getchar() -> Option<u8> {
 /// UART simply initialize
 pub fn init_early() {
     UART.lock().init();
+}
+
+/// Set UART IRQ Enable
+#[cfg(feature = "irq")]
+pub fn init_irq() {
+    UART.lock().set_ier(true);
+    crate::irq::register_handler(crate::platform::irq::UART_IRQ_NUM, handle);
+}
+
+/// UART IRQ Handler
+pub fn handle() {
+    trace!("Uart IRQ Handler");
 }
