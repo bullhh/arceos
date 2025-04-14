@@ -1,12 +1,16 @@
 pub mod dw_apb_uart;
 pub mod mem;
 
+#[cfg(feature = "irq")]
+pub mod gic;
+
 #[cfg(feature = "smp")]
 pub mod mp;
 
 #[cfg(feature = "irq")]
 pub mod irq {
-    pub use crate::platform::aarch64_common::gic::*;
+    pub use crate::platform::aarch64_rk3568_pc::gic::*;
+    // pub use crate::platform::aarch64_common::gic::*;
 }
 
 pub mod console {
@@ -17,9 +21,19 @@ pub mod time {
     pub use crate::platform::aarch64_common::generic_timer::*;
 }
 
+
 pub mod misc {
     pub use crate::platform::aarch64_common::psci::system_off as terminate;
 }
+
+// pub mod misc {
+//     pub fn terminate() -> ! {
+//         info!("Shutting down...");
+//         loop {
+//             crate::arch::halt();
+//         }
+//     }
+// }
 
 unsafe extern "C" {
     fn exception_vector_base();
@@ -40,7 +54,6 @@ pub(crate) unsafe extern "C" fn rust_entry(cpu_id: usize, dtb: usize) {
 }
 
 #[cfg(feature = "smp")]
-#[allow(dead_code)] // FIXME: temporariy allowd to bypass clippy warnings.
 pub(crate) unsafe extern "C" fn rust_entry_secondary(cpu_id: usize) {
     crate::arch::set_exception_vector_base(exception_vector_base as usize);
     #[cfg(not(feature = "hv"))]
@@ -54,7 +67,7 @@ pub(crate) unsafe extern "C" fn rust_entry_secondary(cpu_id: usize) {
 /// For example, the interrupt controller and the timer.
 pub fn platform_init() {
     #[cfg(feature = "irq")]
-    super::aarch64_common::gic::init_primary();
+    gic::init_primary();
     super::aarch64_common::generic_timer::init_percpu();
 }
 
