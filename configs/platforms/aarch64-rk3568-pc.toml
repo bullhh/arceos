@@ -1,0 +1,90 @@
+# Architecture identifier.
+arch = "aarch64"                    # str
+# Platform identifier.
+platform = "aarch64-rk3568-pc"     # str
+
+#
+# Platform configs
+#
+[plat]
+# Platform family.
+family = "aarch64-rk3568-pc"       # str
+
+# Base address of the whole physical memory.
+phys-memory-base = 0x20_0000      # uint
+# Size of the whole physical memory. (128M)
+phys-memory-size = 0x0800_0000      # uint
+# Base physical address of the kernel image.
+kernel-base-paddr = 0x28_0000     # uint
+# Base virtual address of the kernel image.
+kernel-base-vaddr = "0xffff_0000_0028_0000"     # uint
+# Linear mapping offset, for quick conversions between physical and virtual
+# addresses.
+phys-virt-offset = "0xffff_0000_0000_0000"      # uint
+# Offset of bus address and phys address. some boards, the bus address is
+# different from the physical address.
+phys-bus-offset = 0                             # uint
+# Kernel address space base.
+kernel-aspace-base = "0xffff_0000_0000_0000"    # uint
+# Kernel address space size.
+kernel-aspace-size = "0x0000_ffff_ffff_f000"    # uint
+
+#
+# Device specifications
+#
+[devices]
+# MMIO regions with format (`base_paddr`, `size`).
+mmio-regions = [
+    [0xFDD5_0000, 0x1_0000],  # UART 0
+    [0xFE65_0000, 0x1_0000],  # UART 1
+    [0xFE66_0000, 0x1_0000],  # UART 2
+    [0xFE67_0000, 0x1_0000],  # UART 3
+    [0xFE68_0000, 0x1_0000],  # UART 4
+    [0xFE69_0000, 0x1_0000],  # UART 5
+    [0xFE6A_0000, 0x1_0000],  # UART 6
+    [0xFE6B_0000, 0x1_0000],  # UART 7
+    [0xFE6C_0000, 0x1_0000],  # UART 8
+    [0xFE6D_0000, 0x1_0000],  # UART 9
+
+    [0xFD40_0000, 0x1_0000], # gic-v3 gicd
+    [0xFD46_0000, 0x10_0000], # gic-v3 gicr
+
+    [0xF400_0000, 0x10_0000], # Pcie0 ECAM
+
+    [0xFDD4_0000, 0x1_0000],  # MIO0 - I2C
+    [0xFE5A_0000, 0x1_0000],  # MIO1 - I2C
+    [0xFE5B_0000, 0x1_0000],  # MIO2 - I2C
+    [0xFE5C_0000, 0x1_0000],  # MIO3 - I2C
+    [0xFE5D_0000, 0x1_0000],  # MIO4 - I2C
+    [0xFE5E_0000, 0x1_0000],  # MIO5 - I2C
+
+    [0xFDD6_0000, 0x1_0000],  # GPIO0
+    [0xFE74_0000, 0x1_0000],  # GPIO1
+    [0xFE75_0000, 0x1_0000],  # GPIO2
+    [0xFE76_0000, 0x1_0000],  # GPIO3
+    [0xFE77_0000, 0x1_0000],  # GPIO4
+]                               # [(uint, uint)]
+# VirtIO MMIO regions with format (`base_paddr`, `size`).
+virtio-mmio-regions = []        # [(uint, uint)]
+# Base physical address of the PCIe ECAM space.
+pci-ecam-base = 0xFE26_0000     # uint
+# End PCI bus number.
+pci-bus-end = 0x3               # uint
+# PCI device memory ranges.
+pci-ranges = [
+    [0x0, 0xf410_0000],                 # PIO space
+    [0xf420_0000, 0x1e0_0000],         # 32-bit MMIO space
+    [0x3_0000_0000, 0x4000_0000],      # 64-bit MMIO space
+]                                       # [(uint, uint)]
+# UART Address
+uart-paddr = 0xFE66_0000        # uint
+# UART IRQ number
+uart-irq = 0x76                 # uint
+
+# GIC CPU Interface base address
+gicc-paddr = 0xFD46_0000        # uint
+# GIC Distributor base address
+gicd-paddr = 0xFD40_0000        # uint
+
+# PSCI
+psci-method = "smc"             # str

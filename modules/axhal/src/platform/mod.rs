@@ -31,6 +31,9 @@ cfg_if::cfg_if! {
     } else if #[cfg(all(target_arch = "aarch64", platform_family = "aarch64-rk3588j"))] {
         mod aarch64_rk3588j;
         pub use self::aarch64_rk3588j::*;
+    } else if #[cfg(all(target_arch = "aarch64", platform_family = "aarch64-rk3568-pc"))] {
+        mod aarch64_rk3568_pc;
+        pub use self::aarch64_rk3568_pc::*;
     } else {
         mod dummy;
         pub use self::dummy::*;
