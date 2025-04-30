@@ -12,7 +12,6 @@ cfg_if::cfg_if! {
     }
 }
 
-
 #[doc(no_inline)]
 pub use memory_addr::{MemoryAddr, PAGE_SIZE_4K, PhysAddr, VirtAddr};
 
@@ -54,4 +53,3 @@ pub struct MemRegion {
     /// The region name, used for identification.
     pub name: &'static str,
 }
-

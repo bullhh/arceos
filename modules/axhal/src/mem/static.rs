@@ -1,4 +1,3 @@
-
 use axconfig::plat::{PHYS_MEMORY_BASE, PHYS_MEMORY_SIZE, PHYS_VIRT_OFFSET};
 
 /// Converts a virtual address to a physical address.
