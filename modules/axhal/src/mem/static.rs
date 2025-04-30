@@ -1,4 +1,7 @@
 use axconfig::plat::{PHYS_MEMORY_BASE, PHYS_MEMORY_SIZE, PHYS_VIRT_OFFSET};
+use memory_addr::{MemoryAddr, PhysAddr, VirtAddr};
+
+use super::{MemRegion, MemRegionFlags};
 
 /// Converts a virtual address to a physical address.
 ///
