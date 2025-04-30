@@ -1,7 +1,11 @@
 use memory_addr::{MemoryAddr, PhysAddr, VirtAddr};
 use page_table_entry::MappingFlags;
+use somehal::driver::DeviceId;
 
 use crate::mem::{self, MapLinearFunc, phys_to_virt};
+
+#[cfg(feature = "irq")]
+pub(crate) mod irq;
 
 unsafe extern "C" {
     fn rust_main(cpu_id: usize, dtb: usize);
@@ -26,19 +30,19 @@ pub mod console {
 
 pub mod time {
     pub fn current_ticks() -> u64 {
-        0
+        somehal::systime::current_ticks()
     }
 
     /// Converts hardware ticks to nanoseconds.
     #[inline]
     pub fn ticks_to_nanos(ticks: u64) -> u64 {
-        0
+        somehal::systime::ticks_to_nanos(ticks) as _
     }
 
     /// Converts nanoseconds to hardware ticks.
     #[inline]
     pub fn nanos_to_ticks(nanos: u64) -> u64 {
-        0
+        somehal::systime::nanos_to_ticks(nanos as _)
     }
 
     /// Return epoch offset in nanoseconds (wall time offset to monotonic clock start).
@@ -48,7 +52,7 @@ pub mod time {
 }
 pub mod misc {
     pub fn terminate() -> ! {
-        loop {}
+        somehal::power::terminate()
     }
 }
 
@@ -59,5 +63,7 @@ pub fn platform_init(map_func: MapLinearFunc) {
     unsafe {
         mem::init_map_liner(map_func);
         somehal::init();
+        #[cfg(feature = "irq")]
+        irq::init();
     }
 }

@@ -68,12 +68,10 @@ impl InterfaceCPU for ArmV8Timer {
 
 impl DriverGeneric for ArmV8Timer {
     fn open(&mut self) -> DriverResult<()> {
-        CNTP_CTL_EL0.modify(CNTP_CTL_EL0::ENABLE::SET);
         Ok(())
     }
 
     fn close(&mut self) -> DriverResult<()> {
-        CNTP_CTL_EL0.modify(CNTP_CTL_EL0::ENABLE::CLEAR);
         Ok(())
     }
 }

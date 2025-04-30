@@ -2,6 +2,8 @@ mod context;
 
 #[cfg(feature = "plat-dyn")]
 mod driver;
+#[cfg(feature = "plat-dyn")]
+pub use driver::*;
 
 #[cfg(target_os = "none")]
 mod trap;
@@ -19,6 +21,9 @@ use tock_registers::interfaces::{Readable, Writeable};
 #[cfg(feature = "uspace")]
 pub use self::context::UspaceContext;
 pub use self::context::{FpState, TaskContext, TrapFrame};
+
+#[cfg(feature = "plat-dyn")]
+pub use self::driver::*;
 
 /// Allows the current CPU to respond to interrupts.
 #[inline]

@@ -42,6 +42,7 @@ fn probe_gic(node: Node<'_>, _dev: ProbeDevInfo) -> Result<Vec<HardwareKind>, Bo
         (gicc_reg.address as usize).into(),
         gicc_reg.size.unwrap_or(0x1000),
     )?;
+
     Ok(alloc::vec![HardwareKind::Intc(Box::new(Gic::new(
         gicd,
         gicc,
