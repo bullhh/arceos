@@ -28,6 +28,7 @@
 #![feature(naked_functions)]
 #![feature(doc_auto_cfg)]
 #![feature(sync_unsafe_cell)]
+#![cfg_attr(feature="plat-dyn", feature(used_with_arg))]
 
 #[allow(unused_imports)]
 #[macro_use]
@@ -36,6 +37,9 @@ extern crate log;
 #[allow(unused_imports)]
 #[macro_use]
 extern crate memory_addr;
+
+#[cfg(feature = "alloc")]
+extern crate alloc;
 
 mod platform;
 

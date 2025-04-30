@@ -1,7 +1,21 @@
-use memory_addr::{PhysAddr, VirtAddr};
+use core::{error::Error, ptr::NonNull};
+
+use alloc::{boxed::Box, format};
+use axerrno::AxError;
+use memory_addr::{MemoryAddr, PhysAddr, VirtAddr};
+use page_table_entry::MappingFlags;
 use somehal::mem::region::{AccessFlags, MemRegionKind};
 
 use super::{MemRegion, MemRegionFlags};
+
+static mut MAP_FUNC: MapLinearFunc = |start_vaddr, start_paddr, size, flags| Ok(());
+
+pub type MapLinearFunc = fn(
+    start_vaddr: VirtAddr,
+    start_paddr: PhysAddr,
+    size: usize,
+    flags: MappingFlags,
+) -> Result<(), AxError>;
 
 /// Converts a virtual address to a physical address.
 #[inline]
@@ -62,4 +76,29 @@ impl From<somehal::mem::MemRegion> for MemRegion {
             name: value.name,
         }
     }
+}
+
+pub(crate) unsafe fn init_map_liner(f: MapLinearFunc) {
+    unsafe {
+        MAP_FUNC = f;
+    }
+}
+
+pub fn iomap(addr: PhysAddr, size: usize) -> Result<NonNull<u8>, Box<dyn Error>> {
+    let end = (addr.as_usize() + size).align_up_4k();
+    let start = addr.align_down_4k();
+    let size = end - start.as_usize();
+
+    let start_virt = phys_to_virt(start);
+
+    unsafe {
+        MAP_FUNC(
+            start_virt,
+            addr,
+            size,
+            MappingFlags::READ | MappingFlags::WRITE | MappingFlags::DEVICE,
+        )
+        .map_err(|e| format!("Failed to map memory: {}", e))?;
+    }
+    Ok(NonNull::new(start_virt.as_mut_ptr()).unwrap())
 }

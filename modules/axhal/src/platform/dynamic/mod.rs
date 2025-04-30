@@ -1,15 +1,7 @@
-use axerrno::AxError;
-use memory_addr::{PhysAddr, VirtAddr};
+use memory_addr::{MemoryAddr, PhysAddr, VirtAddr};
 use page_table_entry::MappingFlags;
 
-use super::MapLinearFunc;
-
-static mut MAP_FUNC: fn(
-    start_vaddr: VirtAddr,
-    start_paddr: PhysAddr,
-    size: usize,
-    flags: MappingFlags,
-) -> Result<(), AxError> = |start_vaddr, start_paddr, size, flags| Ok(());
+use crate::mem::{self, MapLinearFunc, phys_to_virt};
 
 unsafe extern "C" {
     fn rust_main(cpu_id: usize, dtb: usize);
@@ -29,7 +21,6 @@ pub mod console {
 
     pub fn read_bytes(bytes: &mut [u8]) -> usize {
         panic!("read_bytes is not implemented yet");
-        return 0;
     }
 }
 
@@ -66,7 +57,7 @@ pub mod misc {
 /// For example, the interrupt controller and the timer.
 pub fn platform_init(map_func: MapLinearFunc) {
     unsafe {
-        MAP_FUNC = map_func;
+        mem::init_map_liner(map_func);
         somehal::init();
     }
 }

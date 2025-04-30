@@ -229,7 +229,21 @@ dependencies = [
  "bitflags 2.9.0",
  "enum_dispatch",
  "log",
- "rdif-intc",
+ "rdif-intc 0.2.0",
+ "tock-registers 0.9.0",
+]
+
+[[package]]
+name = "arm-gic-driver"
+version = "0.8.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e17f8d837d37a85ae2f89a2ea0883d4307b8c8345c8c5ea2e2eab928825319f0"
+dependencies = [
+ "aarch64-cpu 10.0.0",
+ "bitflags 2.9.0",
+ "enum_dispatch",
+ "log",
+ "rdif-intc 0.4.2",
  "tock-registers 0.9.0",
 ]
 
@@ -501,6 +515,7 @@ name = "axhal"
 version = "0.1.0"
 dependencies = [
  "aarch64-cpu 10.0.0",
+ "arm-gic-driver 0.8.0",
  "arm_gicv2",
  "arm_pl011",
  "arm_pl031",
@@ -1296,7 +1311,6 @@ dependencies = [
 [[package]]
 name = "kmem-region"
 version = "0.1.0"
-source = "git+https://github.com/rcore-os/somehal.git#ab9aff7796354c0c02ac9d930f6ddee04d71c0b3"
 dependencies = [
  "bitflags 2.9.0",
  "prettyplease",
@@ -1505,7 +1519,6 @@ checksum = "945462a4b81e43c4e3ba96bd7b49d834c6f61198356aa858733bc4acf3cbe62e"
 [[package]]
 name = "page-table-generic"
 version = "0.6.0"
-source = "git+https://github.com/rcore-os/somehal.git#ab9aff7796354c0c02ac9d930f6ddee04d71c0b3"
 dependencies = [
  "bitflags 2.9.0",
  "log",
@@ -1569,7 +1582,6 @@ dependencies = [
 [[package]]
 name = "pie-boot"
 version = "0.1.0"
-source = "git+https://github.com/rcore-os/somehal.git#ab9aff7796354c0c02ac9d930f6ddee04d71c0b3"
 dependencies = [
  "aarch64-cpu 10.0.0",
  "bitflags 2.9.0",
@@ -1705,12 +1717,73 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f1525e2b3fb72098cb2b882ded25829fb68f153f6408fa4a27fbba5098f890ac"
 
 [[package]]
+name = "rdif-base"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "88dfa4f4f43bb0a7d0464c4bcbbd7e8d2aa7c8db551f9fd18e609729e1e9b481"
+
+[[package]]
 name = "rdif-intc"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b99ea6f537664cb853acf4f265a3167edab285e866fc596fca52796d2ce8b114"
 dependencies = [
- "rdif-base",
+ "rdif-base 0.1.4",
+]
+
+[[package]]
+name = "rdif-intc"
+version = "0.4.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "470d6a4241e7c45d032306259a41c823fd2fa88eb659ada5ce9e3a30c0d7d10a"
+dependencies = [
+ "cfg-if",
+ "rdif-base 0.2.0",
+]
+
+[[package]]
+name = "rdif-power"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4ac69ef4be015f79135b77c99a24950191f82e1a04e79dd46c904097df2d041a"
+dependencies = [
+ "rdif-base 0.2.0",
+]
+
+[[package]]
+name = "rdif-timer"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8bb6bfbc9d19ff79da426f1a88b7bd5063977b9c144da44ee0b3847e9032055e"
+dependencies = [
+ "rdif-base 0.2.0",
+]
+
+[[package]]
+name = "rdrive"
+version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e3a9b28a91d7f0950b21118642471a9fc6e2628d58fda0bfe00dc24a6464a0af"
+dependencies = [
+ "fdt-parser",
+ "log",
+ "rdif-base 0.2.0",
+ "rdif-intc 0.4.2",
+ "rdif-power",
+ "rdif-timer",
+ "spin 0.10.0",
+ "thiserror",
+]
+
+[[package]]
+name = "rdrive-macro-utils"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3fc3b642edb4cacf905ba9e193ca5eebc15fcc3695dc1b583e1f8ac2512d9f8b"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.98",
 ]
 
 [[package]]
@@ -1923,12 +1996,11 @@ dependencies = [
 [[package]]
 name = "somehal"
 version = "0.1.0"
-source = "git+https://github.com/rcore-os/somehal.git#ab9aff7796354c0c02ac9d930f6ddee04d71c0b3"
 dependencies = [
  "aarch64-cpu 10.0.0",
  "acpi",
  "any-uart",
- "arm-gic-driver",
+ "arm-gic-driver 0.7.1",
  "bit_field",
  "bitflags 2.9.0",
  "cfg-if",
@@ -1942,6 +2014,7 @@ dependencies = [
  "prettyplease",
  "quote",
  "raw-cpuid 11.5.0",
+ "rdrive",
  "riscv 0.13.0",
  "riscv_goldfish",
  "sbi-rt",
@@ -1957,12 +2030,12 @@ dependencies = [
 [[package]]
 name = "somehal-macros"
 version = "0.1.0"
-source = "git+https://github.com/rcore-os/somehal.git#ab9aff7796354c0c02ac9d930f6ddee04d71c0b3"
 dependencies = [
  "abi-singleton",
  "darling",
  "proc-macro2",
  "quote",
+ "rdrive-macro-utils",
  "syn 2.0.98",
 ]
 
