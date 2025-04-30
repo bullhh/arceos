@@ -15,6 +15,7 @@ unsafe extern "C" {
 
 #[somehal::entry]
 fn main(cpu_id: usize, dtb: usize) -> ! {
+    crate::cpu::init_primary(cpu_id);
     unsafe { rust_main(cpu_id, dtb) };
 }
 

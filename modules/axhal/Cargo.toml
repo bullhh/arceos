@@ -48,14 +48,12 @@ axerrno = "0.1"
 axlog = { workspace = true }
 axalloc = { workspace = true, optional = true }
 cortex-a = { version = "8.1.1", optional = true }
-# somehal = { git = "https://github.com/rcore-os/somehal.git", optional = true }
 
 [target.'cfg(target_arch = "riscv64")'.dependencies]
-somehal = { path = "/home/zhourui/opensource/somehal/somehal", optional = true, features = [
-    "sv39",
-] }
+somehal = { workspace = true, optional = true, features = ["sv39"] }
+
 [target.'cfg(not(target_arch = "riscv64"))'.dependencies]
-somehal = { path = "/home/zhourui/opensource/somehal/somehal", optional = true }
+somehal = { workspace = true, optional = true }
 
 [target.'cfg(not(feature = "plat_dyn"))'.dependencies]
 axconfig = { workspace = true }
