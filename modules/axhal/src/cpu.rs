@@ -29,7 +29,7 @@ pub fn this_cpu_is_bsp() -> bool {
 #[cfg(target_arch = "aarch64")]
 pub(crate) unsafe fn cache_current_task_ptr() {
     use tock_registers::interfaces::Writeable;
-    aarch64_cpu::registers::SP_EL0.set(CURRENT_TASK_PTR.read_current_raw() as u64);
+    aarch64_cpu::registers::SP_EL0.set(unsafe { CURRENT_TASK_PTR.read_current_raw() } as u64);
 }
 
 /// Gets the pointer to the current task with preemption-safety.
@@ -88,8 +88,10 @@ pub unsafe fn set_current_task_ptr<T>(ptr: *const T) {
     #[cfg(target_arch = "aarch64")]
     {
         let _guard = kernel_guard::IrqSave::new();
-        CURRENT_TASK_PTR.write_current_raw(ptr as usize);
-        cache_current_task_ptr();
+        unsafe {
+            CURRENT_TASK_PTR.write_current_raw(ptr as usize);
+            cache_current_task_ptr();
+        }
     }
 }
 
