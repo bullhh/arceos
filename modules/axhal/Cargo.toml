@@ -19,7 +19,14 @@ tls = ["alloc"]
 rtc = ["x86_rtc", "riscv_goldfish", "arm_pl031"]
 uspace = ["paging"]
 default = []
-hv = ["paging", "cortex-a", "percpu/arm-el2", "page_table_entry/arm-el2", "arm_gicv2/el2", "dep:crate_interface"]
+hv = [
+    "paging",
+    "cortex-a",
+    "percpu/arm-el2",
+    "page_table_entry/arm-el2",
+    "arm_gicv2/el2",
+    "dep:crate_interface",
+]
 plat-dyn = ["alloc", "paging", "dep:somehal"]
 
 [dependencies]
@@ -42,6 +49,12 @@ axlog = { workspace = true }
 axalloc = { workspace = true, optional = true }
 cortex-a = { version = "8.1.1", optional = true }
 # somehal = { git = "https://github.com/rcore-os/somehal.git", optional = true }
+
+[target.'cfg(target_arch = "riscv64")'.dependencies]
+somehal = { path = "/home/zhourui/opensource/somehal/somehal", optional = true, features = [
+    "sv39",
+] }
+[target.'cfg(not(target_arch = "riscv64"))'.dependencies]
 somehal = { path = "/home/zhourui/opensource/somehal/somehal", optional = true }
 
 [target.'cfg(not(feature = "plat_dyn"))'.dependencies]
@@ -69,6 +82,7 @@ arm_pl011 = "0.1"
 arm_pl031 = { version = "0.2", optional = true }
 dw_apb_uart = "0.1"
 arm-gic-driver = "0.8"
+smccc = "0.2"
 
 [target.'cfg(target_arch = "loongarch64")'.dependencies]
 loongArch64 = "0.2.4"

@@ -1,7 +1,8 @@
 mod context;
 
 #[cfg(feature = "plat-dyn")]
-mod gic;
+mod driver;
+
 #[cfg(target_os = "none")]
 mod trap;
 
