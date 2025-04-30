@@ -20,15 +20,17 @@ pub type MapLinearFunc = fn(
 /// Converts a virtual address to a physical address.
 #[inline]
 pub fn virt_to_phys(vaddr: VirtAddr) -> PhysAddr {
-    let paddr = somehal::mem::virt_to_phys(vaddr.as_usize().into());
-    paddr.raw().into()
+    somehal::mem::virt_to_phys(vaddr.as_usize().into())
+        .raw()
+        .into()
 }
 
 /// Converts a physical address to a virtual address.
 #[inline]
 pub fn phys_to_virt(paddr: PhysAddr) -> VirtAddr {
-    let vaddr = somehal::mem::phys_to_virt(paddr.as_usize().into());
-    vaddr.raw().into()
+    somehal::mem::phys_to_virt(paddr.as_usize().into())
+        .raw()
+        .into()
 }
 
 /// Returns an iterator over all physical memory regions.
