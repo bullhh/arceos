@@ -148,6 +148,13 @@ pub extern "C" fn rust_main(cpu_id: usize, dtb: usize) -> ! {
     axmm::init_memory_management();
 
     info!("Initialize platform devices...");
+    #[cfg(feature = "plat-dyn")]
+    axhal::platform_init(|virt, phys, size, flags| {
+        axmm::kernel_aspace()
+            .lock()
+            .map_linear(virt, phys, size, flags)
+    });
+    #[cfg(not(feature = "plat-dyn"))]
     axhal::platform_init();
 
     #[cfg(feature = "multitask")]

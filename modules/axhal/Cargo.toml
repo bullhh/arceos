@@ -37,11 +37,12 @@ memory_addr = "0.3"
 handler_table = "0.1"
 page_table_entry = "0.5"
 page_table_multiarch = "0.5"
+axerrno = "0.1"
 axlog = { workspace = true }
 axalloc = { workspace = true, optional = true }
 cortex-a = { version = "8.1.1", optional = true }
-# somehal = { git = "https://github.com/rcore-os/somehal.git", optional = true }
-somehal = { path = "/home/zhourui/opensource/somehal/somehal", optional = true }
+somehal = { git = "https://github.com/rcore-os/somehal.git", optional = true }
+# somehal = { path = "/home/zhourui/opensource/somehal/somehal", optional = true }
 
 [target.'cfg(not(feature = "plat_dyn"))'.dependencies]
 axconfig = { workspace = true }

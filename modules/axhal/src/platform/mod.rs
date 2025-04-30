@@ -1,5 +1,9 @@
 //! Platform-specific operations.
 
+use axerrno::AxError;
+use memory_addr::{PhysAddr, VirtAddr};
+use page_table_entry::MappingFlags;
+
 cfg_if::cfg_if! {
 
     if #[cfg(all(target_arch = "aarch64", not(feature = "plat-dyn")))]{
@@ -41,3 +45,10 @@ cfg_if::cfg_if! {
         pub use self::dummy::*;
     }
 }
+
+pub type MapLinearFunc = fn(
+    start_vaddr: VirtAddr,
+    start_paddr: PhysAddr,
+    size: usize,
+    flags: MappingFlags,
+) -> Result<(), AxError>;
