@@ -69,3 +69,7 @@ allocator = { git = "https://github.com/arceos-org/allocator.git", tag = "v0.1.1
 
 [profile.release]
 lto = true
+
+
+[patch.crates-io]
+percpu ={ git = "https://github.com/Josen-B/percpu.git"}

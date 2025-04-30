@@ -70,6 +70,9 @@ driver-bcm2835-sdhci = ["axfeat/driver-bcm2835-sdhci"]
 # Hypervisor support
 hv = ["axfeat/hv"]
 
+# Dynamic platform support
+plat-dyn = ["axfeat/plat-dyn"]
+
 # Logging
 log-level-off = ["axfeat/log-level-off"]
 log-level-error = ["axfeat/log-level-error"]

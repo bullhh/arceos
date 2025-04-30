@@ -62,7 +62,14 @@ fn gen_linker_script(arch: &str, platform: &str) -> Result<()> {
     } else {
         arch
     };
-    let ld_content = std::fs::read_to_string("linker.lds.S")?;
+
+    let ld_template_name = if std::env::var("CARGO_FEATURE_PLAT_DYN").is_ok() {
+        "linker.dyn.lds.S"
+    } else {
+        "linker.lds.S"
+    };
+
+    let ld_content = std::fs::read_to_string(ld_template_name)?;
     let ld_content = ld_content.replace("%ARCH%", output_arch);
     let ld_content = ld_content.replace(
         "%KERNEL_BASE%",

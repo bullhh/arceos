@@ -1,13 +1,18 @@
 //! Platform-specific operations.
 
 cfg_if::cfg_if! {
-    if #[cfg(target_arch = "aarch64")]{
+
+    if #[cfg(all(target_arch = "aarch64", not(feature = "plat-dyn")))]{
         mod aarch64_common;
     }
 }
 
 cfg_if::cfg_if! {
-    if #[cfg(all(target_arch = "x86_64", platform_family = "x86-pc"))] {
+    if #[cfg(feature = "plat-dyn")] {
+        mod dynamic;
+        pub use self::dynamic::*;
+    }
+    else if #[cfg(all(target_arch = "x86_64", platform_family = "x86-pc"))] {
         mod x86_pc;
         pub use self::x86_pc::*;
     } else if #[cfg(all(target_arch = "riscv64", platform_family = "riscv64-qemu-virt"))] {
