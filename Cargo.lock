@@ -221,20 +221,6 @@ dependencies = [
 
 [[package]]
 name = "arm-gic-driver"
-version = "0.7.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e233ce5f0f51ff96685a9a094918f827fef4d78abb6c2861e23424c77956ba93"
-dependencies = [
- "aarch64-cpu 10.0.0",
- "bitflags 2.9.0",
- "enum_dispatch",
- "log",
- "rdif-intc 0.2.0",
- "tock-registers 0.9.0",
-]
-
-[[package]]
-name = "arm-gic-driver"
 version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e17f8d837d37a85ae2f89a2ea0883d4307b8c8345c8c5ea2e2eab928825319f0"
@@ -243,7 +229,7 @@ dependencies = [
  "bitflags 2.9.0",
  "enum_dispatch",
  "log",
- "rdif-intc 0.4.2",
+ "rdif-intc",
  "tock-registers 0.9.0",
 ]
 
@@ -515,7 +501,7 @@ name = "axhal"
 version = "0.1.0"
 dependencies = [
  "aarch64-cpu 10.0.0",
- "arm-gic-driver 0.8.0",
+ "arm-gic-driver",
  "arm_gicv2",
  "arm_pl011",
  "arm_pl031",
@@ -1322,7 +1308,6 @@ dependencies = [
 [[package]]
 name = "kmem-region"
 version = "0.1.0"
-source = "git+https://github.com/rcore-os/somehal.git#7fb4674765d8c58c07145cad819fdb379084af66"
 dependencies = [
  "bitflags 2.9.0",
  "prettyplease",
@@ -1531,7 +1516,6 @@ checksum = "42f5e15c9953c5e4ccceeb2e7382a716482c34515315f7b03532b8b4e8393d2d"
 [[package]]
 name = "page-table-generic"
 version = "0.6.0"
-source = "git+https://github.com/rcore-os/somehal.git#7fb4674765d8c58c07145cad819fdb379084af66"
 dependencies = [
  "bitflags 2.9.0",
  "log",
@@ -1597,7 +1581,6 @@ dependencies = [
 [[package]]
 name = "pie-boot"
 version = "0.1.0"
-source = "git+https://github.com/rcore-os/somehal.git#7fb4674765d8c58c07145cad819fdb379084af66"
 dependencies = [
  "aarch64-cpu 10.0.0",
  "bitflags 2.9.0",
@@ -1728,24 +1711,9 @@ dependencies = [
 
 [[package]]
 name = "rdif-base"
-version = "0.1.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f1525e2b3fb72098cb2b882ded25829fb68f153f6408fa4a27fbba5098f890ac"
-
-[[package]]
-name = "rdif-base"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "88dfa4f4f43bb0a7d0464c4bcbbd7e8d2aa7c8db551f9fd18e609729e1e9b481"
-
-[[package]]
-name = "rdif-intc"
-version = "0.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b99ea6f537664cb853acf4f265a3167edab285e866fc596fca52796d2ce8b114"
-dependencies = [
- "rdif-base 0.1.4",
-]
 
 [[package]]
 name = "rdif-intc"
@@ -1754,7 +1722,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "470d6a4241e7c45d032306259a41c823fd2fa88eb659ada5ce9e3a30c0d7d10a"
 dependencies = [
  "cfg-if",
- "rdif-base 0.2.0",
+ "rdif-base",
 ]
 
 [[package]]
@@ -1763,7 +1731,7 @@ version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4ac69ef4be015f79135b77c99a24950191f82e1a04e79dd46c904097df2d041a"
 dependencies = [
- "rdif-base 0.2.0",
+ "rdif-base",
 ]
 
 [[package]]
@@ -1772,19 +1740,17 @@ version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7c8937277b00bb006be33a5cc15a0903adbcf4db4bfdf19cdd8db70778f2f168"
 dependencies = [
- "rdif-base 0.2.0",
+ "rdif-base",
 ]
 
 [[package]]
 name = "rdrive"
 version = "0.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e3a9b28a91d7f0950b21118642471a9fc6e2628d58fda0bfe00dc24a6464a0af"
 dependencies = [
  "fdt-parser",
  "log",
- "rdif-base 0.2.0",
- "rdif-intc 0.4.2",
+ "rdif-base",
+ "rdif-intc",
  "rdif-power",
  "rdif-timer",
  "spin 0.10.0",
@@ -2021,12 +1987,10 @@ dependencies = [
 [[package]]
 name = "somehal"
 version = "0.1.0"
-source = "git+https://github.com/rcore-os/somehal.git#7fb4674765d8c58c07145cad819fdb379084af66"
 dependencies = [
  "aarch64-cpu 10.0.0",
  "acpi",
  "any-uart",
- "arm-gic-driver 0.7.1",
  "bit_field",
  "bitflags 2.9.0",
  "cfg-if",
@@ -2057,7 +2021,6 @@ dependencies = [
 [[package]]
 name = "somehal-macros"
 version = "0.1.0"
-source = "git+https://github.com/rcore-os/somehal.git#7fb4674765d8c58c07145cad819fdb379084af66"
 dependencies = [
  "abi-singleton",
  "darling",
