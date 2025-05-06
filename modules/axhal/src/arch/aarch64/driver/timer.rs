@@ -3,6 +3,7 @@ use core::error::Error;
 use aarch64_cpu::registers::*;
 use alloc::{boxed::Box, vec::Vec};
 
+use lazyinit::LazyInit;
 use somehal::{
     driver::{
         DriverGeneric, DriverResult,
@@ -25,6 +26,8 @@ module_driver!(
     ]
 );
 
+static IRQ: LazyInit<IrqConfig> = LazyInit::new();
+
 #[derive(Clone)]
 struct ArmV8Timer {
     irq: IrqConfig,
@@ -37,7 +40,7 @@ impl Interface for ArmV8Timer {
 }
 
 impl InterfaceCPU for ArmV8Timer {
-    fn set_timeval(&mut self, ticks: u64) {
+    fn set_timeval(& self, ticks: u64) {
         CNTP_TVAL_EL0.set(ticks);
     }
 
@@ -49,7 +52,7 @@ impl InterfaceCPU for ArmV8Timer {
         CNTFRQ_EL0.get()
     }
 
-    fn set_irq_enable(&mut self, enable: bool) {
+    fn set_irq_enable(&self, enable: bool) {
         CNTP_CTL_EL0.modify(if enable {
             CNTP_CTL_EL0::IMASK::CLEAR
         } else {
@@ -77,6 +80,8 @@ impl DriverGeneric for ArmV8Timer {
 }
 
 fn probe_timer(_node: Node<'_>, dev: ProbeDevInfo) -> Result<Vec<HardwareKind>, Box<dyn Error>> {
+
+
     Ok(alloc::vec![HardwareKind::Timer(Box::new(ArmV8Timer {
         irq: dev.irqs[1].clone(),
     }))])

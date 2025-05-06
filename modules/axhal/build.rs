@@ -81,6 +81,7 @@ fn gen_linker_script(arch: &str, platform: &str) -> Result<()> {
     let out_dir = std::env::var("OUT_DIR").unwrap();
     // target/<target_triple>/<mode>/linker_xxxx.lds
     let out_path = Path::new(&out_dir).join("../../..").join(fname);
+    let _ = std::fs::remove_file(&out_path);
     std::fs::write(out_path, ld_content)?;
     Ok(())
 }

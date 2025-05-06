@@ -62,7 +62,7 @@ driver-bcm2835-sdhci = ["axdriver?/bcm2835-sdhci"]
 #Hypervisor support 
 hv = ["axhal/hv"]
 
-plat-dyn = ["axruntime/plat-dyn", "alloc", "paging"]
+plat-dyn = ["axruntime/plat-dyn", "paging"]
 
 # Logging
 log-level-off = ["axlog/log-level-off"]

@@ -1,6 +1,8 @@
 use memory_addr::{MemoryAddr, PhysAddr, VirtAddr};
 use page_table_entry::MappingFlags;
+pub use somehal::driver;
 use somehal::driver::DeviceId;
+pub use somehal::driver::intc::IrqConfig;
 
 use crate::mem::{self, MapLinearFunc, phys_to_virt};
 
@@ -49,6 +51,24 @@ pub mod time {
     /// Return epoch offset in nanoseconds (wall time offset to monotonic clock start).
     pub fn epochoffset_nanos() -> u64 {
         0
+    }
+
+    /// Set a one-shot timer.
+    ///
+    /// A timer interrupt will be triggered at the given deadline (in nanoseconds).
+    pub fn set_oneshot_timer(deadline_ns: u64) {
+        let mut ticks = current_ticks();
+        let deadline = nanos_to_ticks(deadline_ns);
+        let interval = if ticks < deadline {
+            let interval = deadline - ticks;
+            debug_assert!(interval <= u32::MAX as u64);
+            interval
+        } else {
+            0
+        };
+
+        somehal::systime::get().set_timeval(interval);
+        somehal::systime::get().set_irq_enable(true);
     }
 }
 pub mod misc {

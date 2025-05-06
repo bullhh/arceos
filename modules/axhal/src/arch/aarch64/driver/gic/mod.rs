@@ -20,7 +20,7 @@ pub fn dispatch_irq(irq_no: usize) {
     } else {
         IrqId::from(irq_no)
     };
-    crate::irq::dispatch_irq_common(irq_no.into());
+    crate::irq::dispatch_irq_common(intid.into());
     icc.eoi(intid);
     if icc.get_eoi_mode() {
         icc.dir(intid);

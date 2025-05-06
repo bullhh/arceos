@@ -8,7 +8,7 @@ pub use core::time::Duration;
 /// represent a duration, but a clock time.
 pub type TimeValue = Duration;
 
-#[cfg(feature = "irq")]
+#[cfg(all(feature = "irq", not(feature = "plat-dyn")))]
 pub use crate::platform::irq::TIMER_IRQ_NUM;
 #[cfg(feature = "irq")]
 pub use crate::platform::time::set_oneshot_timer;

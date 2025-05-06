@@ -7,7 +7,7 @@ use crate::trap::{IRQ, register_trap_handler};
 
 pub use crate::platform::irq::{register_handler, set_enable};
 
-#[cfg(target_arch = "aarch64")]
+#[cfg(all(target_arch = "aarch64", not(feature = "plat-dyn")))]
 pub use crate::platform::irq::fetch_irq;
 
 /// The type if an IRQ handler.
@@ -21,9 +21,11 @@ pub(crate) fn dispatch_irq_common(irq_num: usize) {
     trace!("IRQ {}", irq_num);
     if !IRQ_HANDLER_TABLE.handle(irq_num) {
         warn!("Unhandled IRQ {}", irq_num);
+        loop{}
     }
 }
 
+#[cfg(not(feature = "plat-dyn"))]
 /// Platform-independent IRQ handler registration.
 ///
 /// It also enables the IRQ if the registration succeeds. It returns `false` if
@@ -35,6 +37,24 @@ pub(crate) fn register_handler_common(irq_num: usize, handler: IrqHandler) -> bo
         return true;
     }
     warn!("register handler for IRQ {} failed", irq_num);
+    false
+}
+
+#[cfg(feature = "plat-dyn")]
+/// Platform-independent IRQ handler registration.
+///
+/// It also enables the IRQ if the registration succeeds. It returns `false` if
+/// the registration failed.
+#[allow(dead_code)]
+pub(crate) fn register_handler_common(
+    irq_config: crate::platform::IrqConfig,
+    handler: IrqHandler,
+) -> bool {
+    if IRQ_HANDLER_TABLE.register_handler(irq_config.irq.into(), handler) {
+        set_enable(irq_config, true);
+        return true;
+    }
+    warn!("register handler for IRQ {:?} failed", irq_config);
     false
 }
 
