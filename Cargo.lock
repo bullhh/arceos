@@ -1322,6 +1322,7 @@ dependencies = [
 [[package]]
 name = "kmem-region"
 version = "0.1.0"
+source = "git+https://github.com/rcore-os/somehal.git#7fb4674765d8c58c07145cad819fdb379084af66"
 dependencies = [
  "bitflags 2.9.0",
  "prettyplease",
@@ -1530,6 +1531,7 @@ checksum = "42f5e15c9953c5e4ccceeb2e7382a716482c34515315f7b03532b8b4e8393d2d"
 [[package]]
 name = "page-table-generic"
 version = "0.6.0"
+source = "git+https://github.com/rcore-os/somehal.git#7fb4674765d8c58c07145cad819fdb379084af66"
 dependencies = [
  "bitflags 2.9.0",
  "log",
@@ -1595,6 +1597,7 @@ dependencies = [
 [[package]]
 name = "pie-boot"
 version = "0.1.0"
+source = "git+https://github.com/rcore-os/somehal.git#7fb4674765d8c58c07145cad819fdb379084af66"
 dependencies = [
  "aarch64-cpu 10.0.0",
  "bitflags 2.9.0",
@@ -1775,6 +1778,8 @@ dependencies = [
 [[package]]
 name = "rdrive"
 version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e3a9b28a91d7f0950b21118642471a9fc6e2628d58fda0bfe00dc24a6464a0af"
 dependencies = [
  "fdt-parser",
  "log",
@@ -1788,9 +1793,9 @@ dependencies = [
 
 [[package]]
 name = "rdrive-macro-utils"
-version = "0.3.0"
+version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3fc3b642edb4cacf905ba9e193ca5eebc15fcc3695dc1b583e1f8ac2512d9f8b"
+checksum = "7975dcafc3f8ab7838442217541feac8454421518a6b9c32baf9d3217e5f6b0a"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -2016,6 +2021,7 @@ dependencies = [
 [[package]]
 name = "somehal"
 version = "0.1.0"
+source = "git+https://github.com/rcore-os/somehal.git#7fb4674765d8c58c07145cad819fdb379084af66"
 dependencies = [
  "aarch64-cpu 10.0.0",
  "acpi",
@@ -2051,6 +2057,7 @@ dependencies = [
 [[package]]
 name = "somehal-macros"
 version = "0.1.0"
+source = "git+https://github.com/rcore-os/somehal.git#7fb4674765d8c58c07145cad819fdb379084af66"
 dependencies = [
  "abi-singleton",
  "darling",
