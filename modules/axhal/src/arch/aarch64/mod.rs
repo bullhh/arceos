@@ -22,9 +22,6 @@ use tock_registers::interfaces::{Readable, Writeable};
 pub use self::context::UspaceContext;
 pub use self::context::{FpState, TaskContext, TrapFrame};
 
-#[cfg(feature = "plat-dyn")]
-pub use self::driver::*;
-
 /// Allows the current CPU to respond to interrupts.
 #[inline]
 pub fn enable_irqs() {
@@ -196,5 +193,3 @@ pub fn cpu_init() {
         write_page_table_root0(0.into())
     }; // disable low address access in EL1
 }
-
-

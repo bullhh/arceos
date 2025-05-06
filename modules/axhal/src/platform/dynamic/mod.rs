@@ -1,10 +1,7 @@
-use memory_addr::{MemoryAddr, PhysAddr, VirtAddr};
-use page_table_entry::MappingFlags;
 pub use somehal::driver;
-use somehal::driver::DeviceId;
 pub use somehal::driver::intc::IrqConfig;
 
-use crate::mem::{self, MapLinearFunc, phys_to_virt};
+use crate::mem::{self, MapLinearFunc};
 
 #[cfg(feature = "irq")]
 pub(crate) mod irq;
@@ -26,7 +23,7 @@ pub mod console {
         somehal::console::write_bytes(bytes);
     }
 
-    pub fn read_bytes(bytes: &mut [u8]) -> usize {
+    pub fn read_bytes(_bytes: &mut [u8]) -> usize {
         panic!("read_bytes is not implemented yet");
     }
 }
@@ -57,7 +54,7 @@ pub mod time {
     ///
     /// A timer interrupt will be triggered at the given deadline (in nanoseconds).
     pub fn set_oneshot_timer(deadline_ns: u64) {
-        let mut ticks = current_ticks();
+        let ticks = current_ticks();
         let deadline = nanos_to_ticks(deadline_ns);
         let interval = if ticks < deadline {
             let interval = deadline - ticks;

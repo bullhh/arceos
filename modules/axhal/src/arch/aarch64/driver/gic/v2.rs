@@ -8,7 +8,6 @@ use somehal::{
         intc::{Box, Vec},
         probe::{HardwareKind, ProbeDevInfo},
         register::Node,
-        *,
     },
     module_driver,
 };

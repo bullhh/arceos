@@ -276,7 +276,7 @@ fn init_interrupt() {
     use axhal::driver;
 
     let ls = driver::read(|m| m.timer.all());
-    let (id, dev) = ls.first().unwrap();
+    let (_id, dev) = ls.first().unwrap();
     let config = if cfg!(target_arch = "aarch64") {
         dev.descriptor.irqs[1].clone()
     } else {

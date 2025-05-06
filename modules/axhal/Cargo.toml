@@ -45,6 +45,7 @@ handler_table = "0.1"
 page_table_entry = "0.5"
 page_table_multiarch = "0.5"
 axerrno = "0.1"
+axconfig = { workspace = true }
 axlog = { workspace = true }
 axalloc = { workspace = true, optional = true }
 cortex-a = { version = "8.1.1", optional = true }
@@ -54,9 +55,6 @@ somehal = { workspace = true, optional = true, features = ["sv39"] }
 
 [target.'cfg(not(target_arch = "riscv64"))'.dependencies]
 somehal = { workspace = true, optional = true }
-
-[target.'cfg(not(feature = "plat_dyn"))'.dependencies]
-axconfig = { workspace = true }
 
 
 [target.'cfg(target_arch = "x86_64")'.dependencies]

@@ -1,11 +1,7 @@
 pub use crate::arch::dispatch_irq;
 use crate::irq::IrqHandler;
-use alloc::boxed::Box;
 use somehal::{
-    driver::{
-        DeviceId,
-        intc::{Hardware, HardwareCPU, IrqConfig},
-    },
+    driver::intc::{Hardware, HardwareCPU, IrqConfig},
     mem::cpu_id,
 };
 /// The maximum number of IRQs.
@@ -15,7 +11,7 @@ static mut IRQ_CHIP: u64 = 0;
 
 pub(crate) unsafe fn init() {
     let ls = somehal::driver::read(|m| m.intc.all());
-    let (id, chip) = ls.first().unwrap();
+    let (id, _chip) = ls.first().unwrap();
 
     unsafe { IRQ_CHIP = (*id).into() };
 

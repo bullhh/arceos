@@ -5,6 +5,7 @@ use crate::platform;
 mod v2;
 mod v3;
 
+#[cfg(feature = "irq")]
 /// Dispatches the IRQ.
 ///
 /// This function is called by the common interrupt handler. It looks

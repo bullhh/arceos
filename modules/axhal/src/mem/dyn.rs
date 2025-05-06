@@ -8,7 +8,7 @@ use somehal::mem::region::{AccessFlags, MemRegionKind};
 
 use super::{MemRegion, MemRegionFlags};
 
-static mut MAP_FUNC: MapLinearFunc = |start_vaddr, start_paddr, size, flags| Ok(());
+static mut MAP_FUNC: MapLinearFunc = |_start_vaddr, _start_paddr, _size, _flags| Ok(());
 
 pub type MapLinearFunc = fn(
     start_vaddr: VirtAddr,
