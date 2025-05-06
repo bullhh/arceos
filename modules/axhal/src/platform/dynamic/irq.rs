@@ -35,7 +35,7 @@ fn modify_chip<F: Fn(&mut Hardware)>(f: F) {
 
 /// Enables or disables the given IRQ.
 pub fn set_enable(irq: IrqConfig, enabled: bool) {
-    trace!("GICD set enable: {:?} {}", irq, enabled);
+    trace!("Irq set enable: {:?} {}", irq, enabled);
     modify_chip(|c| {
         c.set_target_cpu(irq.irq, cpu_id().raw().into());
         c.set_trigger(irq.irq, irq.trigger);
