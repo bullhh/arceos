@@ -24,7 +24,7 @@ net = ["axdriver", "axnet"]
 display = ["axdriver", "axdisplay"]
 rtc = []
 
-plat-dyn = ["axhal/plat-dyn"]
+plat-dyn = ["axhal/plat-dyn", "axmm/plat-dyn"]
 
 [dependencies]
 axhal = { workspace = true }
