@@ -18,6 +18,13 @@ pub(crate) unsafe fn init() {
     crate::platform::irq::set_enable(somehal::systime::get().irq(), true);
 }
 
+pub(crate) unsafe fn init_secondary() {
+    modify_chip(|c| {
+        c.cpu_interface();
+    });
+    crate::platform::irq::set_enable(somehal::systime::get().irq(), true);
+}
+
 pub(crate) fn cpu_interface() -> &'static HardwareCPU {
     somehal::irq::interface(unsafe { IRQ_CHIP }.into()).expect("no cpu interface")
 }

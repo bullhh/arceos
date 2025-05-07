@@ -6,6 +6,9 @@ use crate::mem::{self, MapLinearFunc};
 #[cfg(feature = "irq")]
 pub(crate) mod irq;
 
+#[cfg(feature = "smp")]
+pub(crate) mod mp;
+
 unsafe extern "C" {
     fn rust_main(cpu_id: usize, dtb: usize);
     #[cfg(feature = "smp")]
@@ -13,9 +16,17 @@ unsafe extern "C" {
 }
 
 #[somehal::entry]
-fn main(cpu_id: usize, dtb: usize) -> ! {
-    crate::cpu::init_primary(cpu_id);
-    unsafe { rust_main(cpu_id, dtb) };
+fn main(cpu_id: usize, cpu_idx: usize) -> ! {
+    if cpu_idx == 0 {
+        crate::cpu::init_primary(cpu_id);
+        unsafe { rust_main(cpu_id, 0) };
+    } else {
+        crate::cpu::init_secondary(cpu_id);
+        #[cfg(feature = "smp")]
+        unsafe {
+            rust_main_secondary(cpu_id)
+        }
+    }
 }
 
 pub mod console {
@@ -83,5 +94,14 @@ pub fn platform_init(map_func: MapLinearFunc) {
         somehal::init();
         #[cfg(feature = "irq")]
         irq::init();
+    }
+}
+
+/// Initializes the platform devices for secondary CPUs.
+#[cfg(feature = "smp")]
+pub fn platform_init_secondary() {
+    unsafe {
+        #[cfg(feature = "irq")]
+        irq::init_secondary();
     }
 }
