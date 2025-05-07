@@ -578,7 +578,6 @@ name = "axmm"
 version = "0.1.0"
 dependencies = [
  "axalloc",
- "axconfig",
  "axerrno",
  "axhal",
  "kspin",

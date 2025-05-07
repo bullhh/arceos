@@ -16,7 +16,7 @@ use axerrno::{AxError, AxResult};
 use axhal::mem::phys_to_virt;
 use kspin::SpinNoIrq;
 use lazyinit::LazyInit;
-use memory_addr::{PhysAddr, VirtAddr, va};
+use memory_addr::{PhysAddr, VirtAddr};
 use memory_set::MappingError;
 
 static KERNEL_ASPACE: LazyInit<SpinNoIrq<AddrSpace>> = LazyInit::new();
@@ -32,12 +32,6 @@ fn mapping_err_to_ax_err(err: MappingError) -> AxError {
 
 /// Creates a new address space for kernel itself.
 pub fn new_kernel_aspace() -> AxResult<AddrSpace> {
-    #[cfg(not(feature = "plat-dyn"))]
-    let mut aspace = AddrSpace::new_empty(
-        va!(axconfig::plat::KERNEL_ASPACE_BASE),
-        axconfig::plat::KERNEL_ASPACE_SIZE,
-    )?;
-    #[cfg(feature = "plat-dyn")]
     let mut aspace = AddrSpace::new_empty(
         axhal::mem::get_kernel_aspace_start(),
         axhal::mem::get_kernel_aspace_size(),

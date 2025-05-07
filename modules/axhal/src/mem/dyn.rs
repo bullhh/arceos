@@ -5,7 +5,6 @@ use axerrno::AxError;
 use memory_addr::{MemoryAddr, PhysAddr, VirtAddr};
 use page_table_entry::MappingFlags;
 use somehal::mem::region::{AccessFlags, MemRegionKind};
-use somehal::mem::{KERNEL_ADDR_SPACE_SIZE, KERNEL_ADDR_SPACE_START};
 
 use super::{MemRegion, MemRegionFlags};
 
@@ -17,14 +16,6 @@ pub type MapLinearFunc = fn(
     size: usize,
     flags: MappingFlags,
 ) -> Result<(), AxError>;
-
-pub fn get_kernel_aspace_start() -> VirtAddr {
-    KERNEL_ADDR_SPACE_START.into()
-}
-
-pub fn get_kernel_aspace_size() -> usize {
-    KERNEL_ADDR_SPACE_SIZE
-}
 
 /// Converts a virtual address to a physical address.
 #[inline]
