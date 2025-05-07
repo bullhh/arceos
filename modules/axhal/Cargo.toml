@@ -27,7 +27,7 @@ hv = [
     "arm_gicv2/el2",
     "dep:crate_interface",
 ]
-plat-dyn = ["alloc", "paging", "dep:somehal", "percpu/sp-naive"]
+plat-dyn = ["alloc", "paging", "dep:somehal", "percpu/sp-naive", "axalloc/page-alloc-64g"]
 
 [dependencies]
 log = "=0.4.21"

@@ -1,5 +1,8 @@
 //! CPU-related operations.
 
+#[cfg(feature = "plat-dyn")]
+pub use somehal::mp::cpu_list;
+
 #[percpu::def_percpu]
 static CPU_ID: usize = 0;
 

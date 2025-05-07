@@ -1,15 +1,17 @@
 use core::sync::atomic::{AtomicUsize, Ordering};
 
 use axconfig::{SMP, TASK_STACK_SIZE};
-use axhal::mem::{VirtAddr, virt_to_phys};
 
+#[allow(unused)]
 #[unsafe(link_section = ".bss.stack")]
 static mut SECONDARY_BOOT_STACK: [[u8; TASK_STACK_SIZE]; SMP - 1] = [[0; TASK_STACK_SIZE]; SMP - 1];
 
 static ENTERED_CPUS: AtomicUsize = AtomicUsize::new(1);
 
+#[cfg(not(feature = "plat-dyn"))]
 #[allow(clippy::absurd_extreme_comparisons)]
 pub fn start_secondary_cpus(primary_cpu_id: usize) {
+    use axhal::mem::{VirtAddr, virt_to_phys};
     let mut logic_cpu_id = 0;
     for i in 0..SMP {
         if i != primary_cpu_id && logic_cpu_id < SMP - 1 {
@@ -24,6 +26,23 @@ pub fn start_secondary_cpus(primary_cpu_id: usize) {
             while ENTERED_CPUS.load(Ordering::Acquire) <= logic_cpu_id {
                 core::hint::spin_loop();
             }
+        }
+    }
+}
+
+#[cfg(feature = "plat-dyn")]
+pub fn start_secondary_cpus(_: usize) {
+    let mut logic_cpu_id = 0;
+    for (idx, _id) in axhal::cpu::cpu_list() {
+        if idx.is_primary() {
+            continue;
+        }
+        debug!("starting CPU {}...", idx.raw());
+        axhal::mp::start_secondary_cpu(idx.raw());
+        logic_cpu_id += 1;
+
+        while ENTERED_CPUS.load(Ordering::Acquire) <= logic_cpu_id {
+            core::hint::spin_loop();
         }
     }
 }
