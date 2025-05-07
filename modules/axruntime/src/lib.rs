@@ -88,7 +88,12 @@ use core::sync::atomic::{AtomicUsize, Ordering};
 static INITED_CPUS: AtomicUsize = AtomicUsize::new(0);
 
 fn is_init_ok() -> bool {
-    INITED_CPUS.load(Ordering::Acquire) == axconfig::SMP
+    #[cfg(not(feature = "plat-dyn"))]
+    let num = axconfig::SMP;
+    #[cfg(feature = "plat-dyn")]
+    let num = axhal::cpu::cpu_list().count();
+
+    INITED_CPUS.load(Ordering::Acquire) == num
 }
 
 /// The main entry point of the ArceOS runtime.
