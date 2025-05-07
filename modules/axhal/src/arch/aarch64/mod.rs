@@ -2,6 +2,7 @@ mod context;
 
 #[cfg(feature = "plat-dyn")]
 mod driver;
+#[allow(unused)]
 #[cfg(feature = "plat-dyn")]
 pub use driver::*;
 

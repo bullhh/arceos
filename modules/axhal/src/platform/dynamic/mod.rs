@@ -1,4 +1,5 @@
 pub use somehal::driver;
+#[allow(unused)]
 pub use somehal::driver::intc::IrqConfig;
 
 use crate::mem::{self, MapLinearFunc};
@@ -61,6 +62,7 @@ pub mod time {
         0
     }
 
+    #[cfg(feature = "irq")]
     /// Set a one-shot timer.
     ///
     /// A timer interrupt will be triggered at the given deadline (in nanoseconds).
@@ -100,8 +102,8 @@ pub fn platform_init(map_func: MapLinearFunc) {
 /// Initializes the platform devices for secondary CPUs.
 #[cfg(feature = "smp")]
 pub fn platform_init_secondary() {
+    #[cfg(feature = "irq")]
     unsafe {
-        #[cfg(feature = "irq")]
         irq::init_secondary();
     }
 }

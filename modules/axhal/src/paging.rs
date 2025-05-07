@@ -69,6 +69,7 @@ cfg_if::cfg_if! {
     }
 }
 
+#[cfg_attr(feature = "plat-dyn", unsafe(link_section = ".percpu"))]
 static KERNEL_PAGE_TABLE_ROOT: LazyInit<PhysAddr> = LazyInit::new();
 
 /// Saves the root physical address of the kernel page table, which may be used
