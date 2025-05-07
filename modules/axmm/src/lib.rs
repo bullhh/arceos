@@ -32,9 +32,15 @@ fn mapping_err_to_ax_err(err: MappingError) -> AxError {
 
 /// Creates a new address space for kernel itself.
 pub fn new_kernel_aspace() -> AxResult<AddrSpace> {
+    #[cfg(not(feature = "plat-dyn"))]
     let mut aspace = AddrSpace::new_empty(
         va!(axconfig::plat::KERNEL_ASPACE_BASE),
         axconfig::plat::KERNEL_ASPACE_SIZE,
+    )?;
+    #[cfg(feature = "plat-dyn")]
+    let mut aspace = AddrSpace::new_empty(
+        axhal::mem::get_kernel_aspace_start(),
+        axhal::mem::get_kernel_aspace_size(),
     )?;
     for r in axhal::mem::memory_regions() {
         aspace.map_linear(phys_to_virt(r.paddr), r.paddr, r.size, r.flags.into())?;
