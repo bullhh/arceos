@@ -2,6 +2,7 @@
 
 #[cfg(feature = "plat-dyn")]
 pub use somehal::mp::cpu_list;
+use somehal::println;
 
 #[percpu::def_percpu]
 static CPU_ID: usize = 0;
@@ -102,6 +103,15 @@ pub unsafe fn set_current_task_ptr<T>(ptr: *const T) {
 pub(crate) fn init_primary(cpu_id: usize) {
     percpu::init();
     percpu::init_percpu_reg(cpu_id);
+
+    let base = percpu::percpu_area_base(cpu_id);
+    println!("base: {:#x}", base);
+
+    println!("ptr: {:p}", unsafe { &raw const __PERCPU_CPU_ID });
+
+    println!("offset {:#x}", CPU_ID.offset());
+    println!("ptr: {:p}", unsafe { CPU_ID.current_ptr() });
+
     unsafe {
         CPU_ID.write_current_raw(cpu_id);
         IS_BSP.write_current_raw(true);

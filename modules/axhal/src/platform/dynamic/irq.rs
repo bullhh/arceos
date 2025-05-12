@@ -10,19 +10,15 @@ pub const MAX_IRQ_COUNT: usize = 2048;
 static mut IRQ_CHIP: u64 = 0;
 
 pub(crate) unsafe fn init() {
-    let ls = somehal::driver::read(|m| m.intc.all());
-    let (id, _chip) = ls.first().unwrap();
+    let chip = somehal::driver::get_dev!(Intc).unwrap();
 
-    unsafe { IRQ_CHIP = (*id).into() };
+    unsafe { IRQ_CHIP = (chip.descriptor.device_id).into() };
 
     crate::platform::irq::set_enable(somehal::systime::get().irq(), true);
 }
 
 #[cfg(feature = "smp")]
 pub(crate) unsafe fn init_secondary() {
-    modify_chip(|c| {
-        c.cpu_interface();
-    });
     crate::platform::irq::set_enable(somehal::systime::get().irq(), true);
 }
 
@@ -31,13 +27,10 @@ pub(crate) fn cpu_interface() -> &'static HardwareCPU {
 }
 
 fn modify_chip<F: Fn(&mut Hardware)>(f: F) {
-    let mut g = somehal::driver::intc_get(unsafe { IRQ_CHIP.into() })
-        .as_ref()
+    let mut g = somehal::driver::get_dev!(Intc)
         .unwrap()
-        .upgrade()
-        .unwrap()
-        .spin_try_borrow_by(0.into());
-
+        .spin_try_borrow_by(0.into())
+        .unwrap();
     (f)(&mut g);
 }
 

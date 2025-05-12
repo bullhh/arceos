@@ -5,8 +5,8 @@ extern crate alloc;
 use arm_gic_driver::{DriverGeneric, v2::Gic};
 use somehal::{
     driver::{
+        Descriptor, HardwareKind,
         intc::{Box, Interface, Vec},
-        probe::{HardwareKind, ProbeDevInfo},
         register::Node,
     },
     mem::cpu_idx,
@@ -19,7 +19,8 @@ use super::Reg;
 
 module_driver!(
     name: "GICv2",
-    kind: DriverKind::Intc,
+    level: ProbeLevel::PreKernel,
+    priority: ProbePriority::INTC,
     probe_kinds: &[
         ProbeKind::Fdt {
             compatibles: &["arm,cortex-a15-gic", "arm,gic-400"],
@@ -79,7 +80,7 @@ impl Interface for GicV2 {
     }
 }
 
-fn probe_gic(node: Node<'_>, _dev: ProbeDevInfo) -> Result<Vec<HardwareKind>, Box<dyn Error>> {
+fn probe_gic(node: Node<'_>, _dev: &Descriptor) -> Result<HardwareKind, Box<dyn Error>> {
     let mut reg = node
         .reg()
         .ok_or(alloc::format!("[{}] has no reg", node.name()))?;
@@ -108,5 +109,5 @@ fn probe_gic(node: Node<'_>, _dev: ProbeDevInfo) -> Result<Vec<HardwareKind>, Bo
         },
     };
 
-    Ok(alloc::vec![HardwareKind::Intc(Box::new(gic))])
+    Ok(HardwareKind::Intc(Box::new(gic)))
 }

@@ -103,6 +103,15 @@ pub(crate) fn clear_bss() {
     }
 }
 
+pub fn percpu_all() -> &'static [u8] {
+    unsafe {
+        core::slice::from_raw_parts(
+            _percpu_start as usize as *const u8,
+            _percpu_end as usize - _percpu_start as usize,
+        )
+    }
+}
+
 unsafe extern "C" {
     fn _stext();
     fn _etext();
@@ -115,4 +124,6 @@ unsafe extern "C" {
     fn _ekernel();
     fn boot_stack();
     fn boot_stack_top();
+    fn _percpu_start();
+    fn _percpu_end();
 }

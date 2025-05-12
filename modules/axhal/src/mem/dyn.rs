@@ -4,6 +4,7 @@ use alloc::{boxed::Box, format};
 use axerrno::AxError;
 use memory_addr::{MemoryAddr, PhysAddr, VirtAddr};
 use page_table_entry::MappingFlags;
+pub use somehal::mem::percpu_all;
 use somehal::mem::region::{AccessFlags, MemRegionKind};
 
 use super::{MemRegion, MemRegionFlags};
@@ -38,8 +39,8 @@ pub fn memory_regions() -> impl Iterator<Item = MemRegion> {
     somehal::mem::memory_regions().map(|reg| reg.into())
 }
 
-impl From<somehal::mem::MemRegion> for MemRegion {
-    fn from(value: somehal::mem::MemRegion) -> Self {
+impl From<&somehal::mem::MemRegion> for MemRegion {
+    fn from(value: &somehal::mem::MemRegion) -> Self {
         let mut flags = MemRegionFlags::empty();
         if value.config.access.contains(AccessFlags::Read) {
             flags |= MemRegionFlags::READ;

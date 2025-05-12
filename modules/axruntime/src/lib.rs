@@ -280,8 +280,7 @@ fn init_interrupt() {
 fn init_interrupt() {
     use axhal::driver;
 
-    let ls = driver::read(|m| m.timer.all());
-    let (_id, dev) = ls.first().unwrap();
+    let dev = driver::get_dev!(Timer).unwrap();
     let config = if cfg!(target_arch = "aarch64") {
         dev.descriptor.irqs[1].clone()
     } else {

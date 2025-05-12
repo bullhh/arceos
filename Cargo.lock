@@ -221,9 +221,9 @@ dependencies = [
 
 [[package]]
 name = "arm-gic-driver"
-version = "0.8.0"
+version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e17f8d837d37a85ae2f89a2ea0883d4307b8c8345c8c5ea2e2eab928825319f0"
+checksum = "030bb95534d2490e8032fa3e7ef47994127e6702ffb5c0a6df455d7856bb799b"
 dependencies = [
  "aarch64-cpu 10.0.0",
  "bitflags 2.9.0",
@@ -1556,8 +1556,6 @@ checksum = "57c0d7b74b563b49d38dae00a0c37d4d6de9b432382b2892f0574ddcae73fd0a"
 [[package]]
 name = "percpu"
 version = "0.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "01e56c0c558952222967b592899f98765b48590e7bd7403bfd7075f73afc6ed6"
 dependencies = [
  "cfg-if",
  "kernel_guard",
@@ -1569,8 +1567,6 @@ dependencies = [
 [[package]]
 name = "percpu_macros"
 version = "0.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8a9f4cc54a2e471ff72f1499461ba381ad4eae9cbd60d29c258545b995e406e0"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1716,9 +1712,9 @@ checksum = "88dfa4f4f43bb0a7d0464c4bcbbd7e8d2aa7c8db551f9fd18e609729e1e9b481"
 
 [[package]]
 name = "rdif-intc"
-version = "0.4.2"
+version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "470d6a4241e7c45d032306259a41c823fd2fa88eb659ada5ce9e3a30c0d7d10a"
+checksum = "d31c6f9b12d94d654d0b5746cba2ea958d103f3e61a4824b2156283450d62492"
 dependencies = [
  "cfg-if",
  "rdif-base",
@@ -1744,7 +1740,9 @@ dependencies = [
 
 [[package]]
 name = "rdrive"
-version = "0.5.0"
+version = "0.5.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "16f4a3fd519e91d89fd9b37c83bb905107f0276dbbbc6e55bee8c3888cd16fb5"
 dependencies = [
  "fdt-parser",
  "log",
@@ -1758,9 +1756,9 @@ dependencies = [
 
 [[package]]
 name = "rdrive-macro-utils"
-version = "0.3.1"
+version = "0.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7975dcafc3f8ab7838442217541feac8454421518a6b9c32baf9d3217e5f6b0a"
+checksum = "68aa4694ee73b03d06548a5b7e93c8017e1d9adfd5cb363027241cc808ad4ddd"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -2428,9 +2426,9 @@ checksum = "589f6da84c646204747d1270a2a5661ea66ed1cced2631d546fdfb155959f9ec"
 
 [[package]]
 name = "winnow"
-version = "0.7.9"
+version = "0.7.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d9fb597c990f03753e08d3c29efbfcf2019a003b4bf4ba19225c158e1549f0f3"
+checksum = "c06928c8748d81b05c9be96aad92e1b6ff01833332f281e8cfca3be4b35fc9ec"
 dependencies = [
  "memchr",
 ]

@@ -1,14 +1,11 @@
 use core::error::Error;
 
 use aarch64_cpu::registers::*;
-use alloc::{boxed::Box, vec::Vec};
+use alloc::boxed::Box;
 
 use somehal::{
     driver::{
-        DriverGeneric, DriverResult,
-        intc::IrqConfig,
-        probe::{HardwareKind, ProbeDevInfo},
-        register::*,
+        Descriptor, DriverGeneric, DriverResult, HardwareKind, intc::IrqConfig, register::*,
         timer::*,
     },
     module_driver,
@@ -16,7 +13,8 @@ use somehal::{
 
 module_driver!(
     name: "ARMv8 Timer",
-    kind: DriverKind::Timer,
+    level: ProbeLevel::PreKernel,
+    priority: ProbePriority::DEFAULT,
     probe_kinds: &[
         ProbeKind::Fdt {
             compatibles: &["arm,armv8-timer"],
@@ -76,8 +74,8 @@ impl DriverGeneric for ArmV8Timer {
     }
 }
 
-fn probe_timer(_node: Node<'_>, dev: ProbeDevInfo) -> Result<Vec<HardwareKind>, Box<dyn Error>> {
-    Ok(alloc::vec![HardwareKind::Timer(Box::new(ArmV8Timer {
-        irq: dev.irqs[1].clone(),
-    }))])
+fn probe_timer(_node: Node<'_>, desc: &Descriptor) -> Result<HardwareKind, Box<dyn Error>> {
+    Ok(HardwareKind::Timer(Box::new(ArmV8Timer {
+        irq: desc.irqs[1].clone(),
+    })))
 }
