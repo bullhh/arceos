@@ -1307,7 +1307,7 @@ dependencies = [
 [[package]]
 name = "kmem-region"
 version = "0.1.0"
-source = "git+https://github.com/rcore-os/somehal.git#c9883f1fa1fb34ffe683fb7ab2038279271f5ee9"
+source = "git+https://github.com/rcore-os/somehal.git#5e73765ce7ad6be9dd794a0ef895085448a35fd8"
 dependencies = [
  "bitflags 2.9.0",
  "prettyplease",
@@ -1516,7 +1516,7 @@ checksum = "42f5e15c9953c5e4ccceeb2e7382a716482c34515315f7b03532b8b4e8393d2d"
 [[package]]
 name = "page-table-generic"
 version = "0.6.0"
-source = "git+https://github.com/rcore-os/somehal.git#c9883f1fa1fb34ffe683fb7ab2038279271f5ee9"
+source = "git+https://github.com/rcore-os/somehal.git#5e73765ce7ad6be9dd794a0ef895085448a35fd8"
 dependencies = [
  "bitflags 2.9.0",
  "log",
@@ -1558,7 +1558,7 @@ checksum = "57c0d7b74b563b49d38dae00a0c37d4d6de9b432382b2892f0574ddcae73fd0a"
 [[package]]
 name = "percpu"
 version = "0.2.0"
-source = "git+https://github.com/ZR233/percpu#574c0860d7a4a1fecff091d7dee70af04be53efa"
+source = "git+https://github.com/ZR233/percpu#8b71981c6fbe6c86f6a99f360d9d0cfa6f1c0b6f"
 dependencies = [
  "cfg-if",
  "kernel_guard",
@@ -1570,7 +1570,7 @@ dependencies = [
 [[package]]
 name = "percpu_macros"
 version = "0.2.0"
-source = "git+https://github.com/ZR233/percpu#574c0860d7a4a1fecff091d7dee70af04be53efa"
+source = "git+https://github.com/ZR233/percpu#8b71981c6fbe6c86f6a99f360d9d0cfa6f1c0b6f"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1580,7 +1580,7 @@ dependencies = [
 [[package]]
 name = "pie-boot"
 version = "0.1.0"
-source = "git+https://github.com/rcore-os/somehal.git#c9883f1fa1fb34ffe683fb7ab2038279271f5ee9"
+source = "git+https://github.com/rcore-os/somehal.git#5e73765ce7ad6be9dd794a0ef895085448a35fd8"
 dependencies = [
  "aarch64-cpu 10.0.0",
  "bitflags 2.9.0",
@@ -1989,7 +1989,7 @@ dependencies = [
 [[package]]
 name = "somehal"
 version = "0.1.0"
-source = "git+https://github.com/rcore-os/somehal.git#c9883f1fa1fb34ffe683fb7ab2038279271f5ee9"
+source = "git+https://github.com/rcore-os/somehal.git#5e73765ce7ad6be9dd794a0ef895085448a35fd8"
 dependencies = [
  "aarch64-cpu 10.0.0",
  "acpi",
@@ -2025,7 +2025,7 @@ dependencies = [
 [[package]]
 name = "somehal-macros"
 version = "0.1.0"
-source = "git+https://github.com/rcore-os/somehal.git#c9883f1fa1fb34ffe683fb7ab2038279271f5ee9"
+source = "git+https://github.com/rcore-os/somehal.git#5e73765ce7ad6be9dd794a0ef895085448a35fd8"
 dependencies = [
  "abi-singleton",
  "darling",

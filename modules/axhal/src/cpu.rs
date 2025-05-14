@@ -118,6 +118,7 @@ pub(crate) fn init_secondary(cpu_id: usize) {
     crate::arch::cpu_init();
 }
 
+#[allow(unused)]
 #[cfg(not(plat_dyn))]
 mod static_percpu {
     use core::ptr::NonNull;
