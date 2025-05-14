@@ -100,6 +100,9 @@ pub unsafe fn set_current_task_ptr<T>(ptr: *const T) {
 
 #[allow(dead_code)]
 pub(crate) fn init_primary(cpu_id: usize) {
+    #[cfg(not(feature = "plat-dyn"))]
+    percpu::init_data(axconfig::SMP);
+
     percpu::init(cpu_id);
 
     CPU_ID.write_current(cpu_id);
