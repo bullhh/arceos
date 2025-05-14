@@ -305,11 +305,12 @@ fn init_interrupt() {
         axhal::time::set_oneshot_timer(deadline);
     }
 
-    axhal::irq::register_handler(config, || {
+    axhal::irq::register_handler(config.clone(), || {
         update_timer();
         #[cfg(feature = "multitask")]
         axtask::on_timer_tick();
     });
+    axhal::irq::set_enable(config, true, true);
 
     // Enable IRQs before starting app
     axhal::arch::enable_irqs();

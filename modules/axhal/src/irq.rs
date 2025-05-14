@@ -55,7 +55,6 @@ pub(crate) fn register_handler_common(
     handler: IrqHandler,
 ) -> bool {
     if IRQ_HANDLER_TABLE.register_handler(irq_config.irq.into(), handler) {
-        set_enable(irq_config, true);
         return true;
     }
     warn!("register handler for IRQ {:?} failed", irq_config);
