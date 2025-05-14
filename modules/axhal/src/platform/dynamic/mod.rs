@@ -43,19 +43,19 @@ pub mod console {
 
 pub mod time {
     pub fn current_ticks() -> u64 {
-        somehal::systime::current_ticks()
+        somehal::systick::current_ticks()
     }
 
     /// Converts hardware ticks to nanoseconds.
     #[inline]
     pub fn ticks_to_nanos(ticks: u64) -> u64 {
-        somehal::systime::ticks_to_nanos(ticks) as _
+        somehal::systick::ticks_to_nanos(ticks) as _
     }
 
     /// Converts nanoseconds to hardware ticks.
     #[inline]
     pub fn nanos_to_ticks(nanos: u64) -> u64 {
-        somehal::systime::nanos_to_ticks(nanos as _)
+        somehal::systick::nanos_to_ticks(nanos as _)
     }
 
     /// Return epoch offset in nanoseconds (wall time offset to monotonic clock start).
@@ -78,8 +78,8 @@ pub mod time {
             0
         };
 
-        somehal::systime::get().set_timeval(interval);
-        somehal::systime::get().set_irq_enable(true);
+        somehal::systick::get().set_timeval(interval);
+        somehal::systick::get().set_irq_enable(true);
     }
 }
 pub mod misc {
@@ -103,6 +103,10 @@ pub fn platform_init(map_func: MapLinearFunc) {
 /// Initializes the platform devices for secondary CPUs.
 #[cfg(feature = "smp")]
 pub fn platform_init_secondary() {
+    somehal::systick::set_enable(true);
+    somehal::systick::get().set_irq_enable(true);
+    somehal::systick::get().set_timeval(0);
+
     #[cfg(feature = "irq")]
     unsafe {
         irq::init_secondary();

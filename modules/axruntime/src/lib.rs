@@ -278,15 +278,6 @@ fn init_interrupt() {
 
 #[cfg(all(feature = "irq", feature = "plat-dyn"))]
 fn init_interrupt() {
-    use axhal::driver;
-
-    let dev = driver::get_dev!(Timer).unwrap();
-    let config = if cfg!(target_arch = "aarch64") {
-        dev.descriptor.irqs[1].clone()
-    } else {
-        dev.descriptor.irqs[0].clone()
-    };
-
     // Setup timer interrupt handler
     const PERIODIC_INTERVAL_NANOS: u64 =
         axhal::time::NANOS_PER_SEC / axconfig::TICKS_PER_SEC as u64;
@@ -305,12 +296,12 @@ fn init_interrupt() {
         axhal::time::set_oneshot_timer(deadline);
     }
 
-    axhal::irq::register_handler(config.clone(), || {
+    axhal::irq::register_handler(axhal::time::irq_config(), || {
         update_timer();
         #[cfg(feature = "multitask")]
         axtask::on_timer_tick();
     });
-    axhal::irq::set_enable(config, true, true);
+    axhal::time::enable_irq();
 
     // Enable IRQs before starting app
     axhal::arch::enable_irqs();

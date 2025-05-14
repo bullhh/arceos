@@ -56,3 +56,14 @@ pub fn busy_wait_until(deadline: TimeValue) {
         core::hint::spin_loop();
     }
 }
+
+#[cfg(feature = "plat-dyn")]
+pub fn irq_config() -> somehal::irq::IrqConfig {
+    somehal::systick::get().irq()
+}
+
+#[cfg(feature = "plat-dyn")]
+pub fn enable_irq() {
+    let cfg = somehal::systick::get().irq();
+    crate::irq::set_enable(cfg, true, true);
+}

@@ -9,16 +9,11 @@ static mut IRQ_CHIP: u64 = 0;
 pub(crate) unsafe fn init() {
     let chip = somehal::driver::get_dev!(Intc).unwrap();
     unsafe { IRQ_CHIP = (chip.descriptor.device_id).into() };
-    enable_systick();
-}
-
-fn enable_systick() {
-    set_enable(somehal::systime::get().irq(), true, true);
 }
 
 #[cfg(feature = "smp")]
 pub(crate) unsafe fn init_secondary() {
-    enable_systick();
+    // enable_systick();
 }
 
 pub(crate) fn cpu_interface() -> &'static BoxCPU {
@@ -35,7 +30,7 @@ fn modify_chip<F: Fn(&mut Hardware)>(f: F) {
 
 /// Enables or disables the given IRQ.
 pub fn set_enable(irq: IrqConfig, enabled: bool, is_cpu_local: bool) {
-    trace!("Irq set enable: {:?} {}", irq, enabled);
+    trace!("cpu[{:?}] Irq set enable: {:?} {}", cpu_id(), irq, enabled);
 
     if is_cpu_local {
         if let CPUCapability::LocalIrq(cpu) = cpu_interface().capability() {

@@ -510,7 +510,7 @@ impl AxRunQueue {
             .pick_next_task()
             .unwrap_or_else(|| unsafe {
                 // Safety: IRQs must be disabled at this time.
-                IDLE_TASK.current_ref_raw().get_unchecked().clone()
+                IDLE_TASK.get_unchecked().clone()
             });
         assert!(
             next.is_ready(),
@@ -593,7 +593,7 @@ fn gc_entry() {
         // Note: we cannot block current task with preemption disabled,
         // use `current_ref_raw` to get the `WAIT_FOR_EXIT`'s reference here to avoid the use of `NoPreemptGuard`.
         // Since gc task is pinned to the current CPU, there is no affection if the gc task is preempted during the process.
-        unsafe { WAIT_FOR_EXIT.current_ref_raw() }.wait();
+        WAIT_FOR_EXIT.wait();
     }
 }
 
@@ -613,13 +613,10 @@ pub(crate) fn migrate_entry(migrated_task: AxTaskRef) {
 /// Clear the `on_cpu` field of previous task running on this CPU.
 #[cfg(feature = "smp")]
 pub(crate) unsafe fn clear_prev_task_on_cpu() {
-    unsafe {
-        PREV_TASK
-            .current_ref_raw()
-            .upgrade()
-            .expect("Invalid prev_task pointer or prev_task has been dropped")
-            .set_on_cpu(false);
-    }
+    PREV_TASK
+        .upgrade()
+        .expect("Invalid prev_task pointer or prev_task has been dropped")
+        .set_on_cpu(false);
 }
 pub(crate) fn init() {
     let cpu_id = this_cpu_id();
