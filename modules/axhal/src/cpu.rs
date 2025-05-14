@@ -125,7 +125,7 @@ mod static_percpu {
 
     struct ThisImpl;
 
-    impl ::percpu::Impl for ThisImpl {
+    impl percpu::Impl for ThisImpl {
         fn percpu_base() -> NonNull<u8> {
             unsafe extern "C" {
                 fn _percpu_start();
@@ -144,5 +144,5 @@ mod static_percpu {
         }
     }
 
-    ::percpu::impl_percpu!(ThisImpl);
+    percpu::impl_percpu!(ThisImpl);
 }
