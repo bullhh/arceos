@@ -28,7 +28,7 @@
 #![feature(naked_functions)]
 #![feature(doc_auto_cfg)]
 #![feature(sync_unsafe_cell)]
-#![cfg_attr(feature = "plat-dyn", feature(used_with_arg))]
+#![cfg_attr(plat_dyn, feature(used_with_arg))]
 
 #[allow(unused_imports)]
 #[macro_use]
@@ -81,5 +81,5 @@ pub use self::platform::platform_init;
 #[cfg(feature = "smp")]
 pub use self::platform::platform_init_secondary;
 
-#[cfg(feature = "plat-dyn")]
+#[cfg(plat_dyn)]
 pub use self::platform::driver;

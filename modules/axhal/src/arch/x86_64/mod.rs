@@ -133,3 +133,17 @@ pub fn cpu_init() {
     #[cfg(feature = "uspace")]
     init_syscall();
 }
+
+pub fn set_percpu_data_ptr(ptr: *mut u8) {
+    unsafe {
+        core::arch::asm!("mv gs, {}", in(reg) ptr);
+    }
+}
+
+pub fn get_percpu_data_ptr() -> *mut u8 {
+    let ptr: usize;
+    unsafe {
+        core::arch::asm!("mv {}, gs", out(reg) ptr);
+    }
+    ptr as *mut u8
+}

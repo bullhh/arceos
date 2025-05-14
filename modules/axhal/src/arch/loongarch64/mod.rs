@@ -210,3 +210,17 @@ pub fn cpu_init() {
     }
     set_exception_entry_base(exception_entry_base as usize);
 }
+
+pub fn set_percpu_data_ptr(ptr: *mut u8) {
+    unsafe {
+        asm!("move $r21, {}", in(reg) ptr);
+    }
+}
+
+pub fn get_percpu_data_ptr() -> *mut u8 {
+    let ptr: usize;
+    unsafe {
+        asm!("move {}, $r21", out(reg) ptr);
+    }
+    ptr as *mut u8
+}

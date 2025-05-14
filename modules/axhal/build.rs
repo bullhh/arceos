@@ -51,6 +51,12 @@ fn main() {
         "cargo::rustc-check-cfg=cfg(platform_family, values({}))",
         make_cfg_values(BUILTIN_PLATFORM_FAMILIES)
     );
+
+    println!("cargo::rustc-check-cfg=cfg(plat_dyn)");
+
+    if std::env::var("CARGO_FEATURE_PLAT_DYN").is_ok() && arch.contains("aarch") {
+        println!("cargo:rustc-cfg=plat_dyn");
+    }
 }
 
 fn gen_linker_script(arch: &str, platform: &str) -> Result<()> {

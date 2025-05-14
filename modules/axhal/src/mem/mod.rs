@@ -3,7 +3,7 @@
 use core::fmt;
 
 cfg_if::cfg_if! {
-    if #[cfg(feature = "plat-dyn")]{
+    if #[cfg(plat_dyn)]{
         mod r#dyn;
         pub use r#dyn::*;
     }else{
@@ -56,7 +56,7 @@ pub struct MemRegion {
 
 pub fn get_kernel_aspace_start() -> VirtAddr {
     cfg_if::cfg_if! {
-        if #[cfg(feature = "plat-dyn")] {
+        if #[cfg(plat_dyn)] {
             somehal::mem::KERNEL_ADDR_SPACE_START.into()
         } else {
             axconfig::plat::KERNEL_ASPACE_BASE.into()
@@ -66,7 +66,7 @@ pub fn get_kernel_aspace_start() -> VirtAddr {
 
 pub fn get_kernel_aspace_size() -> usize {
     cfg_if::cfg_if! {
-        if #[cfg(feature = "plat-dyn")] {
+        if #[cfg(plat_dyn)] {
             somehal::mem::KERNEL_ADDR_SPACE_SIZE
         } else {
             axconfig::plat::KERNEL_ASPACE_SIZE

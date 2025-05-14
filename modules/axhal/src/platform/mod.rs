@@ -2,13 +2,13 @@
 
 cfg_if::cfg_if! {
 
-    if #[cfg(all(target_arch = "aarch64", not(feature = "plat-dyn")))]{
+    if #[cfg(all(target_arch = "aarch64", not(plat_dyn)))]{
         mod aarch64_common;
     }
 }
 
 cfg_if::cfg_if! {
-    if #[cfg(feature = "plat-dyn")] {
+    if #[cfg(plat_dyn)] {
         mod dynamic;
         pub use self::dynamic::*;
     }

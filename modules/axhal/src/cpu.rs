@@ -1,6 +1,6 @@
 //! CPU-related operations.
 
-#[cfg(feature = "plat-dyn")]
+#[cfg(plat_dyn)]
 pub use somehal::mp::cpu_list;
 
 #[percpu::def_percpu]
@@ -42,19 +42,19 @@ pub(crate) unsafe fn cache_current_task_ptr() {
 #[inline]
 pub fn current_task_ptr<T>() -> *const T {
     #[cfg(target_arch = "x86_64")]
-    unsafe {
+    {
         // on x86, only one instruction is needed to read the per-CPU task pointer from `gs:[off]`.
-        CURRENT_TASK_PTR.read_current_raw() as _
+        CURRENT_TASK_PTR.read() as _
     }
     #[cfg(any(
         target_arch = "riscv32",
         target_arch = "riscv64",
         target_arch = "loongarch64"
     ))]
-    unsafe {
+    {
         // on RISC-V and LA64, reading `CURRENT_TASK_PTR` requires multiple instruction, so we disable local IRQs.
         let _guard = kernel_guard::IrqSave::new();
-        CURRENT_TASK_PTR.read_current_raw() as _
+        CURRENT_TASK_PTR.read() as _
     }
     #[cfg(target_arch = "aarch64")]
     {
@@ -77,7 +77,7 @@ pub fn current_task_ptr<T>() -> *const T {
 pub unsafe fn set_current_task_ptr<T>(ptr: *const T) {
     #[cfg(target_arch = "x86_64")]
     {
-        unsafe { CURRENT_TASK_PTR.write_current(ptr as usize) }
+        CURRENT_TASK_PTR.write_current(ptr as usize)
     }
     #[cfg(any(
         target_arch = "riscv32",
@@ -86,7 +86,7 @@ pub unsafe fn set_current_task_ptr<T>(ptr: *const T) {
     ))]
     {
         let _guard = kernel_guard::IrqSave::new();
-        unsafe { CURRENT_TASK_PTR.write_current(ptr as usize) }
+        CURRENT_TASK_PTR.write_current(ptr as usize)
     }
     #[cfg(target_arch = "aarch64")]
     {
@@ -100,7 +100,7 @@ pub unsafe fn set_current_task_ptr<T>(ptr: *const T) {
 
 #[allow(dead_code)]
 pub(crate) fn init_primary(cpu_id: usize) {
-    #[cfg(not(feature = "plat-dyn"))]
+    #[cfg(not(plat_dyn))]
     percpu::init_data(axconfig::SMP);
 
     percpu::init(cpu_id);
@@ -118,7 +118,7 @@ pub(crate) fn init_secondary(cpu_id: usize) {
     crate::arch::cpu_init();
 }
 
-#[cfg(not(feature = "plat-dyn"))]
+#[cfg(not(plat_dyn))]
 mod static_percpu {
     use core::ptr::NonNull;
 

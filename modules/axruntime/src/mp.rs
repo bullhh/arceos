@@ -8,7 +8,7 @@ static mut SECONDARY_BOOT_STACK: [[u8; TASK_STACK_SIZE]; SMP - 1] = [[0; TASK_ST
 
 static ENTERED_CPUS: AtomicUsize = AtomicUsize::new(1);
 
-#[cfg(not(feature = "plat-dyn"))]
+#[cfg(not(plat_dyn))]
 #[allow(clippy::absurd_extreme_comparisons)]
 pub fn start_secondary_cpus(primary_cpu_id: usize) {
     use axhal::mem::{VirtAddr, virt_to_phys};
@@ -30,7 +30,7 @@ pub fn start_secondary_cpus(primary_cpu_id: usize) {
     }
 }
 
-#[cfg(feature = "plat-dyn")]
+#[cfg(plat_dyn)]
 pub fn start_secondary_cpus(_: usize) {
     let mut logic_cpu_id = 0;
     for (idx, _id) in axhal::cpu::cpu_list() {

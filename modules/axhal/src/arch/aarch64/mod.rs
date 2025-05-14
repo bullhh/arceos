@@ -1,9 +1,9 @@
 mod context;
 
-#[cfg(feature = "plat-dyn")]
+#[cfg(plat_dyn)]
 mod driver;
 #[allow(unused)]
-#[cfg(feature = "plat-dyn")]
+#[cfg(plat_dyn)]
 pub use driver::*;
 
 #[cfg(target_os = "none")]

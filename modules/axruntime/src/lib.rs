@@ -88,9 +88,9 @@ use core::sync::atomic::{AtomicUsize, Ordering};
 static INITED_CPUS: AtomicUsize = AtomicUsize::new(0);
 
 fn is_init_ok() -> bool {
-    #[cfg(not(feature = "plat-dyn"))]
+    #[cfg(not(plat_dyn))]
     let num = axconfig::SMP;
-    #[cfg(feature = "plat-dyn")]
+    #[cfg(plat_dyn)]
     let num = axhal::cpu::cpu_list().count();
 
     INITED_CPUS.load(Ordering::Acquire) == num
@@ -153,13 +153,13 @@ pub extern "C" fn rust_main(cpu_id: usize) -> ! {
     axmm::init_memory_management();
 
     info!("Initialize platform devices...");
-    #[cfg(feature = "plat-dyn")]
+    #[cfg(plat_dyn)]
     axhal::platform_init(|virt, phys, size, flags| {
         axmm::kernel_aspace()
             .lock()
             .map_linear(virt, phys, size, flags)
     });
-    #[cfg(not(feature = "plat-dyn"))]
+    #[cfg(not(plat_dyn))]
     axhal::platform_init();
 
     #[cfg(feature = "multitask")]
@@ -244,7 +244,7 @@ fn init_allocator() {
     }
 }
 
-#[cfg(all(feature = "irq", not(feature = "plat-dyn")))]
+#[cfg(all(feature = "irq", not(plat_dyn)))]
 fn init_interrupt() {
     use axhal::time::TIMER_IRQ_NUM;
 
@@ -258,11 +258,11 @@ fn init_interrupt() {
     fn update_timer() {
         let now_ns = axhal::time::monotonic_time_nanos();
         // Safety: we have disabled preemption in IRQ handler.
-        let mut deadline =  NEXT_DEADLINE.read();
+        let mut deadline = NEXT_DEADLINE.read();
         if now_ns >= deadline {
             deadline = now_ns + PERIODIC_INTERVAL_NANOS;
         }
-        NEXT_DEADLINE.write_current(deadline + PERIODIC_INTERVAL_NANOS) ;
+        NEXT_DEADLINE.write_current(deadline + PERIODIC_INTERVAL_NANOS);
         axhal::time::set_oneshot_timer(deadline);
     }
 
@@ -276,7 +276,7 @@ fn init_interrupt() {
     axhal::arch::enable_irqs();
 }
 
-#[cfg(all(feature = "irq", feature = "plat-dyn"))]
+#[cfg(all(feature = "irq", plat_dyn))]
 fn init_interrupt() {
     // Setup timer interrupt handler
     const PERIODIC_INTERVAL_NANOS: u64 =

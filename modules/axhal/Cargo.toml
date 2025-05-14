@@ -26,7 +26,7 @@ hv = [
     "arm_gicv2/el2",
     "dep:crate_interface",
 ]
-plat-dyn = ["alloc", "paging", "dep:somehal", "axalloc/page-alloc-64g"]
+plat-dyn = ["alloc", "paging", "somehal", "axalloc/page-alloc-64g"]
 
 [dependencies]
 log = "=0.4.21"
@@ -49,12 +49,6 @@ axlog = { workspace = true }
 axalloc = { workspace = true, optional = true }
 cortex-a = { version = "8.1.1", optional = true }
 
-[target.'cfg(target_arch = "riscv64")'.dependencies]
-somehal = { workspace = true, optional = true, features = ["sv39"] }
-
-[target.'cfg(not(target_arch = "riscv64"))'.dependencies]
-somehal = { workspace = true, optional = true }
-
 
 [target.'cfg(target_arch = "x86_64")'.dependencies]
 x86 = "0.52"
@@ -67,8 +61,10 @@ x86_rtc = { version = "0.1", optional = true }
 riscv = "0.12"
 sbi-rt = { version = "0.0.3", features = ["legacy"] }
 riscv_goldfish = { version = "0.1", optional = true }
+# somehal = { workspace = true, optional = true, features = ["sv39"] }
 
 [target.'cfg(target_arch = "aarch64")'.dependencies]
+somehal = { workspace = true, optional = true }
 aarch64-cpu = "10.0"
 tock-registers = "0.9"
 arm_gicv2 = { git = "https://github.com/arceos-hypervisor/arm_gicv2" }

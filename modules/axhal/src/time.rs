@@ -8,7 +8,7 @@ pub use core::time::Duration;
 /// represent a duration, but a clock time.
 pub type TimeValue = Duration;
 
-#[cfg(all(feature = "irq", not(feature = "plat-dyn")))]
+#[cfg(all(feature = "irq", not(plat_dyn)))]
 pub use crate::platform::irq::TIMER_IRQ_NUM;
 #[cfg(feature = "irq")]
 pub use crate::platform::time::set_oneshot_timer;
@@ -57,17 +57,18 @@ pub fn busy_wait_until(deadline: TimeValue) {
     }
 }
 
-#[cfg(feature = "plat-dyn")]
+#[cfg(plat_dyn)]
 pub fn irq_config() -> somehal::irq::IrqConfig {
     somehal::systick::get().irq()
 }
 
-#[cfg(feature = "plat-dyn")]
+#[cfg(plat_dyn)]
 pub fn enable_irq() {
     let cfg = somehal::systick::get().irq();
     crate::irq::set_enable(cfg, true, true);
 }
 
+#[cfg(not(plat_dyn))]
 pub fn enable_irq() {
     #[cfg(feature = "irq")]
     crate::irq::set_enable(TIMER_IRQ_NUM, true);

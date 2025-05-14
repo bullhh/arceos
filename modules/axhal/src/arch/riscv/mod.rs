@@ -119,3 +119,17 @@ pub fn cpu_init() {
     }
     set_trap_vector_base(trap_vector_base as usize);
 }
+
+pub fn set_percpu_data_ptr(ptr: *mut u8) {
+    unsafe {
+        core::arch::asm!("mv gp, {}", in(reg) ptr);
+    }
+}
+
+pub fn get_percpu_data_ptr() -> *mut u8 {
+    let ptr: usize;
+    unsafe {
+        core::arch::asm!("mv {}, gp", out(reg) ptr);
+    }
+    ptr as *mut u8
+}

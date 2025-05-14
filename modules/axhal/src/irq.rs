@@ -9,7 +9,7 @@ use crate::trap::{IRQ, register_trap_handler};
 
 pub use crate::platform::irq::{register_handler, set_enable};
 
-#[cfg(all(target_arch = "aarch64", not(feature = "plat-dyn")))]
+#[cfg(all(target_arch = "aarch64", not(plat_dyn)))]
 pub use crate::platform::irq::fetch_irq;
 
 /// The type if an IRQ handler.
@@ -29,7 +29,7 @@ pub(crate) fn dispatch_irq_common(irq_num: usize) {
     }
 }
 
-#[cfg(not(feature = "plat-dyn"))]
+#[cfg(not(plat_dyn))]
 /// Platform-independent IRQ handler registration.
 ///
 /// It also enables the IRQ if the registration succeeds. It returns `false` if
@@ -44,7 +44,7 @@ pub(crate) fn register_handler_common(irq_num: usize, handler: IrqHandler) -> bo
     false
 }
 
-#[cfg(feature = "plat-dyn")]
+#[cfg(plat_dyn)]
 /// Platform-independent IRQ handler registration.
 ///
 /// It also enables the IRQ if the registration succeeds. It returns `false` if

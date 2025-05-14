@@ -103,8 +103,8 @@ impl fmt::Debug for GdtStruct {
 /// current CPU.
 pub fn init_gdt() {
     unsafe {
-        let gdt = GDT.current_ref_raw();
-        gdt.init_once(GdtStruct::new(TSS.current_ref_raw()));
+        let gdt = GDT.current_ref_mut_raw();
+        gdt.init_once(GdtStruct::new(TSS.current_ref_mut_raw()));
         gdt.load();
         gdt.load_tss();
     }
@@ -112,7 +112,7 @@ pub fn init_gdt() {
 
 /// Returns the stack pointer for privilege level 0 (RSP0) of the current TSS.
 pub fn tss_get_rsp0() -> memory_addr::VirtAddr {
-    let tss = unsafe { TSS.current_ref_raw() };
+    let tss = unsafe { TSS.current_ref_mut_raw() };
     memory_addr::VirtAddr::from(tss.privilege_stack_table[0].as_u64() as usize)
 }
 
