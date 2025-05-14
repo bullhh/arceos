@@ -1307,7 +1307,7 @@ dependencies = [
 [[package]]
 name = "kmem-region"
 version = "0.1.0"
-source = "git+https://github.com/rcore-os/somehal.git#91fa3104c274974f894b09b80e36ee05f7c111eb"
+source = "git+https://github.com/rcore-os/somehal.git#219f70cb28614f9a47bb6d1acd6228a8fb6f9f72"
 dependencies = [
  "bitflags 2.9.0",
  "prettyplease",
@@ -1516,7 +1516,7 @@ checksum = "42f5e15c9953c5e4ccceeb2e7382a716482c34515315f7b03532b8b4e8393d2d"
 [[package]]
 name = "page-table-generic"
 version = "0.6.0"
-source = "git+https://github.com/rcore-os/somehal.git#91fa3104c274974f894b09b80e36ee05f7c111eb"
+source = "git+https://github.com/rcore-os/somehal.git#219f70cb28614f9a47bb6d1acd6228a8fb6f9f72"
 dependencies = [
  "bitflags 2.9.0",
  "log",
@@ -1580,7 +1580,7 @@ dependencies = [
 [[package]]
 name = "pie-boot"
 version = "0.1.0"
-source = "git+https://github.com/rcore-os/somehal.git#91fa3104c274974f894b09b80e36ee05f7c111eb"
+source = "git+https://github.com/rcore-os/somehal.git#219f70cb28614f9a47bb6d1acd6228a8fb6f9f72"
 dependencies = [
  "aarch64-cpu 10.0.0",
  "bitflags 2.9.0",
@@ -1745,9 +1745,9 @@ dependencies = [
 
 [[package]]
 name = "rdrive"
-version = "0.5.9"
+version = "0.5.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b2eb6fd24851a42aea9b954e74555158a57c76b59ad834e135e88c28ed81da40"
+checksum = "d02af217fcd156e90715e8c01f66f5415aca4746cb4cf9a0763580fcfff789da"
 dependencies = [
  "fdt-parser",
  "log",
@@ -1989,7 +1989,7 @@ dependencies = [
 [[package]]
 name = "somehal"
 version = "0.1.0"
-source = "git+https://github.com/rcore-os/somehal.git#91fa3104c274974f894b09b80e36ee05f7c111eb"
+source = "git+https://github.com/rcore-os/somehal.git#219f70cb28614f9a47bb6d1acd6228a8fb6f9f72"
 dependencies = [
  "aarch64-cpu 10.0.0",
  "acpi",
@@ -2025,7 +2025,7 @@ dependencies = [
 [[package]]
 name = "somehal-macros"
 version = "0.1.0"
-source = "git+https://github.com/rcore-os/somehal.git#91fa3104c274974f894b09b80e36ee05f7c111eb"
+source = "git+https://github.com/rcore-os/somehal.git#219f70cb28614f9a47bb6d1acd6228a8fb6f9f72"
 dependencies = [
  "abi-singleton",
  "darling",
