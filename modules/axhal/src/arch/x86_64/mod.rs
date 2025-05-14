@@ -136,14 +136,14 @@ pub fn cpu_init() {
 
 pub fn set_percpu_data_ptr(ptr: *mut u8) {
     unsafe {
-        core::arch::asm!("mv gs, {}", in(reg) ptr);
+        core::arch::asm!("mov gs, {}", in(reg) ptr);
     }
 }
 
 pub fn get_percpu_data_ptr() -> *mut u8 {
     let ptr: usize;
     unsafe {
-        core::arch::asm!("mv {}, gs", out(reg) ptr);
+        core::arch::asm!("mov {}, gs", out(reg) ptr);
     }
     ptr as *mut u8
 }
