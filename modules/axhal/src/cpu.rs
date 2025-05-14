@@ -114,3 +114,31 @@ pub(crate) fn init_secondary(cpu_id: usize) {
     IS_BSP.write_current(false);
     crate::arch::cpu_init();
 }
+
+#[cfg(not(feature = "plat-dyn"))]
+mod static_percpu {
+    use core::ptr::NonNull;
+
+    struct ThisImpl;
+
+    impl ::percpu::Impl for ThisImpl {
+        fn percpu_base() -> NonNull<u8> {
+            unsafe extern "C" {
+                fn _percpu_start();
+            }
+            unsafe { NonNull::new_unchecked(_percpu_start as _) }
+        }
+
+        #[inline]
+        fn set_cpu_local_ptr(ptr: *mut u8) {
+            crate::arch::set_percpu_data_ptr(ptr);
+        }
+
+        #[inline]
+        fn get_cpu_local_ptr() -> *mut u8 {
+            crate::arch::get_percpu_data_ptr()
+        }
+    }
+
+    ::percpu::impl_percpu!(ThisImpl);
+}

@@ -67,3 +67,8 @@ pub fn enable_irq() {
     let cfg = somehal::systick::get().irq();
     crate::irq::set_enable(cfg, true, true);
 }
+
+pub fn enable_irq() {
+    #[cfg(feature = "irq")]
+    crate::irq::set_enable(TIMER_IRQ_NUM, true);
+}

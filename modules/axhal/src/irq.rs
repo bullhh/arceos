@@ -3,7 +3,6 @@
 use core::hint::spin_loop;
 
 use handler_table::HandlerTable;
-use somehal::mem::cpu_id;
 
 use crate::platform::irq::{MAX_IRQ_COUNT, dispatch_irq};
 use crate::trap::{IRQ, register_trap_handler};
@@ -21,7 +20,7 @@ static IRQ_HANDLER_TABLE: HandlerTable<MAX_IRQ_COUNT> = HandlerTable::new();
 /// Platform-independent IRQ dispatching.
 #[allow(dead_code)]
 pub(crate) fn dispatch_irq_common(irq_num: usize) {
-    trace!("cpu {:?} IRQ {}", cpu_id(), irq_num);
+    trace!("IRQ {}", irq_num);
     if !IRQ_HANDLER_TABLE.handle(irq_num) {
         warn!("Unhandled IRQ {}", irq_num);
         loop {

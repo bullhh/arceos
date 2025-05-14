@@ -11,11 +11,7 @@ mod trap;
 
 use core::arch::asm;
 
-#[cfg(feature = "hv")]
-use aarch64_cpu::registers::{TTBR0_EL2, VBAR_EL2};
-//Todo: remove this, when hv is enabled, `TTBR1_EL1` is not used.
-#[cfg_attr(feature = "hv", allow(unused_imports))]
-use aarch64_cpu::registers::{DAIF, TPIDR_EL0, TTBR0_EL1, TTBR1_EL1, VBAR_EL1};
+use aarch64_cpu::registers::*;
 use memory_addr::{PhysAddr, VirtAddr};
 use tock_registers::interfaces::{Readable, Writeable};
 
@@ -194,4 +190,19 @@ pub fn cpu_init() {
     unsafe {
         write_page_table_root0(0.into())
     }; // disable low address access in EL1
+}
+
+pub fn set_percpu_data_ptr(ptr: *mut u8) {
+    #[cfg(feature = "hv")]
+    TPIDR_EL2.set(ptr as usize as _);
+    #[cfg(not(feature = "hv"))]
+    TPIDR_EL1.set(ptr as usize as _);
+}
+
+pub fn get_percpu_data_ptr() -> *mut u8 {
+    #[cfg(feature = "hv")]
+    let ptr = TPIDR_EL2.get() as _;
+    #[cfg(not(feature = "hv"))]
+    let ptr = TPIDR_EL1.get() as _;
+    ptr
 }
