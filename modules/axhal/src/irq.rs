@@ -1,7 +1,5 @@
 //! Interrupt management.
 
-use core::hint::spin_loop;
-
 use handler_table::HandlerTable;
 
 use crate::platform::irq::{MAX_IRQ_COUNT, dispatch_irq};
@@ -23,9 +21,6 @@ pub(crate) fn dispatch_irq_common(irq_num: usize) {
     trace!("IRQ {}", irq_num);
     if !IRQ_HANDLER_TABLE.handle(irq_num) {
         warn!("Unhandled IRQ {}", irq_num);
-        loop {
-            spin_loop();
-        }
     }
 }
 
