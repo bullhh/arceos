@@ -134,12 +134,14 @@ pub fn cpu_init() {
     init_syscall();
 }
 
+/// Sets the pointer to the per-CPU data.
 pub fn set_percpu_data_ptr(ptr: *mut u8) {
     unsafe {
         core::arch::asm!("mov gs, {}", in(reg) ptr);
     }
 }
 
+/// Gets the pointer to the per-CPU data.
 pub fn get_percpu_data_ptr() -> *mut u8 {
     let ptr: usize;
     unsafe {

@@ -69,6 +69,7 @@ pub fn enable_irq() {
 }
 
 #[cfg(all(not(plat_dyn), feature = "irq"))]
+/// Enable the timer interrupt.
 pub fn enable_irq() {
     crate::irq::set_enable(TIMER_IRQ_NUM, true);
 }

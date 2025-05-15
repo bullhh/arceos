@@ -103,6 +103,7 @@ pub(crate) fn clear_bss() {
     }
 }
 
+/// Returns a slice of all cpus per-CPU data.
 pub fn percpu_all() -> &'static [u8] {
     unsafe {
         core::slice::from_raw_parts(

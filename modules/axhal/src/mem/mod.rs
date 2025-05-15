@@ -54,6 +54,7 @@ pub struct MemRegion {
     pub name: &'static str,
 }
 
+/// The start address of the kernel address space.
 pub fn get_kernel_aspace_start() -> VirtAddr {
     cfg_if::cfg_if! {
         if #[cfg(plat_dyn)] {
@@ -64,6 +65,7 @@ pub fn get_kernel_aspace_start() -> VirtAddr {
     }
 }
 
+/// The size of the kernel address space.
 pub fn get_kernel_aspace_size() -> usize {
     cfg_if::cfg_if! {
         if #[cfg(plat_dyn)] {

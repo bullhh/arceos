@@ -122,7 +122,7 @@ pub(crate) fn init_secondary(cpu_id: usize) {
 
 #[allow(unused)]
 #[cfg(not(plat_dyn))]
-pub mod static_percpu {
+mod static_percpu {
     use core::ptr::NonNull;
 
     struct ThisImpl;

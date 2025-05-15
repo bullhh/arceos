@@ -120,12 +120,14 @@ pub fn cpu_init() {
     set_trap_vector_base(trap_vector_base as usize);
 }
 
+/// Sets the pointer to the per-CPU data.
 pub fn set_percpu_data_ptr(ptr: *mut u8) {
     unsafe {
         core::arch::asm!("mv gp, {}", in(reg) ptr);
     }
 }
 
+/// Gets the pointer to the per-CPU data.
 pub fn get_percpu_data_ptr() -> *mut u8 {
     let ptr: usize;
     unsafe {
