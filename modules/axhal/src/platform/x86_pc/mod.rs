@@ -38,7 +38,7 @@ unsafe extern "C" fn rust_entry(magic: usize, _mbi: usize) {
         crate::cpu::init_primary(current_cpu_id());
         self::uart16550::init();
         self::time::init_early();
-        rust_main(current_cpu_id(), 0);
+        unsafe { rust_main(current_cpu_id(), 0) };
     }
 }
 
@@ -47,7 +47,7 @@ unsafe extern "C" fn rust_entry_secondary(magic: usize) {
     #[cfg(feature = "smp")]
     if magic == self::boot::MULTIBOOT_BOOTLOADER_MAGIC {
         crate::cpu::init_secondary(current_cpu_id());
-        rust_main_secondary(current_cpu_id());
+        unsafe { rust_main_secondary(current_cpu_id()) };
     }
 }
 
