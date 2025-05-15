@@ -221,9 +221,9 @@ dependencies = [
 
 [[package]]
 name = "arm-gic-driver"
-version = "0.10.1"
+version = "0.10.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6b59a2d89c35cd72c50ce85ac3d4f49f4c1f4524f1d9db280a0590a27c36494a"
+checksum = "3be20d5253a221975e41674d35169a6f67887b012490b9e1ab33d7369caa7332"
 dependencies = [
  "aarch64-cpu 10.0.0",
  "bitflags 2.9.1",
@@ -1307,7 +1307,7 @@ dependencies = [
 [[package]]
 name = "kmem-region"
 version = "0.1.0"
-source = "git+https://github.com/rcore-os/somehal.git#6a3903736a8d6ac497b6779ae1432d732edbc41a"
+source = "git+https://github.com/rcore-os/somehal.git#0b9fdd0203c79f7edc5e94b7fda2fbc170fa7b59"
 dependencies = [
  "bitflags 2.9.1",
  "prettyplease",
@@ -1516,7 +1516,7 @@ checksum = "42f5e15c9953c5e4ccceeb2e7382a716482c34515315f7b03532b8b4e8393d2d"
 [[package]]
 name = "page-table-generic"
 version = "0.6.0"
-source = "git+https://github.com/rcore-os/somehal.git#6a3903736a8d6ac497b6779ae1432d732edbc41a"
+source = "git+https://github.com/rcore-os/somehal.git#0b9fdd0203c79f7edc5e94b7fda2fbc170fa7b59"
 dependencies = [
  "bitflags 2.9.1",
  "log",
@@ -1580,7 +1580,7 @@ dependencies = [
 [[package]]
 name = "pie-boot"
 version = "0.1.0"
-source = "git+https://github.com/rcore-os/somehal.git#6a3903736a8d6ac497b6779ae1432d732edbc41a"
+source = "git+https://github.com/rcore-os/somehal.git#0b9fdd0203c79f7edc5e94b7fda2fbc170fa7b59"
 dependencies = [
  "aarch64-cpu 10.0.0",
  "bitflags 2.9.1",
@@ -1989,7 +1989,7 @@ dependencies = [
 [[package]]
 name = "somehal"
 version = "0.1.0"
-source = "git+https://github.com/rcore-os/somehal.git#6a3903736a8d6ac497b6779ae1432d732edbc41a"
+source = "git+https://github.com/rcore-os/somehal.git#0b9fdd0203c79f7edc5e94b7fda2fbc170fa7b59"
 dependencies = [
  "aarch64-cpu 10.0.0",
  "acpi",
@@ -2025,7 +2025,7 @@ dependencies = [
 [[package]]
 name = "somehal-macros"
 version = "0.1.0"
-source = "git+https://github.com/rcore-os/somehal.git#6a3903736a8d6ac497b6779ae1432d732edbc41a"
+source = "git+https://github.com/rcore-os/somehal.git#0b9fdd0203c79f7edc5e94b7fda2fbc170fa7b59"
 dependencies = [
  "abi-singleton",
  "darling",

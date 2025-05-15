@@ -87,7 +87,11 @@ use core::sync::atomic::{AtomicUsize, Ordering};
 
 static INITED_CPUS: AtomicUsize = AtomicUsize::new(0);
 
+#[allow(unreachable_code)]
 fn is_init_ok() -> bool {
+    #[cfg(not(feature = "smp"))]
+    return true;
+
     #[cfg(not(plat_dyn))]
     let num = axconfig::SMP;
     #[cfg(plat_dyn)]
