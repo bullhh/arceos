@@ -70,7 +70,7 @@ pub extern "C" fn rust_main_secondary(cpu_id: usize) -> ! {
         core::hint::spin_loop();
     }
 
-    #[cfg(feature = "irq")]
+    #[cfg(all(feature = "irq", feature = "plat-dyn"))]
     axhal::time::enable_irq();
 
     #[cfg(feature = "irq")]

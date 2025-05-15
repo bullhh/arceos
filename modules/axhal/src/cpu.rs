@@ -32,7 +32,7 @@ pub fn this_cpu_is_bsp() -> bool {
 #[cfg(target_arch = "aarch64")]
 pub(crate) unsafe fn cache_current_task_ptr() {
     use tock_registers::interfaces::Writeable;
-    aarch64_cpu::registers::SP_EL0.set(CURRENT_TASK_PTR.read() as u64);
+    aarch64_cpu::registers::SP_EL0.set(unsafe { CURRENT_TASK_PTR.read_raw() } as u64);
 }
 
 /// Gets the pointer to the current task with preemption-safety.
@@ -42,19 +42,19 @@ pub(crate) unsafe fn cache_current_task_ptr() {
 #[inline]
 pub fn current_task_ptr<T>() -> *const T {
     #[cfg(target_arch = "x86_64")]
-    {
+    unsafe {
         // on x86, only one instruction is needed to read the per-CPU task pointer from `gs:[off]`.
-        CURRENT_TASK_PTR.read() as _
+        CURRENT_TASK_PTR.read_raw() as _
     }
     #[cfg(any(
         target_arch = "riscv32",
         target_arch = "riscv64",
         target_arch = "loongarch64"
     ))]
-    {
+    unsafe {
         // on RISC-V and LA64, reading `CURRENT_TASK_PTR` requires multiple instruction, so we disable local IRQs.
         let _guard = kernel_guard::IrqSave::new();
-        CURRENT_TASK_PTR.read() as _
+        CURRENT_TASK_PTR.read_raw() as _
     }
     #[cfg(target_arch = "aarch64")]
     {
@@ -76,23 +76,23 @@ pub fn current_task_ptr<T>() -> *const T {
 #[inline]
 pub unsafe fn set_current_task_ptr<T>(ptr: *const T) {
     #[cfg(target_arch = "x86_64")]
-    {
-        CURRENT_TASK_PTR.write_current(ptr as usize)
+    unsafe {
+        CURRENT_TASK_PTR.write_current_raw(ptr as usize)
     }
     #[cfg(any(
         target_arch = "riscv32",
         target_arch = "riscv64",
         target_arch = "loongarch64"
     ))]
-    {
+    unsafe {
         let _guard = kernel_guard::IrqSave::new();
-        CURRENT_TASK_PTR.write_current(ptr as usize)
+        CURRENT_TASK_PTR.write_current_raw(ptr as usize)
     }
     #[cfg(target_arch = "aarch64")]
     {
         let _guard = kernel_guard::IrqSave::new();
         unsafe {
-            CURRENT_TASK_PTR.write_current(ptr as usize);
+            CURRENT_TASK_PTR.write_current_raw(ptr as usize);
             cache_current_task_ptr();
         }
     }
@@ -102,25 +102,27 @@ pub unsafe fn set_current_task_ptr<T>(ptr: *const T) {
 pub(crate) fn init_primary(cpu_id: usize) {
     #[cfg(not(plat_dyn))]
     percpu::init_data(axconfig::SMP);
-
     percpu::init(cpu_id);
-
-    CPU_ID.write_current(cpu_id);
-    IS_BSP.write_current(true);
+    unsafe {
+        CPU_ID.write_current_raw(cpu_id);
+        IS_BSP.write_current_raw(true);
+    }
     crate::arch::cpu_init();
 }
 
 #[allow(dead_code)]
 pub(crate) fn init_secondary(cpu_id: usize) {
     percpu::init(cpu_id);
-    CPU_ID.write_current(cpu_id);
-    IS_BSP.write_current(false);
+    unsafe {
+        CPU_ID.write_current_raw(cpu_id);
+        IS_BSP.write_current_raw(false);
+    }
     crate::arch::cpu_init();
 }
 
 #[allow(unused)]
 #[cfg(not(plat_dyn))]
-mod static_percpu {
+pub mod static_percpu {
     use core::ptr::NonNull;
 
     struct ThisImpl;

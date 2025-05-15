@@ -21,13 +21,13 @@ unsafe extern "C" fn rust_entry(cpu_id: usize, dtb: usize) {
     crate::mem::clear_bss();
     crate::cpu::init_primary(cpu_id);
     self::time::init_early();
-    rust_main(cpu_id, dtb);
+    unsafe { rust_main(cpu_id, dtb) };
 }
 
 #[cfg(feature = "smp")]
 unsafe extern "C" fn rust_entry_secondary(cpu_id: usize) {
     crate::cpu::init_secondary(cpu_id);
-    rust_main_secondary(cpu_id);
+    unsafe { rust_main_secondary(cpu_id) };
 }
 
 /// Initializes the platform devices for the primary CPU.

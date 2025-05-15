@@ -38,7 +38,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "94476c7ef97af4c4d998b3f422c1b01d5211aad57c80ed200baf148d1f1efab6"
 dependencies = [
  "bit_field",
- "bitflags 2.9.0",
+ "bitflags 2.9.1",
  "log",
 ]
 
@@ -134,7 +134,7 @@ version = "0.2.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e3327d034f53f6af3f27083a0c324f422cbb3a75a588cde02b5e4a45c887208a"
 dependencies = [
- "bitflags 2.9.0",
+ "bitflags 2.9.1",
  "cfg-if",
  "embedded-hal-nb",
  "fdt-parser",
@@ -226,7 +226,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6b59a2d89c35cd72c50ce85ac3d4f49f4c1f4524f1d9db280a0590a27c36494a"
 dependencies = [
  "aarch64-cpu 10.0.0",
- "bitflags 2.9.0",
+ "bitflags 2.9.1",
  "enum_dispatch",
  "log",
  "rdif-intc",
@@ -492,7 +492,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2314ebe07a2fef7b1c1a7d15ab817941cd306ace651bb50024b5a8b3e8485359"
 dependencies = [
  "axerrno",
- "bitflags 2.9.0",
+ "bitflags 2.9.1",
  "log",
 ]
 
@@ -509,7 +509,7 @@ dependencies = [
  "axconfig",
  "axerrno",
  "axlog",
- "bitflags 2.9.0",
+ "bitflags 2.9.1",
  "cfg-if",
  "cortex-a",
  "crate_interface",
@@ -700,7 +700,7 @@ version = "0.69.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "271383c67ccabffb7381723dea0672a673f292304fcb45c01cc648c7a8d58088"
 dependencies = [
- "bitflags 2.9.0",
+ "bitflags 2.9.1",
  "cexpr",
  "clang-sys",
  "itertools",
@@ -737,9 +737,9 @@ checksum = "bef38d45163c2f1dde094a7dfd33ccf595c92905c8f8f4fdc18d06fb1037718a"
 
 [[package]]
 name = "bitflags"
-version = "2.9.0"
+version = "2.9.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5c8214115b7bf84099f1309324e63141d4c5d7cc26862f97a0a857dbefe165bd"
+checksum = "1b8e56985ec62d17e9c1001dc89c88ecd7dc08e47eba5ec7c29c7b5eeecde967"
 
 [[package]]
 name = "bitmap-allocator"
@@ -780,7 +780,7 @@ version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c9b24894fa5f73bbf9c72196e7f495a1f81d6218a548280a09ada4a937157692"
 dependencies = [
- "bitflags 2.9.0",
+ "bitflags 2.9.1",
 ]
 
 [[package]]
@@ -1091,7 +1091,7 @@ name = "fatfs"
 version = "0.4.0"
 source = "git+https://github.com/rafalh/rust-fatfs?rev=85f06e0#85f06e08edbd3368e1b0562f2fc1b6d178bf7b8a"
 dependencies = [
- "bitflags 2.9.0",
+ "bitflags 2.9.1",
  "log",
 ]
 
@@ -1307,9 +1307,9 @@ dependencies = [
 [[package]]
 name = "kmem-region"
 version = "0.1.0"
-source = "git+https://github.com/rcore-os/somehal.git#5e73765ce7ad6be9dd794a0ef895085448a35fd8"
+source = "git+https://github.com/rcore-os/somehal.git#6a3903736a8d6ac497b6779ae1432d732edbc41a"
 dependencies = [
- "bitflags 2.9.0",
+ "bitflags 2.9.1",
  "prettyplease",
  "quote",
  "syn 2.0.101",
@@ -1425,7 +1425,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7c9f0d275c70310e2a9d2fc23250c5ac826a73fa828a5f256401f85c5c554283"
 dependencies = [
  "bit_field",
- "bitflags 2.9.0",
+ "bitflags 2.9.1",
 ]
 
 [[package]]
@@ -1516,9 +1516,9 @@ checksum = "42f5e15c9953c5e4ccceeb2e7382a716482c34515315f7b03532b8b4e8393d2d"
 [[package]]
 name = "page-table-generic"
 version = "0.6.0"
-source = "git+https://github.com/rcore-os/somehal.git#5e73765ce7ad6be9dd794a0ef895085448a35fd8"
+source = "git+https://github.com/rcore-os/somehal.git#6a3903736a8d6ac497b6779ae1432d732edbc41a"
 dependencies = [
- "bitflags 2.9.0",
+ "bitflags 2.9.1",
  "log",
  "num-align",
  "thiserror",
@@ -1531,7 +1531,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c097d641745a066856a26eed6e486d4430bb3e32c94f1203ea09c63239b360a0"
 dependencies = [
  "aarch64-cpu 10.0.0",
- "bitflags 2.9.0",
+ "bitflags 2.9.1",
  "memory_addr",
  "x86_64 0.15.2",
 ]
@@ -1558,7 +1558,7 @@ checksum = "57c0d7b74b563b49d38dae00a0c37d4d6de9b432382b2892f0574ddcae73fd0a"
 [[package]]
 name = "percpu"
 version = "0.2.0"
-source = "git+https://github.com/ZR233/percpu#8b71981c6fbe6c86f6a99f360d9d0cfa6f1c0b6f"
+source = "git+https://github.com/ZR233/percpu#3f5529556e5ce6593414146566b994b8eb303691"
 dependencies = [
  "cfg-if",
  "kernel_guard",
@@ -1570,7 +1570,7 @@ dependencies = [
 [[package]]
 name = "percpu_macros"
 version = "0.2.0"
-source = "git+https://github.com/ZR233/percpu#8b71981c6fbe6c86f6a99f360d9d0cfa6f1c0b6f"
+source = "git+https://github.com/ZR233/percpu#3f5529556e5ce6593414146566b994b8eb303691"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1580,10 +1580,10 @@ dependencies = [
 [[package]]
 name = "pie-boot"
 version = "0.1.0"
-source = "git+https://github.com/rcore-os/somehal.git#5e73765ce7ad6be9dd794a0ef895085448a35fd8"
+source = "git+https://github.com/rcore-os/somehal.git#6a3903736a8d6ac497b6779ae1432d732edbc41a"
 dependencies = [
  "aarch64-cpu 10.0.0",
- "bitflags 2.9.0",
+ "bitflags 2.9.1",
  "cfg-if",
  "fdt-parser",
  "kmem-region",
@@ -1706,7 +1706,7 @@ version = "11.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c6df7ab838ed27997ba19a4664507e6f82b41fe6e20be42929332156e5e85146"
 dependencies = [
- "bitflags 2.9.0",
+ "bitflags 2.9.1",
 ]
 
 [[package]]
@@ -1901,7 +1901,7 @@ version = "0.38.44"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fdb5bc1ae2baa591800df16c9ca78619bf65c0488b41b96ccec5d11220d8c154"
 dependencies = [
- "bitflags 2.9.0",
+ "bitflags 2.9.1",
  "errno",
  "libc",
  "linux-raw-sys",
@@ -1989,13 +1989,13 @@ dependencies = [
 [[package]]
 name = "somehal"
 version = "0.1.0"
-source = "git+https://github.com/rcore-os/somehal.git#5e73765ce7ad6be9dd794a0ef895085448a35fd8"
+source = "git+https://github.com/rcore-os/somehal.git#6a3903736a8d6ac497b6779ae1432d732edbc41a"
 dependencies = [
  "aarch64-cpu 10.0.0",
  "acpi",
  "any-uart",
  "bit_field",
- "bitflags 2.9.0",
+ "bitflags 2.9.1",
  "cfg-if",
  "fdt-parser",
  "heapless 0.8.0",
@@ -2025,7 +2025,7 @@ dependencies = [
 [[package]]
 name = "somehal-macros"
 version = "0.1.0"
-source = "git+https://github.com/rcore-os/somehal.git#5e73765ce7ad6be9dd794a0ef895085448a35fd8"
+source = "git+https://github.com/rcore-os/somehal.git#6a3903736a8d6ac497b6779ae1432d732edbc41a"
 dependencies = [
  "abi-singleton",
  "darling",
@@ -2201,7 +2201,7 @@ version = "0.7.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "aa40e09453618c7a927c08c5a990497a2954da7c2aaa6c65e0d4f0fc975f6114"
 dependencies = [
- "bitflags 2.9.0",
+ "bitflags 2.9.1",
  "log",
  "zerocopy 0.7.35",
 ]
@@ -2549,7 +2549,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c101112411baafbb4bf8d33e4c4a80ab5b02d74d2612331c61e8192fc9710491"
 dependencies = [
  "bit_field",
- "bitflags 2.9.0",
+ "bitflags 2.9.1",
  "rustversion",
  "volatile 0.4.6",
 ]
@@ -2561,7 +2561,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0f042214de98141e9c8706e8192b73f56494087cc55ebec28ce10f26c5c364ae"
 dependencies = [
  "bit_field",
- "bitflags 2.9.0",
+ "bitflags 2.9.1",
  "rustversion",
  "volatile 0.4.6",
 ]

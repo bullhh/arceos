@@ -258,11 +258,11 @@ fn init_interrupt() {
     fn update_timer() {
         let now_ns = axhal::time::monotonic_time_nanos();
         // Safety: we have disabled preemption in IRQ handler.
-        let mut deadline = NEXT_DEADLINE.read();
+        let mut deadline = unsafe { NEXT_DEADLINE.read_raw() };
         if now_ns >= deadline {
             deadline = now_ns + PERIODIC_INTERVAL_NANOS;
         }
-        NEXT_DEADLINE.write_current(deadline + PERIODIC_INTERVAL_NANOS);
+        unsafe { NEXT_DEADLINE.write_current_raw(deadline + PERIODIC_INTERVAL_NANOS) };
         axhal::time::set_oneshot_timer(deadline);
     }
 
@@ -288,11 +288,11 @@ fn init_interrupt() {
     fn update_timer() {
         let now_ns = axhal::time::monotonic_time_nanos();
         // Safety: we have disabled preemption in IRQ handler.
-        let mut deadline = NEXT_DEADLINE.read();
+        let mut deadline = unsafe { NEXT_DEADLINE.read_raw() };
         if now_ns >= deadline {
             deadline = now_ns + PERIODIC_INTERVAL_NANOS;
         }
-        NEXT_DEADLINE.write_current(deadline + PERIODIC_INTERVAL_NANOS);
+        unsafe { NEXT_DEADLINE.write_current_raw(deadline + PERIODIC_INTERVAL_NANOS) };
         axhal::time::set_oneshot_timer(deadline);
     }
 
