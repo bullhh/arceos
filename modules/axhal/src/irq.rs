@@ -7,9 +7,8 @@ use crate::trap::{IRQ, register_trap_handler};
 
 pub use crate::platform::irq::{register_handler, set_enable};
 
-#[cfg(all(target_arch = "aarch64"))]
+#[cfg(target_arch = "aarch64")]
 pub use crate::platform::irq::fetch_irq;
-
 
 /// The type if an IRQ handler.
 pub type IrqHandler = handler_table::Handler;

@@ -24,6 +24,7 @@ pub fn dispatch_irq(irq_no: usize) {
     }
 }
 
+#[cfg(feature = "irq")]
 pub fn fetch_irq() -> usize {
     let icc = crate::platform::irq::cpu_interface();
     icc.ack().map(|o| o.into()).unwrap_or_default()

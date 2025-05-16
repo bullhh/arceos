@@ -44,7 +44,7 @@ pub fn current_task_ptr<T>() -> *const T {
     #[cfg(target_arch = "x86_64")]
     unsafe {
         // on x86, only one instruction is needed to read the per-CPU task pointer from `gs:[off]`.
-        CURRENT_TASK_PTR.read_raw() as _
+        CURRENT_TASK_PTR.read_current_raw() as _
     }
     #[cfg(any(
         target_arch = "riscv32",
@@ -54,7 +54,7 @@ pub fn current_task_ptr<T>() -> *const T {
     unsafe {
         // on RISC-V and LA64, reading `CURRENT_TASK_PTR` requires multiple instruction, so we disable local IRQs.
         let _guard = kernel_guard::IrqSave::new();
-        CURRENT_TASK_PTR.read_raw() as _
+        CURRENT_TASK_PTR.read_current_raw() as _
     }
     #[cfg(target_arch = "aarch64")]
     {
@@ -101,8 +101,8 @@ pub unsafe fn set_current_task_ptr<T>(ptr: *const T) {
 #[allow(dead_code)]
 pub(crate) fn init_primary(cpu_id: usize) {
     #[cfg(not(plat_dyn))]
-    percpu::init_data(axconfig::SMP);
-    percpu::init(cpu_id);
+    percpu::init();
+    percpu::init_percpu_reg(cpu_id);
     unsafe {
         CPU_ID.write_current_raw(cpu_id);
         IS_BSP.write_current_raw(true);
@@ -112,39 +112,11 @@ pub(crate) fn init_primary(cpu_id: usize) {
 
 #[allow(dead_code)]
 pub(crate) fn init_secondary(cpu_id: usize) {
-    percpu::init(cpu_id);
+    percpu::init_percpu_reg(cpu_id);
+
     unsafe {
         CPU_ID.write_current_raw(cpu_id);
         IS_BSP.write_current_raw(false);
     }
     crate::arch::cpu_init();
-}
-
-#[allow(unused)]
-#[cfg(not(plat_dyn))]
-mod static_percpu {
-    use core::ptr::NonNull;
-
-    struct ThisImpl;
-
-    impl percpu::Impl for ThisImpl {
-        fn percpu_base() -> NonNull<u8> {
-            unsafe extern "C" {
-                fn _percpu_start();
-            }
-            unsafe { NonNull::new_unchecked(_percpu_start as _) }
-        }
-
-        #[inline]
-        fn set_cpu_local_ptr(ptr: *mut u8) {
-            crate::arch::set_percpu_data_ptr(ptr);
-        }
-
-        #[inline]
-        fn get_cpu_local_ptr() -> *mut u8 {
-            crate::arch::get_percpu_data_ptr()
-        }
-    }
-
-    percpu::impl_percpu!(ThisImpl);
 }

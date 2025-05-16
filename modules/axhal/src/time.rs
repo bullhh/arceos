@@ -63,6 +63,7 @@ pub fn irq_config() -> somehal::irq::IrqConfig {
 }
 
 #[cfg(plat_dyn)]
+#[cfg(feature = "irq")]
 pub fn enable_irq() {
     let cfg = somehal::systick::get().irq();
     crate::irq::set_enable(cfg, true, true);
