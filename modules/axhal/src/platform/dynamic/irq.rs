@@ -1,4 +1,6 @@
 pub use crate::arch::dispatch_irq;
+pub use crate::arch::fetch_irq;
+
 use crate::irq::IrqHandler;
 use somehal::{driver::intc::*, mem::cpu_id};
 /// The maximum number of IRQs.

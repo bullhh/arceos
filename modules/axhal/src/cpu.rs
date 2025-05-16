@@ -15,14 +15,14 @@ static CURRENT_TASK_PTR: usize = 0;
 /// Returns the ID of the current CPU.
 #[inline]
 pub fn this_cpu_id() -> usize {
-    CPU_ID.read()
+    CPU_ID.read_current()
 }
 
 /// Returns whether the current CPU is the primary CPU (aka the bootstrap
 /// processor or BSP)
 #[inline]
 pub fn this_cpu_is_bsp() -> bool {
-    IS_BSP.read()
+    IS_BSP.read_current()
 }
 
 /// Stores the pointer to the current task in the SP_EL0 register.
@@ -32,7 +32,7 @@ pub fn this_cpu_is_bsp() -> bool {
 #[cfg(target_arch = "aarch64")]
 pub(crate) unsafe fn cache_current_task_ptr() {
     use tock_registers::interfaces::Writeable;
-    aarch64_cpu::registers::SP_EL0.set(unsafe { CURRENT_TASK_PTR.read_raw() } as u64);
+    aarch64_cpu::registers::SP_EL0.set(unsafe { CURRENT_TASK_PTR.read_current_raw() } as u64);
 }
 
 /// Gets the pointer to the current task with preemption-safety.

@@ -28,7 +28,7 @@ hv = [
     "dep:crate_interface",
     "somehal?/vm",
 ]
-plat-dyn = ["alloc", "paging", "somehal", "axalloc/page-alloc-64g"]
+plat-dyn = ["alloc", "paging", "somehal", "axalloc/page-alloc-64g", "percpu/custom-tp"]
 
 [dependencies]
 log = "=0.4.21"

@@ -1556,20 +1556,21 @@ checksum = "57c0d7b74b563b49d38dae00a0c37d4d6de9b432382b2892f0574ddcae73fd0a"
 [[package]]
 name = "percpu"
 version = "0.2.0"
-source = "git+https://github.com/ZR233/percpu#0d667833d8159bbfcbb1911becc4702d09fbbc94"
+source = "git+https://github.com/ZR233/percpu#4187d1b06f549f8b56b0f641bb06a9ef89c70d7c"
 dependencies = [
  "cfg-if",
  "kernel_guard",
  "percpu_macros",
- "spin 0.10.0",
+ "spin 0.9.8",
  "x86",
 ]
 
 [[package]]
 name = "percpu_macros"
 version = "0.2.0"
-source = "git+https://github.com/ZR233/percpu#0d667833d8159bbfcbb1911becc4702d09fbbc94"
+source = "git+https://github.com/ZR233/percpu#4187d1b06f549f8b56b0f641bb06a9ef89c70d7c"
 dependencies = [
+ "cfg-if",
  "proc-macro2",
  "quote",
  "syn 2.0.101",

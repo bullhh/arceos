@@ -292,7 +292,7 @@ fn init_interrupt() {
     fn update_timer() {
         let now_ns = axhal::time::monotonic_time_nanos();
         // Safety: we have disabled preemption in IRQ handler.
-        let mut deadline = unsafe { NEXT_DEADLINE.read_raw() };
+        let mut deadline = unsafe { NEXT_DEADLINE.read_current_raw() };
         if now_ns >= deadline {
             deadline = now_ns + PERIODIC_INTERVAL_NANOS;
         }

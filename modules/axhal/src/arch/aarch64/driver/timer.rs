@@ -75,7 +75,12 @@ impl DriverGeneric for ArmV8Timer {
 }
 
 fn probe_timer(_node: Node<'_>, desc: &Descriptor) -> Result<HardwareKind, Box<dyn Error>> {
+    #[cfg(not(feature = "hv"))]
+    let irq_idx = 1;
+    #[cfg(feature = "hv")]
+    let irq_idx = 0;
+
     Ok(HardwareKind::Timer(Box::new(ArmV8Timer {
-        irq: desc.irqs[1].clone(),
+        irq: desc.irqs[irq_idx].clone(),
     })))
 }
