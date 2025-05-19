@@ -1,6 +1,6 @@
 # Platform Dynamic
 
-This platform is a dynamic platform, which means that the platform can be changed at runtime.
+This platform is a dynamic platform, which means that the platform can parse configuration dynamically during booting.
 
 support platform:
     - aarch64 (fdt)
