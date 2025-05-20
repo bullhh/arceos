@@ -97,6 +97,8 @@ pub fn platform_init(map_func: MapLinearFunc) {
         somehal::init();
         #[cfg(feature = "irq")]
         irq::init();
+
+        somehal::driver::probe_all(true).unwrap();
     }
 }
 

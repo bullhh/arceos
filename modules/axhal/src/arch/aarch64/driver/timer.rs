@@ -6,7 +6,7 @@ use alloc::boxed::Box;
 use somehal::{
     driver::{
         Descriptor, DriverGeneric, DriverResult, HardwareKind, intc::IrqConfig, register::*,
-        timer::*,
+        systick::*,
     },
     module_driver,
 };
@@ -80,7 +80,7 @@ fn probe_timer(_node: Node<'_>, desc: &Descriptor) -> Result<HardwareKind, Box<d
     #[cfg(feature = "hv")]
     let irq_idx = 0;
 
-    Ok(HardwareKind::Timer(Box::new(ArmV8Timer {
+    Ok(HardwareKind::Systick(Box::new(ArmV8Timer {
         irq: desc.irqs[irq_idx].clone(),
     })))
 }
