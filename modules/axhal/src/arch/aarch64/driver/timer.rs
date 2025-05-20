@@ -4,10 +4,7 @@ use aarch64_cpu::registers::*;
 use alloc::boxed::Box;
 
 use somehal::{
-    driver::{
-        Descriptor, DriverGeneric, DriverResult, HardwareKind, intc::IrqConfig, register::*,
-        systick::*,
-    },
+    driver::{Descriptor, DriverGeneric, HardwareKind, intc::IrqConfig, register::*, systick::*},
     module_driver,
 };
 
@@ -65,11 +62,11 @@ impl InterfaceCPU for ArmV8Timer {
 }
 
 impl DriverGeneric for ArmV8Timer {
-    fn open(&mut self) -> DriverResult<()> {
+    fn open(&mut self) -> Result<(), ErrorBase> {
         Ok(())
     }
 
-    fn close(&mut self) -> DriverResult<()> {
+    fn close(&mut self) -> Result<(), ErrorBase> {
         Ok(())
     }
 }
