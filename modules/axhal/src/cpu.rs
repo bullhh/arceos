@@ -21,7 +21,11 @@ pub fn this_cpu_id() -> usize {
 pub fn cpu_count() -> usize {
     #[cfg(plat_dyn)]
     {
-        cpu_list().count()
+        if cfg!(feature = "smp") {
+            cpu_list().count()
+        } else {
+            1
+        }
     }
     #[cfg(not(plat_dyn))]
     {
