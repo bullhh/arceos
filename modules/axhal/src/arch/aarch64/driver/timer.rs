@@ -75,7 +75,7 @@ fn probe_timer(_node: FdtInfo<'_>, desc: &Descriptor) -> Result<HardwareKind, Bo
     #[cfg(not(feature = "hv"))]
     let irq_idx = 1;
     #[cfg(feature = "hv")]
-    let irq_idx = 0;
+    let irq_idx = 3;
 
     Ok(HardwareKind::Systick(Box::new(ArmV8Timer {
         irq: desc.irqs[irq_idx].clone(),
