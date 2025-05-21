@@ -33,7 +33,12 @@ impl Interface for ArmV8Timer {
 
 impl InterfaceCPU for ArmV8Timer {
     fn set_timeval(&self, ticks: u64) {
+        #[cfg(not(feature = "hv"))]
         CNTP_TVAL_EL0.set(ticks);
+        #[cfg(feature = "hv")]
+        unsafe {
+            core::arch::asm!("msr CNTHP_TVAL_EL2, {0:x}", in(reg) ticks)
+        };
     }
 
     fn current_ticks(&self) -> u64 {
@@ -44,6 +49,16 @@ impl InterfaceCPU for ArmV8Timer {
         CNTFRQ_EL0.get()
     }
 
+    #[cfg(feature = "hv")]
+    fn set_irq_enable(&self, enable: bool) {
+        CNTHP_CTL_EL2.modify(if enable {
+            CNTHP_CTL_EL2::ISTATUS::SET + CNTHP_CTL_EL2::IMASK::CLEAR
+        } else {
+            CNTHP_CTL_EL2::ISTATUS::CLEAR + CNTHP_CTL_EL2::IMASK::SET
+        });
+    }
+
+    #[cfg(not(feature = "hv"))]
     fn set_irq_enable(&self, enable: bool) {
         CNTP_CTL_EL0.modify(if enable {
             CNTP_CTL_EL0::IMASK::CLEAR
@@ -52,8 +67,14 @@ impl InterfaceCPU for ArmV8Timer {
         });
     }
 
+    #[cfg(not(feature = "hv"))]
     fn get_irq_status(&self) -> bool {
         CNTP_CTL_EL0.is_set(CNTP_CTL_EL0::ISTATUS)
+    }
+
+    #[cfg(feature = "hv")]
+    fn get_irq_status(&self) -> bool {
+        CNTHP_CTL_EL2.is_set(CNTHP_CTL_EL2::ISTATUS)
     }
 
     fn irq(&self) -> IrqConfig {

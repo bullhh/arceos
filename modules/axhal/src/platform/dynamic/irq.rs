@@ -12,11 +12,19 @@ static mut IRQ_CHIP: u64 = 0;
 pub(crate) unsafe fn init() {
     let chip = somehal::driver::get_dev!(Intc).unwrap();
     unsafe { IRQ_CHIP = (chip.descriptor.device_id).into() };
+
+    #[cfg(target_arch = "aarch64")]
+    {
+        cpu_interface().set_eoi_mode(true);
+    }
 }
 
 #[cfg(feature = "smp")]
 pub(crate) unsafe fn init_secondary() {
-    // enable_systick();
+    #[cfg(target_arch = "aarch64")]
+    {
+        cpu_interface().set_eoi_mode(true);
+    }
 }
 
 pub(crate) fn cpu_interface() -> &'static BoxCPU {
@@ -64,6 +72,6 @@ pub fn set_enable(irq: IrqConfig, enabled: bool, is_cpu_local: bool) {
 /// It also enables the IRQ if the registration succeeds. It returns `false` if
 /// the registration failed.
 pub fn register_handler(irq_config: IrqConfig, handler: IrqHandler) -> bool {
-    trace!("register handler irq {:?}", irq_config);
+    debug!("register handler irq {:?}", irq_config);
     crate::irq::register_handler_common(irq_config, handler)
 }

@@ -18,6 +18,17 @@ pub fn this_cpu_id() -> usize {
     CPU_ID.read_current()
 }
 
+pub fn cpu_count() -> usize {
+    #[cfg(plat_dyn)]
+    {
+        cpu_list().count()
+    }
+    #[cfg(not(plat_dyn))]
+    {
+        axconfig::SMP
+    }
+}
+
 /// Returns whether the current CPU is the primary CPU (aka the bootstrap
 /// processor or BSP)
 #[inline]
