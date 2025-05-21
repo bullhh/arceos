@@ -18,6 +18,7 @@ pub fn this_cpu_id() -> usize {
     CPU_ID.read_current()
 }
 
+/// Returns the number of CPUs.
 pub fn cpu_count() -> usize {
     #[cfg(plat_dyn)]
     {
