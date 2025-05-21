@@ -1097,9 +1097,9 @@ dependencies = [
 
 [[package]]
 name = "fdt-parser"
-version = "0.4.15"
+version = "0.4.16"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "482db6dda6e49e0b6dba40b044572cfbc6e6ed35c786d53a1ad9bda59a23498f"
+checksum = "d09dfa244d6891db105eefae4f3aa5752adcab254a95e24c17c3ebd76f6d77ba"
 
 [[package]]
 name = "flatten_objects"
@@ -1307,7 +1307,7 @@ dependencies = [
 [[package]]
 name = "kmem-region"
 version = "0.1.0"
-source = "git+https://github.com/rcore-os/somehal.git#6ee95c07905940e1a06a2ae758c5375b84ef87b8"
+source = "git+https://github.com/rcore-os/somehal.git#d1b2adde388ff57e860b73926645b9590b8e3e77"
 dependencies = [
  "bitflags 2.9.1",
  "prettyplease",
@@ -1516,7 +1516,7 @@ checksum = "42f5e15c9953c5e4ccceeb2e7382a716482c34515315f7b03532b8b4e8393d2d"
 [[package]]
 name = "page-table-generic"
 version = "0.6.0"
-source = "git+https://github.com/rcore-os/somehal.git#6ee95c07905940e1a06a2ae758c5375b84ef87b8"
+source = "git+https://github.com/rcore-os/somehal.git#d1b2adde388ff57e860b73926645b9590b8e3e77"
 dependencies = [
  "bitflags 2.9.1",
  "log",
@@ -1581,7 +1581,7 @@ dependencies = [
 [[package]]
 name = "pie-boot"
 version = "0.1.0"
-source = "git+https://github.com/rcore-os/somehal.git#6ee95c07905940e1a06a2ae758c5375b84ef87b8"
+source = "git+https://github.com/rcore-os/somehal.git#d1b2adde388ff57e860b73926645b9590b8e3e77"
 dependencies = [
  "aarch64-cpu 10.0.0",
  "bitflags 2.9.1",
@@ -1777,9 +1777,9 @@ dependencies = [
 
 [[package]]
 name = "rdrive"
-version = "0.7.1"
+version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "76fe20c050873e19dc44f842694b8132d7685e1e847ca75049c1d174315994ef"
+checksum = "5d4af1fe860ca34eda3aa7b558f7aaf09477becc2f2bf67e6cb580ec074b724f"
 dependencies = [
  "fdt-parser",
  "log",
@@ -2024,7 +2024,7 @@ dependencies = [
 [[package]]
 name = "somehal"
 version = "0.1.0"
-source = "git+https://github.com/rcore-os/somehal.git#6ee95c07905940e1a06a2ae758c5375b84ef87b8"
+source = "git+https://github.com/rcore-os/somehal.git#d1b2adde388ff57e860b73926645b9590b8e3e77"
 dependencies = [
  "aarch64-cpu 10.0.0",
  "acpi",
@@ -2059,7 +2059,7 @@ dependencies = [
 [[package]]
 name = "somehal-macros"
 version = "0.1.0"
-source = "git+https://github.com/rcore-os/somehal.git#6ee95c07905940e1a06a2ae758c5375b84ef87b8"
+source = "git+https://github.com/rcore-os/somehal.git#d1b2adde388ff57e860b73926645b9590b8e3e77"
 dependencies = [
  "abi-singleton",
  "darling",

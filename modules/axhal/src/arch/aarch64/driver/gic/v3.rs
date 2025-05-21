@@ -4,7 +4,7 @@ extern crate alloc;
 
 use arm_gic_driver::v3::Gic;
 use somehal::{
-    driver::{Descriptor, HardwareKind, intc::Box, register::Node},
+    driver::{Descriptor, HardwareKind, intc::Box, register::FdtInfo},
     module_driver,
 };
 
@@ -22,10 +22,11 @@ module_driver!(
     ]
 );
 
-fn probe_gic(node: Node<'_>, _dev: &Descriptor) -> Result<HardwareKind, Box<dyn Error>> {
-    let mut reg = node
+fn probe_gic(info: FdtInfo<'_>, _dev: &Descriptor) -> Result<HardwareKind, Box<dyn Error>> {
+    let mut reg = info
+        .node
         .reg()
-        .ok_or(alloc::format!("[{}] has no reg", node.name()))?;
+        .ok_or(alloc::format!("[{}] has no reg", info.node.name()))?;
 
     let gicd_reg = reg.next().unwrap();
     let gicr_reg = reg.next().unwrap();

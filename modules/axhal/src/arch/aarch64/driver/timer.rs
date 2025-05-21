@@ -71,7 +71,7 @@ impl DriverGeneric for ArmV8Timer {
     }
 }
 
-fn probe_timer(_node: Node<'_>, desc: &Descriptor) -> Result<HardwareKind, Box<dyn Error>> {
+fn probe_timer(_node: FdtInfo<'_>, desc: &Descriptor) -> Result<HardwareKind, Box<dyn Error>> {
     #[cfg(not(feature = "hv"))]
     let irq_idx = 1;
     #[cfg(feature = "hv")]
