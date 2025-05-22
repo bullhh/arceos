@@ -191,20 +191,3 @@ pub fn cpu_init() {
         write_page_table_root0(0.into())
     }; // disable low address access in EL1
 }
-
-/// Sets the pointer to per-cpu data.
-pub fn set_percpu_data_ptr(ptr: *mut u8) {
-    #[cfg(feature = "hv")]
-    TPIDR_EL2.set(ptr as usize as _);
-    #[cfg(not(feature = "hv"))]
-    TPIDR_EL1.set(ptr as usize as _);
-}
-
-/// Gets the pointer to per-cpu data.
-pub fn get_percpu_data_ptr() -> *mut u8 {
-    #[cfg(feature = "hv")]
-    let ptr = TPIDR_EL2.get() as _;
-    #[cfg(not(feature = "hv"))]
-    let ptr = TPIDR_EL1.get() as _;
-    ptr
-}

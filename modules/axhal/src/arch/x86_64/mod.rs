@@ -133,16 +133,3 @@ pub fn cpu_init() {
     #[cfg(feature = "uspace")]
     init_syscall();
 }
-
-/// Sets the pointer to the per-CPU data.
-pub fn set_percpu_data_ptr(ptr: *mut u8) {
-    unsafe {
-        x86::msr::wrmsr(x86::msr::IA32_GS_BASE, ptr as usize as _);
-    }
-}
-
-/// Gets the pointer to the per-CPU data.
-pub fn get_percpu_data_ptr() -> *mut u8 {
-    let ptr = unsafe { x86::msr::rdmsr(x86::msr::IA32_GS_BASE) } as usize;
-    ptr as *mut u8
-}

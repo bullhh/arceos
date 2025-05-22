@@ -67,7 +67,7 @@ axdma = { path = "modules/axdma" }
 
 allocator = { git = "https://github.com/arceos-org/allocator.git", tag = "v0.1.1" }
 somehal = { git = "https://github.com/rcore-os/somehal.git" }
-percpu = { git = "https://github.com/ZR233/percpu" }
+percpu = { git = "https://github.com/ZR233/percpu" , branch = "dev-custom-base" }
 
 [profile.release]
 lto = true

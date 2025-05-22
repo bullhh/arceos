@@ -108,26 +108,7 @@ pub fn iomap(addr: PhysAddr, size: usize) -> Result<NonNull<u8>, Box<dyn Error>>
     Ok(NonNull::new(start_virt.as_mut_ptr()).unwrap())
 }
 
-#[allow(unused)]
-struct ThisImpl;
-
-impl percpu::Impl for ThisImpl {
-    fn percpu_base() -> NonNull<u8> {
-        unsafe {
-            let base = percpu_data().as_ref().as_ptr() as usize;
-            NonNull::new_unchecked(base as _)
-        }
-    }
-
-    #[inline]
-    fn set_cpu_local_ptr(ptr: *mut u8) {
-        crate::arch::set_percpu_data_ptr(ptr);
-    }
-
-    #[inline]
-    fn get_cpu_local_ptr() -> *mut u8 {
-        crate::arch::get_percpu_data_ptr()
-    }
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn _percpu_base() -> *mut u8 {
+    unsafe { percpu_data().as_ref().as_ptr() as usize as _ }
 }
-
-percpu::impl_percpu!(ThisImpl);
