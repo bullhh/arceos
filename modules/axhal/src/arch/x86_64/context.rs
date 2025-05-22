@@ -365,6 +365,12 @@ impl TaskContext {
     }
 }
 
+impl Default for TaskContext {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 #[naked]
 unsafe extern "C" fn context_switch(_current_stack: &mut u64, _next_stack: &u64) {
     unsafe {
