@@ -1,3 +1,4 @@
+#[cfg(feature = "irq")]
 mod gic;
 mod timer;
 
