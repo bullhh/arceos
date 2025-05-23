@@ -39,7 +39,7 @@ set_impl!(KernelImpl);
 
 module_driver!(
     name: "eMMC",
-    level: ProbeLevel::PreKernel,
+    level: ProbeLevel::PostKernel,
     priority: ProbePriority::DEFAULT,
     probe_kinds: &[
         ProbeKind::Fdt {
