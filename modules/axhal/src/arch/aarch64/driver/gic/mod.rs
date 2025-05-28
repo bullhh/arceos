@@ -15,7 +15,7 @@ pub fn dispatch_irq(irq_no: usize) {
             None => return,
         }
     } else {
-        somehal::driver::IrqId::from(irq_no)
+        axplat_dyn::driver::IrqId::from(irq_no)
     };
     crate::irq::dispatch_irq_common(intid.into());
     icc.eoi(intid);

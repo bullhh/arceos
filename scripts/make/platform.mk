@@ -1,4 +1,6 @@
 # Architecture and platform resolving
+PLATFORM_DYN_LIST := aarch64-dyn
+PLATFORM_DYN_TARGET_DIR := $(PWD)/tools/plat-dyn/targets
 
 ifeq ($(PLATFORM),)
   # `PLATFORM` is not specified, use the default platform for each architecture
@@ -22,6 +24,12 @@ else
     _arch := $(word 1,$(subst -, ,$(PLATFORM)))
     PLAT_NAME := $(PLATFORM)
     PLAT_CONFIG := configs/platforms/$(PLAT_NAME).toml
+    ifneq ($(filter $(PLATFORM),$(PLATFORM_DYN_LIST)),)
+      $(info Using $(_arch) dyn platform)
+      PLATFORM_IS_DYN := 1
+      override FEATURES := $(shell echo $(FEATURES) | tr ',' ' ')
+      override FEATURES += plat-dyn
+    endif
   else ifneq ($(wildcard $(PLATFORM)),)
     # custom platform, read the "arch" and "plat-name" fields from the toml file
     _arch :=  $(patsubst "%",%,$(shell axconfig-gen $(PLATFORM) -r arch))

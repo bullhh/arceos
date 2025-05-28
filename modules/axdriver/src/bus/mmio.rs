@@ -2,6 +2,7 @@
 use crate::{AllDevices, prelude::*};
 
 impl AllDevices {
+    #[allow(dead_code)]
     pub(crate) fn probe_bus_devices(&mut self) {
         // TODO: parse device tree
         #[cfg(feature = "virtio")]

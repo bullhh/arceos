@@ -1,48 +1,20 @@
 use core::sync::atomic::{AtomicUsize, Ordering};
 
-use axconfig::{SMP, TASK_STACK_SIZE};
-
-#[allow(unused)]
-#[unsafe(link_section = ".bss.stack")]
-static mut SECONDARY_BOOT_STACK: [[u8; TASK_STACK_SIZE]; SMP - 1] = [[0; TASK_STACK_SIZE]; SMP - 1];
-
 static ENTERED_CPUS: AtomicUsize = AtomicUsize::new(1);
 
-#[cfg(not(plat_dyn))]
 #[allow(clippy::absurd_extreme_comparisons)]
 pub fn start_secondary_cpus(primary_cpu_id: usize) {
-    use axhal::mem::{VirtAddr, virt_to_phys};
     let mut logic_cpu_id = 0;
-    for i in 0..SMP {
-        if i != primary_cpu_id && logic_cpu_id < SMP - 1 {
-            let stack_top = virt_to_phys(VirtAddr::from(unsafe {
-                SECONDARY_BOOT_STACK[logic_cpu_id].as_ptr_range().end as usize
-            }));
-
+    let cpu_count = axhal::cpu::cpu_count();
+    for i in 0..cpu_count {
+        if i != primary_cpu_id && logic_cpu_id < cpu_count - 1 {
             debug!("starting CPU {}...", i);
-            axhal::mp::start_secondary_cpu(i, stack_top);
+            axhal::mp::start_secondary_cpu(i, logic_cpu_id);
             logic_cpu_id += 1;
 
             while ENTERED_CPUS.load(Ordering::Acquire) <= logic_cpu_id {
                 core::hint::spin_loop();
             }
-        }
-    }
-}
-
-#[cfg(plat_dyn)]
-pub fn start_secondary_cpus(_: usize) {
-    let mut logic_cpu_id = 0;
-    for (idx, _id) in axhal::cpu::cpu_list() {
-        if idx.is_primary() {
-            continue;
-        }
-        debug!("starting CPU {}...", idx.raw());
-        axhal::mp::start_secondary_cpu(idx.raw());
-        logic_cpu_id += 1;
-
-        while ENTERED_CPUS.load(Ordering::Acquire) <= logic_cpu_id {
-            core::hint::spin_loop();
         }
     }
 }
@@ -69,9 +41,6 @@ pub extern "C" fn rust_main_secondary(cpu_id: usize) -> ! {
     while !super::is_init_ok() {
         core::hint::spin_loop();
     }
-
-    #[cfg(feature = "irq")]
-    axhal::time::enable_irq();
 
     #[cfg(feature = "irq")]
     axhal::arch::enable_irqs();

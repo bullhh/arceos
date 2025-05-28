@@ -516,6 +516,7 @@ dependencies = [
  "axconfig",
  "axerrno",
  "axlog",
+ "axplat-dyn",
  "bitflags 2.9.1",
  "cfg-if",
  "cortex-a",
@@ -535,11 +536,11 @@ dependencies = [
  "page_table_multiarch",
  "percpu",
  "raw-cpuid 11.5.0",
+ "rdrive",
  "riscv 0.12.1",
  "riscv_goldfish",
  "sbi-rt",
  "smccc",
- "somehal",
  "static_assertions",
  "tock-registers 0.9.0",
  "x2apic 0.4.3",
@@ -619,6 +620,16 @@ dependencies = [
  "axns",
  "crate_interface",
  "lazyinit",
+]
+
+[[package]]
+name = "axplat-dyn"
+version = "0.1.0"
+dependencies = [
+ "axalloc",
+ "percpu",
+ "rdrive-macros",
+ "somehal",
 ]
 
 [[package]]

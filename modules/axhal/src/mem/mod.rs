@@ -12,8 +12,18 @@ cfg_if::cfg_if! {
     }
 }
 
+use axerrno::AxError;
 #[doc(no_inline)]
 pub use memory_addr::{MemoryAddr, PAGE_SIZE_4K, PhysAddr, VirtAddr};
+use page_table_entry::MappingFlags;
+
+/// A function to map a region of memory.
+pub type AddrMapFunc = fn(
+    start_vaddr: VirtAddr,
+    start_paddr: PhysAddr,
+    size: usize,
+    flags: MappingFlags,
+) -> Result<(), AxError>;
 
 bitflags::bitflags! {
     /// The flags of a physical memory region.
@@ -58,7 +68,7 @@ pub struct MemRegion {
 pub fn get_kernel_aspace_start() -> VirtAddr {
     cfg_if::cfg_if! {
         if #[cfg(plat_dyn)] {
-            somehal::mem::KERNEL_ADDR_SPACE_START.into()
+            axplat_dyn::mem::KERNEL_ADDR_SPACE_START.into()
         } else {
             axconfig::plat::KERNEL_ASPACE_BASE.into()
         }
@@ -69,7 +79,7 @@ pub fn get_kernel_aspace_start() -> VirtAddr {
 pub fn get_kernel_aspace_size() -> usize {
     cfg_if::cfg_if! {
         if #[cfg(plat_dyn)] {
-            somehal::mem::KERNEL_ADDR_SPACE_SIZE
+            axplat_dyn::mem::KERNEL_ADDR_SPACE_SIZE
         } else {
             axconfig::plat::KERNEL_ASPACE_SIZE
         }

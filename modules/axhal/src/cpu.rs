@@ -1,8 +1,5 @@
 //! CPU-related operations.
 
-#[cfg(plat_dyn)]
-pub use somehal::mp::cpu_list;
-
 #[percpu::def_percpu]
 static CPU_ID: usize = 0;
 
@@ -23,7 +20,7 @@ pub fn cpu_count() -> usize {
     #[cfg(plat_dyn)]
     {
         if cfg!(feature = "smp") {
-            cpu_list().count()
+            axplat_dyn::mp::cpu_list().count()
         } else {
             1
         }
@@ -119,7 +116,7 @@ pub(crate) fn init_primary(cpu_id: usize) {
     #[cfg(not(plat_dyn))]
     percpu::init(axconfig::SMP);
     #[cfg(plat_dyn)]
-    percpu::init(somehal::mem::cpu_count());
+    percpu::init(axplat_dyn::mem::cpu_count());
     percpu::init_percpu_reg(cpu_id);
     unsafe {
         CPU_ID.write_current_raw(cpu_id);

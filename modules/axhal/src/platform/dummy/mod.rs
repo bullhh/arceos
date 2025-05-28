@@ -91,7 +91,7 @@ pub mod irq {
 }
 
 /// Initializes the platform devices for the primary CPU.
-pub fn platform_init() {}
+pub(crate) fn platform_init() {}
 
 /// Initializes the platform devices for secondary CPUs.
 #[cfg(feature = "smp")]

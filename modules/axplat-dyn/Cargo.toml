@@ -1,0 +1,20 @@
+[package]
+name = "axplat-dyn"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+homepage.workspace = true
+documentation.workspace = true
+repository.workspace = true
+keywords.workspace = true
+categories.workspace = true
+
+[features]
+hv = ["somehal/vm"]
+
+[target.'cfg(target_arch = "aarch64")'.dependencies]
+somehal = { workspace = true }
+percpu = { workspace = true, features = ["custom-base"] }
+axalloc = { workspace = true, features = ["page-alloc-64g"] }
+rdrive-macros = "0.3"

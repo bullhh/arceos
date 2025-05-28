@@ -1,9 +1,11 @@
+extern crate alloc;
+
 use core::error::Error;
 
 use aarch64_cpu::registers::*;
 use alloc::boxed::Box;
 
-use somehal::{
+use axplat_dyn::{
     driver::{Descriptor, DriverGeneric, HardwareKind, intc::IrqConfig, register::*, systick::*},
     module_driver,
 };

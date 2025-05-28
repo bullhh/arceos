@@ -68,7 +68,7 @@ pub(crate) unsafe extern "C" fn rust_entry_secondary(cpu_hwid: usize) {
 /// Initializes the platform devices for the primary CPU.
 ///
 /// For example, the interrupt controller and the timer.
-pub fn platform_init() {
+pub(crate) fn platform_init() {
     #[cfg(feature = "irq")]
     super::aarch64_common::gic::init_primary();
     super::aarch64_common::generic_timer::init_percpu();

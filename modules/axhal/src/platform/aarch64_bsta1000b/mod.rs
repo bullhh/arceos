@@ -19,8 +19,8 @@ pub mod time {
     pub use crate::platform::aarch64_common::generic_timer::*;
 }
 
-use crate::mp::CPU_HWID;
-use crate::mp::MAX_HARTS;
+use super::mp::CPU_HWID;
+use super::mp::MAX_HARTS;
 
 unsafe extern "C" {
     fn exception_vector_base();
@@ -59,7 +59,7 @@ pub(crate) unsafe extern "C" fn rust_entry_secondary(cpu_hwid: usize) {
 /// Initializes the platform devices for the primary CPU.
 ///
 /// For example, the interrupt controller and the timer.
-pub fn platform_init() {
+pub(crate) fn platform_init() {
     #[cfg(feature = "irq")]
     super::aarch64_common::gic::init_primary();
     super::aarch64_common::generic_timer::init_percpu();

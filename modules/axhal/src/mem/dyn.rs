@@ -1,29 +1,22 @@
-use core::{error::Error, ptr::NonNull};
+extern crate alloc;
 
-use alloc::{boxed::Box, format};
-use axerrno::AxError;
-use memory_addr::{MemoryAddr, PhysAddr, VirtAddr};
-use page_table_entry::MappingFlags;
-use somehal::mem::{
+use core::ptr::NonNull;
+
+use axplat_dyn::mem::{
     percpu_data,
     region::{AccessFlags, MemRegionKind},
 };
+use memory_addr::{MemoryAddr, PhysAddr, VirtAddr};
+use page_table_entry::MappingFlags;
 
-use super::{MemRegion, MemRegionFlags};
+use super::{AddrMapFunc, MemRegion, MemRegionFlags};
 
-static mut MAP_FUNC: MapLinearFunc = |_start_vaddr, _start_paddr, _size, _flags| Ok(());
-
-pub type MapLinearFunc = fn(
-    start_vaddr: VirtAddr,
-    start_paddr: PhysAddr,
-    size: usize,
-    flags: MappingFlags,
-) -> Result<(), AxError>;
+static mut MAP_FUNC: AddrMapFunc = |_start_vaddr, _start_paddr, _size, _flags| Ok(());
 
 /// Converts a virtual address to a physical address.
 #[inline]
 pub fn virt_to_phys(vaddr: VirtAddr) -> PhysAddr {
-    somehal::mem::virt_to_phys(vaddr.as_usize().into())
+    axplat_dyn::mem::virt_to_phys(vaddr.as_usize().into())
         .raw()
         .into()
 }
@@ -31,18 +24,18 @@ pub fn virt_to_phys(vaddr: VirtAddr) -> PhysAddr {
 /// Converts a physical address to a virtual address.
 #[inline]
 pub fn phys_to_virt(paddr: PhysAddr) -> VirtAddr {
-    somehal::mem::phys_to_virt(paddr.as_usize().into())
+    axplat_dyn::mem::phys_to_virt(paddr.as_usize().into())
         .raw()
         .into()
 }
 
 /// Returns an iterator over all physical memory regions.
 pub fn memory_regions() -> impl Iterator<Item = MemRegion> {
-    somehal::mem::memory_regions().map(|reg| reg.into())
+    axplat_dyn::mem::memory_regions().map(|reg| reg.into())
 }
 
-impl From<&somehal::mem::MemRegion> for MemRegion {
-    fn from(value: &somehal::mem::MemRegion) -> Self {
+impl From<&axplat_dyn::mem::MemRegion> for MemRegion {
+    fn from(value: &axplat_dyn::mem::MemRegion) -> Self {
         let mut flags = MemRegionFlags::empty();
         if value.config.access.contains(AccessFlags::Read) {
             flags |= MemRegionFlags::READ;
@@ -83,13 +76,13 @@ impl From<&somehal::mem::MemRegion> for MemRegion {
     }
 }
 
-pub(crate) unsafe fn init_map_liner(f: MapLinearFunc) {
+pub(crate) unsafe fn init_map_liner(f: AddrMapFunc) {
     unsafe {
         MAP_FUNC = f;
     }
 }
-
-pub fn iomap(addr: PhysAddr, size: usize) -> Result<NonNull<u8>, Box<dyn Error>> {
+/// maps a mmio physical address to a virtual address.
+pub fn iomap(addr: PhysAddr, size: usize) -> Result<NonNull<u8>, axerrno::AxError> {
     let end = (addr.as_usize() + size).align_up_4k();
     let start = addr.align_down_4k();
     let size = end - start.as_usize();
@@ -102,8 +95,7 @@ pub fn iomap(addr: PhysAddr, size: usize) -> Result<NonNull<u8>, Box<dyn Error>>
             addr,
             size,
             MappingFlags::READ | MappingFlags::WRITE | MappingFlags::DEVICE,
-        )
-        .map_err(|e| format!("Failed to map memory: {}", e))?;
+        )?;
     }
     Ok(NonNull::new(start_virt.as_mut_ptr()).unwrap())
 }

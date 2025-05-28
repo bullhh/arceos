@@ -2,21 +2,23 @@ pub use crate::arch::dispatch_irq;
 pub use crate::arch::fetch_irq;
 
 use crate::irq::IrqHandler;
-use somehal::driver::intc::*;
-use somehal::mem::cpu_idx_to_id;
+use axplat_dyn::driver::intc::*;
+use axplat_dyn::mem::cpu_idx_to_id;
 /// The maximum number of IRQs.
 pub const MAX_IRQ_COUNT: usize = 2048;
 
 static mut IRQ_CHIP: u64 = 0;
 
 pub(crate) unsafe fn init() {
-    let chip = somehal::driver::get_dev!(Intc).unwrap();
+    let chip = axplat_dyn::driver::get_dev!(Intc).unwrap();
     unsafe { IRQ_CHIP = (chip.descriptor.device_id).into() };
 
     #[cfg(target_arch = "aarch64")]
     {
         cpu_interface().set_eoi_mode(true);
     }
+
+    crate::time::enable_irq();
 }
 
 #[cfg(feature = "smp")]
@@ -25,14 +27,16 @@ pub(crate) unsafe fn init_secondary() {
     {
         cpu_interface().set_eoi_mode(true);
     }
+
+    crate::time::enable_irq();
 }
 
 pub(crate) fn cpu_interface() -> &'static BoxCPU {
-    somehal::irq::interface(unsafe { IRQ_CHIP }.into()).expect("no cpu interface")
+    axplat_dyn::irq::interface(unsafe { IRQ_CHIP }.into()).expect("no cpu interface")
 }
 
 fn modify_chip<F: Fn(&mut Hardware)>(f: F) {
-    let mut g = somehal::driver::get_dev!(Intc)
+    let mut g = axplat_dyn::driver::get_dev!(Intc)
         .unwrap()
         .spin_try_borrow_by(0.into())
         .unwrap();

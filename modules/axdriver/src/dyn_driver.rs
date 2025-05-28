@@ -1,6 +1,6 @@
 extern crate alloc;
 
-use axhal::mem::iomap;
+use crate::structs::iomap;
 use axhal::time::{busy_wait_until, wall_time};
 
 use core::error::Error;
@@ -12,7 +12,7 @@ use axdriver_block::BlockDriverOps;
 
 use rdif_base::ErrorBase;
 use rdif_block::Interface;
-use rdrive::{DeviceWeak, get_dev};
+use rdrive::DeviceWeak;
 
 pub use rdrive::dev_list;
 

@@ -72,14 +72,24 @@ pub mod misc {
 
 /// Multi-core operations.
 #[cfg(feature = "smp")]
-pub mod mp {
-    pub use super::platform::mp::*;
-}
+pub mod mp;
 
-pub use self::platform::platform_init;
+/// Initializes the platform devices for the primary CPU.
+///
+/// For example, the interrupt controller and the timer.
+#[allow(unused)]
+pub fn platform_init(map_func: Option<AddrMapFunc>) {
+    #[cfg(not(plat_dyn))]
+    platform::platform_init();
+    #[cfg(plat_dyn)]
+    platform::platform_init(map_func.unwrap());
+}
 
 #[cfg(feature = "smp")]
 pub use self::platform::platform_init_secondary;
 
 #[cfg(plat_dyn)]
 pub use self::platform::driver;
+
+pub use axerrno::AxError;
+use mem::AddrMapFunc;

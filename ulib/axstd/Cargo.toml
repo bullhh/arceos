@@ -27,15 +27,15 @@ fp_simd = ["axfeat/fp_simd"]
 
 # Interrupts
 irq = ["arceos_api/irq", "axfeat/irq"]
-gicv3 = ["axfeat/gicv3","alloc"]
+gicv3 = ["axfeat/gicv3", "alloc"]
 
 # Memory
 alloc = ["arceos_api/alloc", "axfeat/alloc", "axio/alloc"]
 alloc-tlsf = ["axfeat/alloc-tlsf"]
 alloc-slab = ["axfeat/alloc-slab"]
 alloc-buddy = ["axfeat/alloc-buddy"]
-page-alloc-64g = ["axfeat/page-alloc-64g"] # Support up to 64G memory capacity
-page-alloc-4g = ["axfeat/page-alloc-4g"] # Support up to 4G memory capacity
+page-alloc-64g = ["axfeat/page-alloc-64g"]                 # Support up to 64G memory capacity
+page-alloc-4g = ["axfeat/page-alloc-4g"]                   # Support up to 4G memory capacity
 paging = ["axfeat/paging"]
 dma = ["arceos_api/dma", "axfeat/dma"]
 tls = ["axfeat/tls"]
@@ -74,7 +74,7 @@ driver-rk3568-emmc = ["axfeat/driver-rk3568-emmc"]
 # Hypervisor support
 hv = ["axfeat/hv"]
 
-# Dynamic platform support
+# Dynamic platform support.
 plat-dyn = ["axfeat/plat-dyn"]
 
 # Logging

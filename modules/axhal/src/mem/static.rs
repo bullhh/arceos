@@ -1,7 +1,13 @@
 use axconfig::plat::{PHYS_MEMORY_BASE, PHYS_MEMORY_SIZE, PHYS_VIRT_OFFSET};
+use core::ptr::NonNull;
 use memory_addr::{MemoryAddr, PhysAddr, VirtAddr};
 
 use super::{MemRegion, MemRegionFlags};
+
+/// maps a mmio physical address to a virtual address.
+pub fn iomap(addr: PhysAddr, _size: usize) -> Result<NonNull<u8>, axerrno::AxError> {
+    Ok(unsafe { NonNull::new_unchecked(phys_to_virt(addr).as_mut_ptr()) })
+}
 
 /// Converts a virtual address to a physical address.
 ///

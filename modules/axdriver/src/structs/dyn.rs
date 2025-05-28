@@ -1,7 +1,10 @@
 #![allow(unused_imports)]
 
+use core::{fmt::Display, ptr::NonNull};
+
 use crate::prelude::*;
 use alloc::{boxed::Box, vec, vec::Vec};
+use axhal::{AxError, mem::PhysAddr};
 
 /// The unified type of the NIC devices.
 #[cfg(feature = "net")]
@@ -82,4 +85,25 @@ impl<D> Default for AxDeviceContainer<D> {
     fn default() -> Self {
         Self(Default::default())
     }
+}
+
+#[derive(Debug, Clone, Copy)]
+pub struct AxErrorW(AxError);
+
+impl Display for AxErrorW {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        write!(f, "{:?}", self.0)
+    }
+}
+
+impl core::error::Error for AxErrorW {}
+
+impl From<AxError> for AxErrorW {
+    fn from(value: AxError) -> Self {
+        Self(value)
+    }
+}
+
+pub fn iomap(addr: PhysAddr, size: usize) -> Result<NonNull<u8>, AxErrorW> {
+    Ok(axhal::mem::iomap(addr, size)?)
 }

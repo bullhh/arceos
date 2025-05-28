@@ -58,14 +58,21 @@ pub fn busy_wait_until(deadline: TimeValue) {
 }
 
 #[cfg(plat_dyn)]
-pub fn irq_config() -> somehal::irq::IrqConfig {
-    somehal::systick::get().irq()
+pub fn irq_config() -> axplat_dyn::irq::IrqConfig {
+    axplat_dyn::systick::get().irq()
+}
+
+/// The IRQ config of the timer.
+#[cfg(not(plat_dyn))]
+#[cfg(feature = "irq")]
+pub fn irq_config() -> usize {
+    TIMER_IRQ_NUM
 }
 
 #[cfg(plat_dyn)]
 #[cfg(feature = "irq")]
 pub fn enable_irq() {
-    let cfg = somehal::systick::get().irq();
+    let cfg = axplat_dyn::systick::get().irq();
     crate::irq::set_enable(cfg, true, true);
 }
 

@@ -10,7 +10,7 @@ repository = "https://github.com/arceos-org/arceos/tree/main/modules/axdriver"
 documentation = "https://arceos-org.github.io/arceos/axdriver/index.html"
 
 [features]
-dyn = []
+dyn = ["axhal/alloc"]
 bus-mmio = []
 bus-pci = ["dep:axdriver_pci", "dep:axhal", "dep:axconfig"]
 net = ["axdriver_net"]

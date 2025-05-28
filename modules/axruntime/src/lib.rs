@@ -92,10 +92,7 @@ fn is_init_ok() -> bool {
     #[cfg(not(feature = "smp"))]
     return true;
 
-    #[cfg(not(plat_dyn))]
-    let num = axconfig::SMP;
-    #[cfg(plat_dyn)]
-    let num = axhal::cpu::cpu_list().count();
+    let num = axhal::cpu::cpu_count();
 
     INITED_CPUS.load(Ordering::Acquire) == num
 }
@@ -157,14 +154,13 @@ pub extern "C" fn rust_main(cpu_id: usize) -> ! {
     axmm::init_memory_management();
 
     info!("Initialize platform devices...");
-    #[cfg(plat_dyn)]
-    axhal::platform_init(|virt, phys, size, flags| {
-        axmm::kernel_aspace()
-            .lock()
-            .map_linear(virt, phys, size, flags)
-    });
-    #[cfg(not(plat_dyn))]
-    axhal::platform_init();
+
+    #[cfg(not(feature = "paging"))]
+    let map_liner_fn = None;
+    #[cfg(feature = "paging")]
+    let map_liner_fn: Option<axhal::mem::AddrMapFunc> = Some(map_liner);
+
+    axhal::platform_init(map_liner_fn);
 
     #[cfg(feature = "multitask")]
     axtask::init_scheduler();
@@ -219,6 +215,18 @@ pub extern "C" fn rust_main(cpu_id: usize) -> ! {
     }
 }
 
+#[cfg(feature = "paging")]
+fn map_liner(
+    virt: axhal::mem::VirtAddr,
+    phys: axhal::mem::PhysAddr,
+    size: usize,
+    flags: axhal::paging::MappingFlags,
+) -> Result<(), axhal::AxError> {
+    axmm::kernel_aspace()
+        .lock()
+        .map_linear(virt, phys, size, flags)
+}
+
 #[cfg(feature = "alloc")]
 fn init_allocator() {
     use axhal::mem::{MemRegionFlags, memory_regions, phys_to_virt};
@@ -248,39 +256,7 @@ fn init_allocator() {
     }
 }
 
-#[cfg(all(feature = "irq", not(plat_dyn)))]
-fn init_interrupt() {
-    use axhal::time::TIMER_IRQ_NUM;
-
-    // Setup timer interrupt handler
-    const PERIODIC_INTERVAL_NANOS: u64 =
-        axhal::time::NANOS_PER_SEC / axconfig::TICKS_PER_SEC as u64;
-
-    #[percpu::def_percpu]
-    static NEXT_DEADLINE: u64 = 0;
-
-    fn update_timer() {
-        let now_ns = axhal::time::monotonic_time_nanos();
-        // Safety: we have disabled preemption in IRQ handler.
-        let mut deadline = unsafe { NEXT_DEADLINE.read_current_raw() };
-        if now_ns >= deadline {
-            deadline = now_ns + PERIODIC_INTERVAL_NANOS;
-        }
-        unsafe { NEXT_DEADLINE.write_current_raw(deadline + PERIODIC_INTERVAL_NANOS) };
-        axhal::time::set_oneshot_timer(deadline);
-    }
-
-    axhal::irq::register_handler(TIMER_IRQ_NUM, || {
-        update_timer();
-        #[cfg(feature = "multitask")]
-        axtask::on_timer_tick();
-    });
-
-    // Enable IRQs before starting app
-    axhal::arch::enable_irqs();
-}
-
-#[cfg(all(feature = "irq", plat_dyn))]
+#[cfg(feature = "irq")]
 fn init_interrupt() {
     // Setup timer interrupt handler
 
@@ -288,7 +264,7 @@ fn init_interrupt() {
     static NEXT_DEADLINE: u64 = 0;
 
     fn update_timer() {
-        let periodic_interval_nanos = axhal::time::NANOS_PER_SEC as u64;
+        let periodic_interval_nanos = axhal::time::NANOS_PER_SEC / axconfig::TICKS_PER_SEC as u64;
 
         let now_ns = axhal::time::monotonic_time_nanos();
         // Safety: we have disabled preemption in IRQ handler.
@@ -305,7 +281,7 @@ fn init_interrupt() {
         #[cfg(feature = "multitask")]
         axtask::on_timer_tick();
     });
-    axhal::time::enable_irq();
+    // axhal::time::enable_irq();
 
     // Enable IRQs before starting app
     axhal::arch::enable_irqs();

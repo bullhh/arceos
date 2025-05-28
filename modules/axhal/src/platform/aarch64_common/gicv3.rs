@@ -1,6 +1,6 @@
 use crate::{arch::disable_irqs, irq::IrqHandler, mem::phys_to_virt};
 use arm_gic_driver::*;
-use axconfig::devices::{GICC_PADDR, GICD_PADDR, GICR_PADDR, UART_IRQ};
+use axconfig::devices::{GICD_PADDR, GICR_PADDR, UART_IRQ};
 use core::ptr::NonNull;
 use kspin::SpinNoIrq;
 use memory_addr::PhysAddr;
@@ -32,9 +32,9 @@ pub fn set_enable(irq_num: usize, enabled: bool) {
     let mut gicd = GICD.lock();
     let d = gicd.as_mut().unwrap();
     if enabled {
-        d.irq_enable(irq_num.into());
+        d.irq_enable(irq_num.into()).unwrap();
     } else {
-        d.irq_disable(irq_num.into());
+        d.irq_disable(irq_num.into()).unwrap();
     }
 }
 
