@@ -358,7 +358,7 @@ dependencies = [
  "cfg-if",
  "crate_interface",
  "log",
- "rdrive 0.10.3",
+ "rdrive",
  "rk3568_driver_block",
  "rk3568_driver_clk",
 ]
@@ -624,7 +624,7 @@ version = "0.1.0"
 dependencies = [
  "axalloc",
  "percpu",
- "somehal 0.1.1 (git+https://github.com/rcore-os/somehal.git?tag=v0.1.1)",
+ "somehal",
 ]
 
 [[package]]
@@ -1436,17 +1436,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "kmem-region"
-version = "0.1.1"
-source = "git+https://github.com/rcore-os/somehal.git#580c7f70726a6bbb01687c8f570acd4d38ff0a78"
-dependencies = [
- "bitflags 2.9.1",
- "prettyplease",
- "quote",
- "syn 2.0.101",
-]
-
-[[package]]
 name = "kspin"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1671,17 +1660,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "page-table-generic"
-version = "0.6.0"
-source = "git+https://github.com/rcore-os/somehal.git#580c7f70726a6bbb01687c8f570acd4d38ff0a78"
-dependencies = [
- "bitflags 2.9.1",
- "log",
- "num-align",
- "thiserror",
-]
-
-[[package]]
 name = "page_table_entry"
 version = "0.5.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1743,7 +1721,7 @@ dependencies = [
  "bitflags 2.9.1",
  "cfg-if",
  "fdt-parser",
- "kmem-region 0.1.1 (git+https://github.com/rcore-os/somehal.git?tag=v0.1.1)",
+ "kmem-region",
  "multiboot",
  "num-align",
  "prettyplease",
@@ -1751,32 +1729,7 @@ dependencies = [
  "raw-cpuid 11.5.0",
  "riscv 0.13.0",
  "sbi-rt",
- "somehal-macros 0.1.1 (git+https://github.com/rcore-os/somehal.git?tag=v0.1.1)",
- "syn 2.0.101",
- "thiserror",
- "x2apic 0.5.0",
- "x86",
- "x86_64 0.15.2",
-]
-
-[[package]]
-name = "pie-boot"
-version = "0.1.1"
-source = "git+https://github.com/rcore-os/somehal.git#580c7f70726a6bbb01687c8f570acd4d38ff0a78"
-dependencies = [
- "aarch64-cpu 10.0.0",
- "bitflags 2.9.1",
- "cfg-if",
- "fdt-parser",
- "kmem-region 0.1.1 (git+https://github.com/rcore-os/somehal.git)",
- "multiboot",
- "num-align",
- "prettyplease",
- "quote",
- "raw-cpuid 11.5.0",
- "riscv 0.13.0",
- "sbi-rt",
- "somehal-macros 0.1.1 (git+https://github.com/rcore-os/somehal.git)",
+ "somehal-macros",
  "syn 2.0.101",
  "thiserror",
  "x2apic 0.5.0",
@@ -1905,9 +1858,9 @@ dependencies = [
 
 [[package]]
 name = "rdif-base"
-version = "0.3.3"
+version = "0.3.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b1d01b4c028e22ec8eba518dba81b592d8571b80b00dd1853265255a0666a2fb"
+checksum = "90aee008165be07adfb9719609962787ac791f33ca09fbc27e1a691cb05e7bae"
 dependencies = [
  "thiserror",
 ]
@@ -1981,29 +1934,9 @@ dependencies = [
 
 [[package]]
 name = "rdrive"
-version = "0.9.2"
+version = "0.10.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6cc3709f8aedaec37e14103b152bf96a953cb4d3a5e9650ffcc3ca0b7e227916"
-dependencies = [
- "fdt-parser",
- "log",
- "rdif-base",
- "rdif-block",
- "rdif-clk",
- "rdif-intc",
- "rdif-power",
- "rdif-serial",
- "rdif-systick",
- "rdif-timer",
- "spin 0.10.0",
- "thiserror",
-]
-
-[[package]]
-name = "rdrive"
-version = "0.10.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "36908596a78016f9fe46d3faaef14e71549c7a824ab49a28e5e7b6d87156876e"
+checksum = "3e9283685f81215ae0bb37169a6b83e7314ad311d92a048c4882027b7257c9c6"
 dependencies = [
  "fdt-parser",
  "log",
@@ -2135,22 +2068,21 @@ dependencies = [
 [[package]]
 name = "rk3568_driver_block"
 version = "0.1.0"
-source = "git+https://github.com/arceos-hypervisor/rk3568_driver_crates.git#79d2a6e93a7402e44781fb4cf1c08cdf6d65fdad"
+source = "git+https://github.com/arceos-hypervisor/rk3568_driver_crates.git#9314f76eb5b6dd8a1ad21a2857f47805782b08e9"
 dependencies = [
  "log",
- "rdrive 0.9.2",
+ "rdrive",
  "sdmmc",
- "somehal 0.1.1 (git+https://github.com/rcore-os/somehal.git)",
 ]
 
 [[package]]
 name = "rk3568_driver_clk"
 version = "0.1.0"
-source = "git+https://github.com/arceos-hypervisor/rk3568_driver_crates.git#79d2a6e93a7402e44781fb4cf1c08cdf6d65fdad"
+source = "git+https://github.com/arceos-hypervisor/rk3568_driver_crates.git#9314f76eb5b6dd8a1ad21a2857f47805782b08e9"
 dependencies = [
  "log",
+ "rdrive",
  "rk3568_clk",
- "somehal 0.1.1 (git+https://github.com/rcore-os/somehal.git)",
 ]
 
 [[package]]
@@ -2309,54 +2241,20 @@ dependencies = [
  "cfg-if",
  "fdt-parser",
  "heapless 0.8.0",
- "kmem-region 0.1.1 (git+https://github.com/rcore-os/somehal.git?tag=v0.1.1)",
+ "kmem-region",
  "linked_list_allocator",
  "log",
- "page-table-generic 0.6.0 (git+https://github.com/rcore-os/somehal.git?tag=v0.1.1)",
- "pie-boot 0.1.1 (git+https://github.com/rcore-os/somehal.git?tag=v0.1.1)",
+ "page-table-generic",
+ "pie-boot",
  "prettyplease",
  "quote",
  "raw-cpuid 11.5.0",
- "rdrive 0.10.3",
+ "rdrive",
  "riscv 0.13.0",
  "riscv_goldfish",
  "sbi-rt",
  "smccc",
- "somehal-macros 0.1.1 (git+https://github.com/rcore-os/somehal.git?tag=v0.1.1)",
- "spin 0.10.0",
- "syn 2.0.101",
- "tock-registers 0.9.0",
- "x86",
- "x86_64 0.15.2",
-]
-
-[[package]]
-name = "somehal"
-version = "0.1.1"
-source = "git+https://github.com/rcore-os/somehal.git#580c7f70726a6bbb01687c8f570acd4d38ff0a78"
-dependencies = [
- "aarch64-cpu 10.0.0",
- "acpi",
- "any-uart",
- "bit_field",
- "bitflags 2.9.1",
- "cfg-if",
- "fdt-parser",
- "heapless 0.8.0",
- "kmem-region 0.1.1 (git+https://github.com/rcore-os/somehal.git)",
- "linked_list_allocator",
- "log",
- "page-table-generic 0.6.0 (git+https://github.com/rcore-os/somehal.git)",
- "pie-boot 0.1.1 (git+https://github.com/rcore-os/somehal.git)",
- "prettyplease",
- "quote",
- "raw-cpuid 11.5.0",
- "rdrive 0.10.3",
- "riscv 0.13.0",
- "riscv_goldfish",
- "sbi-rt",
- "smccc",
- "somehal-macros 0.1.1 (git+https://github.com/rcore-os/somehal.git)",
+ "somehal-macros",
  "spin 0.10.0",
  "syn 2.0.101",
  "tock-registers 0.9.0",
@@ -2368,18 +2266,6 @@ dependencies = [
 name = "somehal-macros"
 version = "0.1.1"
 source = "git+https://github.com/rcore-os/somehal.git?tag=v0.1.1#580c7f70726a6bbb01687c8f570acd4d38ff0a78"
-dependencies = [
- "abi-singleton",
- "darling",
- "proc-macro2",
- "quote",
- "syn 2.0.101",
-]
-
-[[package]]
-name = "somehal-macros"
-version = "0.1.1"
-source = "git+https://github.com/rcore-os/somehal.git#580c7f70726a6bbb01687c8f570acd4d38ff0a78"
 dependencies = [
  "abi-singleton",
  "darling",

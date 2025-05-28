@@ -1,4 +1,4 @@
 #[cfg(bus = "mmio")]
 mod mmio;
-#[cfg(bus = "pci")]
+#[cfg(all(bus = "pci", not(feature = "dyn")))]
 mod pci;

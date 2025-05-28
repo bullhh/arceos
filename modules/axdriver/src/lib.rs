@@ -141,7 +141,7 @@ impl AllDevices {
     #[cfg(feature = "dyn")]
     fn probe(&mut self) {
         use alloc::boxed::Box;
-        use drivers_dyn::{Block, dev_list};
+        use drivers_dyn::{block::Block, dev_list};
 
         #[cfg(feature = "block")]
         {
