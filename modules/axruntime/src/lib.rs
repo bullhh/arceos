@@ -264,15 +264,16 @@ fn init_interrupt() {
     static NEXT_DEADLINE: u64 = 0;
 
     fn update_timer() {
-        let periodic_interval_nanos = axhal::time::NANOS_PER_SEC / axconfig::TICKS_PER_SEC as u64;
+        const PERIODIC_INTERVAL_NANOS: u64 =
+            axhal::time::NANOS_PER_SEC / axconfig::TICKS_PER_SEC as u64;
 
         let now_ns = axhal::time::monotonic_time_nanos();
         // Safety: we have disabled preemption in IRQ handler.
         let mut deadline = unsafe { NEXT_DEADLINE.read_current_raw() };
         if now_ns >= deadline {
-            deadline = now_ns + periodic_interval_nanos;
+            deadline = now_ns + PERIODIC_INTERVAL_NANOS;
         }
-        unsafe { NEXT_DEADLINE.write_current_raw(deadline + periodic_interval_nanos) };
+        unsafe { NEXT_DEADLINE.write_current_raw(deadline + PERIODIC_INTERVAL_NANOS) };
         axhal::time::set_oneshot_timer(deadline);
     }
 
