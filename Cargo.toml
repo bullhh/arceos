@@ -8,6 +8,7 @@ members = [
     "modules/axdriver",
     "modules/axfs",
     "modules/axhal",
+    "modules/axplat-dyn",
     "modules/axlog",
     "modules/axmm",
     "modules/axdma",
@@ -29,7 +30,6 @@ members = [
     "examples/httpserver",
     "examples/httpserver",
     "examples/shell",
-    "modules/axplat-dyn",
 ]
 
 [workspace.package]

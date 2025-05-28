@@ -56,7 +56,6 @@
 
 #![no_std]
 #![feature(doc_auto_cfg)]
-#![feature(used_with_arg)]
 #![feature(associated_type_defaults)]
 
 #[macro_use]
