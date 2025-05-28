@@ -51,7 +51,6 @@ axalloc = { workspace = true, optional = true }
 cortex-a = { version = "8.1.1", optional = true }
 percpu = { workspace = true }
 
-
 [target.'cfg(target_arch = "x86_64")'.dependencies]
 x86 = "0.52"
 x86_64 = "0.15"

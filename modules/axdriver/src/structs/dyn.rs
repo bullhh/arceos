@@ -104,6 +104,8 @@ impl From<AxError> for AxErrorW {
     }
 }
 
+/// Map IO memory.
+#[allow(unused)]
 pub fn iomap(addr: PhysAddr, size: usize) -> Result<NonNull<u8>, AxErrorW> {
     Ok(axhal::mem::iomap(addr, size)?)
 }

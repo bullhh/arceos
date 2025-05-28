@@ -52,8 +52,7 @@ axconfig = { workspace = true, optional = true }
 axdma = { workspace = true, optional = true }
 rdrive = { workspace = true, optional = true }
 
+
 [target.'cfg(target_arch = "aarch64")'.dependencies]
-rdif-block = { version = "0.2.0" }
-rdif-base = { version = "0.3.3" }
 rk3568_driver_clk = { git = "https://github.com/arceos-hypervisor/rk3568_driver_crates.git" }
 rk3568_driver_block = { git = "https://github.com/arceos-hypervisor/rk3568_driver_crates.git" }

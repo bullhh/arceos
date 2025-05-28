@@ -358,8 +358,6 @@ dependencies = [
  "cfg-if",
  "crate_interface",
  "log",
- "rdif-base",
- "rdif-block",
  "rdrive 0.10.3",
  "rk3568_driver_block",
  "rk3568_driver_clk",

@@ -77,7 +77,7 @@ mod structs;
 mod virtio;
 
 #[cfg(feature = "dyn")]
-mod dyn_driver;
+mod drivers_dyn;
 
 #[cfg(feature = "ixgbe")]
 mod ixgbe;
@@ -122,7 +122,7 @@ impl AllDevices {
     }
 
     /// Probes all supported devices.
-    #[cfg(not(all(target_arch = "aarch64", feature = "dyn")))]
+    #[cfg(not(feature = "dyn"))]
     fn probe(&mut self) {
         for_each_drivers!(type Driver, {
             if let Some(dev) = Driver::probe_global() {
@@ -141,7 +141,7 @@ impl AllDevices {
     #[cfg(feature = "dyn")]
     fn probe(&mut self) {
         use alloc::boxed::Box;
-        use dyn_driver::{Block, dev_list};
+        use drivers_dyn::{Block, dev_list};
 
         #[cfg(feature = "block")]
         {
