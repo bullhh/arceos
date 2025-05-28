@@ -17,4 +17,3 @@ hv = ["somehal/vm"]
 somehal = { workspace = true }
 percpu = { workspace = true, features = ["custom-base"] }
 axalloc = { workspace = true, features = ["page-alloc-64g"] }
-rdrive-macros = "0.3"

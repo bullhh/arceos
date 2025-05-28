@@ -76,7 +76,7 @@ mod structs;
 #[cfg(feature = "virtio")]
 mod virtio;
 
-#[cfg(all(target_arch = "aarch64", feature = "rk3568-emmc"))]
+#[cfg(feature = "dyn")]
 mod dyn_driver;
 
 #[cfg(feature = "ixgbe")]
@@ -138,7 +138,7 @@ impl AllDevices {
         self.probe_bus_devices();
     }
 
-    #[cfg(all(target_arch = "aarch64", feature = "dyn"))]
+    #[cfg(feature = "dyn")]
     fn probe(&mut self) {
         use alloc::boxed::Box;
         use dyn_driver::{Block, dev_list};

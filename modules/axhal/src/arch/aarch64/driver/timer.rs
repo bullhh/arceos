@@ -19,7 +19,7 @@ module_driver!(
             compatibles: &["arm,armv8-timer"],
             on_probe: probe_timer
         }
-    ]
+    ],
 );
 
 #[derive(Clone)]

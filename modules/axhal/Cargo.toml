@@ -28,7 +28,7 @@ hv = [
     "dep:crate_interface",
     "axplat-dyn?/hv",
 ]
-plat-dyn = ["alloc", "paging", "dep:axplat-dyn", "dep:rdrive"]
+plat-dyn = ["alloc", "paging", "dep:axplat-dyn"]
 
 [dependencies]
 log = "=0.4.21"
@@ -66,7 +66,6 @@ riscv_goldfish = { version = "0.1", optional = true }
 
 [target.'cfg(target_arch = "aarch64")'.dependencies]
 axplat-dyn = { workspace = true, optional = true }
-rdrive = { workspace = true, optional = true }
 aarch64-cpu = "10.0"
 tock-registers = "0.9"
 arm-gic-driver = "0.11"

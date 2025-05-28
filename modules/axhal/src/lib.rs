@@ -28,7 +28,6 @@
 #![feature(naked_functions)]
 #![feature(doc_auto_cfg)]
 #![feature(sync_unsafe_cell)]
-#![cfg_attr(plat_dyn, feature(used_with_arg))]
 
 #[allow(unused_imports)]
 #[macro_use]

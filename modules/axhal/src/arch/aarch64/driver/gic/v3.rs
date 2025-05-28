@@ -20,7 +20,7 @@ module_driver!(
             compatibles: &["arm,gic-v3"],
             on_probe: probe_gic
         }
-    ]
+    ],
 );
 
 fn probe_gic(info: FdtInfo<'_>, _dev: &Descriptor) -> Result<HardwareKind, Box<dyn Error>> {

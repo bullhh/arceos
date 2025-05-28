@@ -2,7 +2,10 @@
 name = "axdriver"
 version.workspace = true
 edition.workspace = true
-authors = ["Yuekai Jia <equation618@gmail.com>", "ChengXiang Qi <kuangjux@outlook.com>"]
+authors = [
+    "Yuekai Jia <equation618@gmail.com>",
+    "ChengXiang Qi <kuangjux@outlook.com>",
+]
 description = "ArceOS device drivers"
 license.workspace = true
 homepage.workspace = true
@@ -10,7 +13,7 @@ repository = "https://github.com/arceos-org/arceos/tree/main/modules/axdriver"
 documentation = "https://arceos-org.github.io/arceos/axdriver/index.html"
 
 [features]
-dyn = ["axhal/alloc"]
+dyn = ["axhal/alloc", "dep:rdrive"]
 bus-mmio = []
 bus-pci = ["dep:axdriver_pci", "dep:axhal", "dep:axconfig"]
 net = ["axdriver_net"]
@@ -47,11 +50,10 @@ axalloc = { workspace = true, optional = true }
 axhal = { workspace = true, optional = true }
 axconfig = { workspace = true, optional = true }
 axdma = { workspace = true, optional = true }
+rdrive = { workspace = true, optional = true }
 
 [target.'cfg(target_arch = "aarch64")'.dependencies]
-somehal = { workspace = true }
 rdif-block = { version = "0.2.0" }
 rdif-base = { version = "0.3.3" }
-rdrive = { version = "0.9.0" }
 rk3568_driver_clk = { git = "https://github.com/arceos-hypervisor/rk3568_driver_crates.git" }
 rk3568_driver_block = { git = "https://github.com/arceos-hypervisor/rk3568_driver_crates.git" }

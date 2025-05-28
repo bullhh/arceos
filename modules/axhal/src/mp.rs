@@ -18,6 +18,7 @@ fn start_secondary_cpu_dyn(cpu_idx: usize, _second_cpu_idx: usize) {
 struct Stack([u8; axconfig::TASK_STACK_SIZE]);
 
 impl Stack {
+    #[allow(unused)]
     const fn new() -> Self {
         Stack([0; axconfig::TASK_STACK_SIZE])
     }

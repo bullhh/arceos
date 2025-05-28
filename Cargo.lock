@@ -360,10 +360,9 @@ dependencies = [
  "log",
  "rdif-base",
  "rdif-block",
- "rdrive",
+ "rdrive 0.10.3",
  "rk3568_driver_block",
  "rk3568_driver_clk",
- "somehal",
 ]
 
 [[package]]
@@ -536,7 +535,6 @@ dependencies = [
  "page_table_multiarch",
  "percpu",
  "raw-cpuid 11.5.0",
- "rdrive",
  "riscv 0.12.1",
  "riscv_goldfish",
  "sbi-rt",
@@ -628,8 +626,7 @@ version = "0.1.0"
 dependencies = [
  "axalloc",
  "percpu",
- "rdrive-macros",
- "somehal",
+ "somehal 0.1.1 (git+https://github.com/rcore-os/somehal.git?tag=v0.1.1)",
 ]
 
 [[package]]
@@ -883,9 +880,9 @@ dependencies = [
 
 [[package]]
 name = "clap"
-version = "4.5.38"
+version = "4.5.39"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ed93b9805f8ba930df42c2590f05453d5ec36cbb85d018868a5b24d31f6ac000"
+checksum = "fd60e63e9be68e5fb56422e397cf9baddded06dae1d2e523401542383bc72a9f"
 dependencies = [
  "clap_builder",
  "clap_derive",
@@ -893,9 +890,9 @@ dependencies = [
 
 [[package]]
 name = "clap_builder"
-version = "4.5.38"
+version = "4.5.39"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "379026ff283facf611b0ea629334361c4211d1b12ee01024eec1591133b04120"
+checksum = "89cc6392a1f72bbeb820d71f32108f61fdaf18bc526e1d23954168a67759ef51"
 dependencies = [
  "anstream",
  "anstyle",
@@ -1431,8 +1428,19 @@ dependencies = [
 
 [[package]]
 name = "kmem-region"
-version = "0.1.0"
-source = "git+https://github.com/rcore-os/somehal.git#1a06523599c44e8cdaa216f40787cb21acc35812"
+version = "0.1.1"
+source = "git+https://github.com/rcore-os/somehal.git?tag=v0.1.1#580c7f70726a6bbb01687c8f570acd4d38ff0a78"
+dependencies = [
+ "bitflags 2.9.1",
+ "prettyplease",
+ "quote",
+ "syn 2.0.101",
+]
+
+[[package]]
+name = "kmem-region"
+version = "0.1.1"
+source = "git+https://github.com/rcore-os/somehal.git#580c7f70726a6bbb01687c8f570acd4d38ff0a78"
 dependencies = [
  "bitflags 2.9.1",
  "prettyplease",
@@ -1656,7 +1664,18 @@ checksum = "a4895175b425cb1f87721b59f0f286c2092bd4af812243672510e1ac53e2e0ad"
 [[package]]
 name = "page-table-generic"
 version = "0.6.0"
-source = "git+https://github.com/rcore-os/somehal.git#1a06523599c44e8cdaa216f40787cb21acc35812"
+source = "git+https://github.com/rcore-os/somehal.git?tag=v0.1.1#580c7f70726a6bbb01687c8f570acd4d38ff0a78"
+dependencies = [
+ "bitflags 2.9.1",
+ "log",
+ "num-align",
+ "thiserror",
+]
+
+[[package]]
+name = "page-table-generic"
+version = "0.6.0"
+source = "git+https://github.com/rcore-os/somehal.git#580c7f70726a6bbb01687c8f570acd4d38ff0a78"
 dependencies = [
  "bitflags 2.9.1",
  "log",
@@ -1719,14 +1738,14 @@ dependencies = [
 
 [[package]]
 name = "pie-boot"
-version = "0.1.0"
-source = "git+https://github.com/rcore-os/somehal.git#1a06523599c44e8cdaa216f40787cb21acc35812"
+version = "0.1.1"
+source = "git+https://github.com/rcore-os/somehal.git?tag=v0.1.1#580c7f70726a6bbb01687c8f570acd4d38ff0a78"
 dependencies = [
  "aarch64-cpu 10.0.0",
  "bitflags 2.9.1",
  "cfg-if",
  "fdt-parser",
- "kmem-region",
+ "kmem-region 0.1.1 (git+https://github.com/rcore-os/somehal.git?tag=v0.1.1)",
  "multiboot",
  "num-align",
  "prettyplease",
@@ -1734,7 +1753,32 @@ dependencies = [
  "raw-cpuid 11.5.0",
  "riscv 0.13.0",
  "sbi-rt",
- "somehal-macros",
+ "somehal-macros 0.1.1 (git+https://github.com/rcore-os/somehal.git?tag=v0.1.1)",
+ "syn 2.0.101",
+ "thiserror",
+ "x2apic 0.5.0",
+ "x86",
+ "x86_64 0.15.2",
+]
+
+[[package]]
+name = "pie-boot"
+version = "0.1.1"
+source = "git+https://github.com/rcore-os/somehal.git#580c7f70726a6bbb01687c8f570acd4d38ff0a78"
+dependencies = [
+ "aarch64-cpu 10.0.0",
+ "bitflags 2.9.1",
+ "cfg-if",
+ "fdt-parser",
+ "kmem-region 0.1.1 (git+https://github.com/rcore-os/somehal.git)",
+ "multiboot",
+ "num-align",
+ "prettyplease",
+ "quote",
+ "raw-cpuid 11.5.0",
+ "riscv 0.13.0",
+ "sbi-rt",
+ "somehal-macros 0.1.1 (git+https://github.com/rcore-os/somehal.git)",
  "syn 2.0.101",
  "thiserror",
  "x2apic 0.5.0",
@@ -1958,23 +2002,35 @@ dependencies = [
 ]
 
 [[package]]
-name = "rdrive-macro-utils"
-version = "0.3.3"
+name = "rdrive"
+version = "0.10.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "68aa4694ee73b03d06548a5b7e93c8017e1d9adfd5cb363027241cc808ad4ddd"
+checksum = "36908596a78016f9fe46d3faaef14e71549c7a824ab49a28e5e7b6d87156876e"
 dependencies = [
- "proc-macro2",
- "quote",
- "syn 2.0.101",
+ "fdt-parser",
+ "log",
+ "rdif-base",
+ "rdif-block",
+ "rdif-clk",
+ "rdif-intc",
+ "rdif-power",
+ "rdif-serial",
+ "rdif-systick",
+ "rdif-timer",
+ "rdrive-macros",
+ "spin 0.10.0",
+ "thiserror",
 ]
 
 [[package]]
 name = "rdrive-macros"
-version = "0.3.0"
+version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "226e248fbde1ba2e5789811572b02c57cf60e2ee0d5a0511c67463f63aea3a23"
+checksum = "a410b3ae41803a2290e428d0683dcef451def835e9cbf293c203c3ac86b19e18"
 dependencies = [
- "rdrive-macro-utils",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.101",
 ]
 
 [[package]]
@@ -2084,9 +2140,9 @@ version = "0.1.0"
 source = "git+https://github.com/arceos-hypervisor/rk3568_driver_crates.git#79d2a6e93a7402e44781fb4cf1c08cdf6d65fdad"
 dependencies = [
  "log",
- "rdrive",
+ "rdrive 0.9.2",
  "sdmmc",
- "somehal",
+ "somehal 0.1.1 (git+https://github.com/rcore-os/somehal.git)",
 ]
 
 [[package]]
@@ -2096,7 +2152,7 @@ source = "git+https://github.com/arceos-hypervisor/rk3568_driver_crates.git#79d2
 dependencies = [
  "log",
  "rk3568_clk",
- "somehal",
+ "somehal 0.1.1 (git+https://github.com/rcore-os/somehal.git)",
 ]
 
 [[package]]
@@ -2244,8 +2300,8 @@ dependencies = [
 
 [[package]]
 name = "somehal"
-version = "0.1.0"
-source = "git+https://github.com/rcore-os/somehal.git#1a06523599c44e8cdaa216f40787cb21acc35812"
+version = "0.1.1"
+source = "git+https://github.com/rcore-os/somehal.git?tag=v0.1.1#580c7f70726a6bbb01687c8f570acd4d38ff0a78"
 dependencies = [
  "aarch64-cpu 10.0.0",
  "acpi",
@@ -2255,21 +2311,54 @@ dependencies = [
  "cfg-if",
  "fdt-parser",
  "heapless 0.8.0",
- "kmem-region",
+ "kmem-region 0.1.1 (git+https://github.com/rcore-os/somehal.git?tag=v0.1.1)",
  "linked_list_allocator",
  "log",
- "page-table-generic",
- "pie-boot",
+ "page-table-generic 0.6.0 (git+https://github.com/rcore-os/somehal.git?tag=v0.1.1)",
+ "pie-boot 0.1.1 (git+https://github.com/rcore-os/somehal.git?tag=v0.1.1)",
  "prettyplease",
  "quote",
  "raw-cpuid 11.5.0",
- "rdrive",
- "rdrive-macros",
+ "rdrive 0.10.3",
  "riscv 0.13.0",
  "riscv_goldfish",
  "sbi-rt",
  "smccc",
- "somehal-macros",
+ "somehal-macros 0.1.1 (git+https://github.com/rcore-os/somehal.git?tag=v0.1.1)",
+ "spin 0.10.0",
+ "syn 2.0.101",
+ "tock-registers 0.9.0",
+ "x86",
+ "x86_64 0.15.2",
+]
+
+[[package]]
+name = "somehal"
+version = "0.1.1"
+source = "git+https://github.com/rcore-os/somehal.git#580c7f70726a6bbb01687c8f570acd4d38ff0a78"
+dependencies = [
+ "aarch64-cpu 10.0.0",
+ "acpi",
+ "any-uart",
+ "bit_field",
+ "bitflags 2.9.1",
+ "cfg-if",
+ "fdt-parser",
+ "heapless 0.8.0",
+ "kmem-region 0.1.1 (git+https://github.com/rcore-os/somehal.git)",
+ "linked_list_allocator",
+ "log",
+ "page-table-generic 0.6.0 (git+https://github.com/rcore-os/somehal.git)",
+ "pie-boot 0.1.1 (git+https://github.com/rcore-os/somehal.git)",
+ "prettyplease",
+ "quote",
+ "raw-cpuid 11.5.0",
+ "rdrive 0.10.3",
+ "riscv 0.13.0",
+ "riscv_goldfish",
+ "sbi-rt",
+ "smccc",
+ "somehal-macros 0.1.1 (git+https://github.com/rcore-os/somehal.git)",
  "spin 0.10.0",
  "syn 2.0.101",
  "tock-registers 0.9.0",
@@ -2279,14 +2368,25 @@ dependencies = [
 
 [[package]]
 name = "somehal-macros"
-version = "0.1.0"
-source = "git+https://github.com/rcore-os/somehal.git#1a06523599c44e8cdaa216f40787cb21acc35812"
+version = "0.1.1"
+source = "git+https://github.com/rcore-os/somehal.git?tag=v0.1.1#580c7f70726a6bbb01687c8f570acd4d38ff0a78"
 dependencies = [
  "abi-singleton",
  "darling",
  "proc-macro2",
  "quote",
- "rdrive-macro-utils",
+ "syn 2.0.101",
+]
+
+[[package]]
+name = "somehal-macros"
+version = "0.1.1"
+source = "git+https://github.com/rcore-os/somehal.git#580c7f70726a6bbb01687c8f570acd4d38ff0a78"
+dependencies = [
+ "abi-singleton",
+ "darling",
+ "proc-macro2",
+ "quote",
  "syn 2.0.101",
 ]
 

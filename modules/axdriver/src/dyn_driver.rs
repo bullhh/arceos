@@ -19,10 +19,7 @@ pub use rdrive::dev_list;
 use rk3568_driver_block::{EMmcHost, EmmcDriver, Kernel, init_clk, set_impl};
 use rk3568_driver_clk::ClkDriver;
 
-use somehal::{
-    driver::{Descriptor, HardwareKind, intc::Box, register::FdtInfo},
-    module_driver,
-};
+use rdrive::{Descriptor, HardwareKind, intc::Box, module_driver, register::FdtInfo};
 
 pub struct KernelImpl;
 
@@ -46,7 +43,7 @@ module_driver!(
             compatibles: &["rockchip,dwcmshc-sdhci"],
             on_probe: probe_mmc
         }
-    ]
+    ],
 );
 
 fn probe_mmc(info: FdtInfo<'_>, _dev: &Descriptor) -> Result<HardwareKind, Box<dyn Error>> {
@@ -87,7 +84,7 @@ module_driver!(
             compatibles: &["rockchip,rk3568-cru"],
             on_probe: probe_clk
         }
-    ]
+    ],
 );
 
 fn probe_clk(info: FdtInfo<'_>, _dev: &Descriptor) -> Result<HardwareKind, Box<dyn Error>> {
