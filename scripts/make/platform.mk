@@ -1,6 +1,5 @@
 # Architecture and platform resolving
 PLATFORM_DYN_LIST := aarch64-dyn
-PLATFORM_DYN_TARGET_DIR := $(PWD)/tools/plat-dyn/targets
 
 ifeq ($(PLATFORM),)
   # `PLATFORM` is not specified, use the default platform for each architecture

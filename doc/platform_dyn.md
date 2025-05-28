@@ -9,12 +9,12 @@ support platform:
 
 ### Qemu
 
-Add feature `plat-dyn` witch will enable dynamic platform.
+Use platform `aarch64-dyn` witch will enable dynamic platform.
 
 example:
 
 ```shell
-make A=examples/helloworld ARCH=aarch64 SMP=2  LOG=trace FEATURES=plat-dyn,irq run
+make A=examples/helloworld PLATFORM=aarch64-dyn SMP=2  LOG=trace  run
 ```
 
 ### Real board with uboot
