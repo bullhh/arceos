@@ -1,7 +1,11 @@
 use alloc::boxed::Box;
+
 use axdriver_base::{BaseDriverOps, DevError, DevResult, DeviceType};
 use axdriver_block::BlockDriverOps;
 use rdrive::{DeviceWeak, ErrorBase, block};
+
+#[cfg(target_arch = "aarch64")]
+mod rockchip_dwcmshc_sdhci;
 
 pub struct Block(DeviceWeak<Box<dyn block::Interface + 'static>>);
 
