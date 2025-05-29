@@ -1,6 +1,5 @@
 extern crate alloc;
 
-use crate::structs::iomap;
 use axhal::time::{busy_wait_until, wall_time};
 
 use alloc::boxed::Box;
@@ -10,6 +9,8 @@ use core::time::Duration;
 use rk3568_driver_block::{EMmcHost, EmmcDriver, Kernel, init_clk, set_impl};
 
 use rdrive::{Descriptor, HardwareKind, module_driver, register::FdtInfo};
+
+use crate::drivers_dyn::iomap;
 
 pub struct KernelImpl;
 

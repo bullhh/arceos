@@ -356,6 +356,7 @@ dependencies = [
 name = "axdriver"
 version = "0.1.0"
 dependencies = [
+ "arm-gic-driver",
  "axalloc",
  "axconfig",
  "axdma",
@@ -366,6 +367,7 @@ dependencies = [
  "axdriver_pci",
  "axdriver_virtio",
  "axhal",
+ "axmm",
  "cfg-if",
  "crate_interface",
  "log",

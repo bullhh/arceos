@@ -40,4 +40,16 @@ cfg_if::cfg_if! {
         mod dummy;
         pub use self::dummy::*;
     }
+
+}
+
+cfg_if::cfg_if! {
+
+    if #[cfg(plat_dyn)]{
+        pub use axplat_dyn::mem::cpu_count;
+    }else{
+        pub fn cpu_count() -> usize {
+            axconfig::SMP
+        }
+    }
 }

@@ -76,7 +76,7 @@ mod structs;
 mod virtio;
 
 #[cfg(feature = "dyn")]
-mod drivers_dyn;
+pub mod drivers_dyn;
 
 #[cfg(feature = "ixgbe")]
 mod ixgbe;
@@ -139,15 +139,16 @@ impl AllDevices {
 
     #[cfg(feature = "dyn")]
     fn probe(&mut self) {
-        use alloc::boxed::Box;
-        use drivers_dyn::{block::Block, dev_list};
+        #[allow(unused)]
+        use rdrive::dev_list;
 
         #[cfg(feature = "block")]
         {
+            use drivers_dyn::block::Block;
             let blk_devs = dev_list!(Block);
             for dev_weak in blk_devs {
                 let dev: Block = dev_weak.into();
-                self.block.push(Box::new(dev));
+                self.block.push(alloc::boxed::Box::new(dev));
             }
         }
     }

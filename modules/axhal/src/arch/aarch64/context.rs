@@ -261,8 +261,9 @@ impl TaskContext {
 
 #[naked]
 unsafe extern "C" fn context_switch(_current_task: &mut TaskContext, _next_task: &TaskContext) {
-    naked_asm!(
-        "
+    unsafe {
+        naked_asm!(
+            "
         // save old context (callee-saved registers)
         stp     x29, x30, [x0, 12 * 8]
         stp     x27, x28, [x0, 10 * 8]
@@ -286,7 +287,8 @@ unsafe extern "C" fn context_switch(_current_task: &mut TaskContext, _next_task:
         ldp     x29, x30, [x1, 12 * 8]
 
         ret",
-    )
+        )
+    }
 }
 
 #[naked]

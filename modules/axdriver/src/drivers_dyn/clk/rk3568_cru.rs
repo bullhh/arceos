@@ -1,13 +1,13 @@
 extern crate alloc;
 
-use crate::structs::iomap;
-
 use core::error::Error;
 
 use alloc::boxed::Box;
 use rk3568_driver_clk::ClkDriver;
 
 use rdrive::{Descriptor, HardwareKind, module_driver, register::FdtInfo};
+
+use crate::drivers_dyn::iomap;
 
 module_driver!(
     name: "rk3568 CRU",

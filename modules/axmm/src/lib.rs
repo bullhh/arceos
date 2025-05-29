@@ -12,7 +12,7 @@ mod backend;
 pub use self::aspace::AddrSpace;
 pub use self::backend::Backend;
 
-use axerrno::{AxError, AxResult};
+pub use axerrno::{AxError, AxResult};
 use axhal::mem::phys_to_virt;
 use kspin::SpinNoIrq;
 use lazyinit::LazyInit;

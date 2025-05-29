@@ -4,7 +4,7 @@ use axdriver_base::{BaseDriverOps, DevError, DevResult, DeviceType};
 use axdriver_block::BlockDriverOps;
 use rdrive::{DeviceWeak, block::*};
 
-#[cfg(target_arch = "aarch64")]
+#[cfg(all(target_arch = "aarch64", feature = "rk3568-emmc"))]
 mod rockchip_dwcmshc_sdhci;
 
 pub struct Block(DeviceWeak<Box<dyn Interface + 'static>>);

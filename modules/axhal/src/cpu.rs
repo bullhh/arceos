@@ -1,5 +1,7 @@
 //! CPU-related operations.
 
+use crate::platform;
+
 #[percpu::def_percpu]
 static CPU_ID: usize = 0;
 
@@ -113,10 +115,7 @@ pub unsafe fn set_current_task_ptr<T>(ptr: *const T) {
 
 #[allow(dead_code)]
 pub(crate) fn init_primary(cpu_id: usize) {
-    #[cfg(not(plat_dyn))]
-    percpu::init(axconfig::SMP);
-    #[cfg(plat_dyn)]
-    percpu::init(axplat_dyn::mem::cpu_count());
+    percpu::init(platform::cpu_count());
     percpu::init_percpu_reg(cpu_id);
     unsafe {
         CPU_ID.write_current_raw(cpu_id);

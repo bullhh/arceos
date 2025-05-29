@@ -100,6 +100,11 @@ pub fn iomap(addr: PhysAddr, size: usize) -> Result<NonNull<u8>, axerrno::AxErro
     Ok(NonNull::new(start_virt.as_mut_ptr()).unwrap())
 }
 
+/// Percpu section base address.
+///
+/// # Safety
+///
+/// Only used for percpu crate.
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn _percpu_base() -> *mut u8 {
     unsafe { percpu_data().as_ref().as_ptr() as usize as _ }

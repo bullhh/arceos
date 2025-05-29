@@ -86,26 +86,3 @@ impl<D> Default for AxDeviceContainer<D> {
         Self(Default::default())
     }
 }
-
-#[derive(Debug, Clone, Copy)]
-pub struct AxErrorW(AxError);
-
-impl Display for AxErrorW {
-    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
-        write!(f, "{:?}", self.0)
-    }
-}
-
-impl core::error::Error for AxErrorW {}
-
-impl From<AxError> for AxErrorW {
-    fn from(value: AxError) -> Self {
-        Self(value)
-    }
-}
-
-/// Map IO memory.
-#[allow(unused)]
-pub fn iomap(addr: PhysAddr, size: usize) -> Result<NonNull<u8>, AxErrorW> {
-    Ok(axhal::mem::iomap(addr, size)?)
-}
