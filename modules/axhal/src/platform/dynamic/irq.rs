@@ -31,11 +31,11 @@ pub(crate) unsafe fn init_secondary() {
     crate::time::enable_irq();
 }
 
-pub(crate) fn cpu_interface() -> &'static BoxCPU {
+pub(crate) fn cpu_interface() -> &'static local::Boxed {
     axplat_dyn::irq::interface(unsafe { IRQ_CHIP }.into()).expect("no cpu interface")
 }
 
-fn modify_chip<F: Fn(&mut Hardware)>(f: F) {
+fn modify_chip<F: Fn(&mut Boxed)>(f: F) {
     let mut g = axplat_dyn::driver::get_dev!(Intc)
         .unwrap()
         .spin_try_borrow_by(0.into())
@@ -51,7 +51,7 @@ pub fn set_enable(irq: IrqConfig, enabled: bool, is_cpu_local: bool) {
     trace!("cpu[{:?}] Irq set enable: {:?} {}", cpu_idx, irq, enabled);
 
     if is_cpu_local {
-        if let CPUCapability::LocalIrq(cpu) = cpu_interface().capability() {
+        if let local::Capability::LocalIrq(cpu) = cpu_interface().capability() {
             cpu.irq_enable(irq.irq).unwrap();
             cpu.set_trigger(irq.irq, irq.trigger).unwrap();
             return;

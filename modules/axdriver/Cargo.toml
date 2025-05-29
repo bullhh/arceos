@@ -54,5 +54,5 @@ rdrive = { workspace = true, optional = true }
 
 
 [target.'cfg(target_arch = "aarch64")'.dependencies]
-rk3568_driver_clk = { git = "https://github.com/arceos-hypervisor/rk3568_driver_crates.git" }
-rk3568_driver_block = { git = "https://github.com/arceos-hypervisor/rk3568_driver_crates.git" }
+rk3568_driver_clk = { git = "https://github.com/arceos-hypervisor/rk3568_driver_crates.git", tag = "v0.2.0" }
+rk3568_driver_block = { git = "https://github.com/arceos-hypervisor/rk3568_driver_crates.git", tag = "v0.2.0" }

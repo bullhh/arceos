@@ -28,27 +28,27 @@ struct ArmV8Timer {
 }
 
 impl Interface for ArmV8Timer {
-    fn get_current_cpu(&mut self) -> Box<dyn InterfaceCPU> {
+    fn cpu_local(&mut self) -> local::Boxed {
         Box::new(self.clone())
     }
 }
 
-impl InterfaceCPU for ArmV8Timer {
-    fn set_timeval(&self, ticks: u64) {
+impl local::Interface for ArmV8Timer {
+    fn set_timeval(&self, ticks: usize) {
         #[cfg(not(feature = "hv"))]
-        CNTP_TVAL_EL0.set(ticks);
+        CNTP_TVAL_EL0.set(ticks as _);
         #[cfg(feature = "hv")]
         unsafe {
             core::arch::asm!("msr CNTHP_TVAL_EL2, {0:x}", in(reg) ticks)
         };
     }
 
-    fn current_ticks(&self) -> u64 {
-        CNTPCT_EL0.get()
+    fn current_ticks(&self) -> usize {
+        CNTPCT_EL0.get() as _
     }
 
-    fn tick_hz(&self) -> u64 {
-        CNTFRQ_EL0.get()
+    fn tick_hz(&self) -> usize {
+        CNTFRQ_EL0.get() as _
     }
 
     #[cfg(feature = "hv")]
@@ -85,11 +85,11 @@ impl InterfaceCPU for ArmV8Timer {
 }
 
 impl DriverGeneric for ArmV8Timer {
-    fn open(&mut self) -> Result<(), ErrorBase> {
+    fn open(&mut self) -> Result<(), KError> {
         Ok(())
     }
 
-    fn close(&mut self) -> Result<(), ErrorBase> {
+    fn close(&mut self) -> Result<(), KError> {
         Ok(())
     }
 }

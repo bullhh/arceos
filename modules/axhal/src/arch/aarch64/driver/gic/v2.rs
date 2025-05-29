@@ -2,9 +2,10 @@ use core::error::Error;
 
 extern crate alloc;
 
+use alloc::boxed::Box;
 use arm_gic_driver::v2::Gic;
 use axplat_dyn::{
-    driver::{Descriptor, HardwareKind, intc::Box, register::FdtInfo},
+    driver::{Descriptor, HardwareKind, register::FdtInfo},
     module_driver,
 };
 

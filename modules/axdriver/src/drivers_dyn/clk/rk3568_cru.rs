@@ -4,9 +4,10 @@ use crate::structs::iomap;
 
 use core::error::Error;
 
+use alloc::boxed::Box;
 use rk3568_driver_clk::ClkDriver;
 
-use rdrive::{Descriptor, HardwareKind, clk::*, module_driver, register::FdtInfo};
+use rdrive::{Descriptor, HardwareKind, module_driver, register::FdtInfo};
 
 module_driver!(
     name: "rk3568 CRU",

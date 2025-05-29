@@ -75,7 +75,7 @@ pub mod time {
             0
         };
 
-        axplat_dyn::systick::get().set_timeval(interval);
+        axplat_dyn::systick::get().set_timeval(interval as _);
         axplat_dyn::systick::get().set_irq_enable(true);
     }
 }

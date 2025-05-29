@@ -2,12 +2,12 @@ use alloc::boxed::Box;
 
 use axdriver_base::{BaseDriverOps, DevError, DevResult, DeviceType};
 use axdriver_block::BlockDriverOps;
-use rdrive::{DeviceWeak, ErrorBase, block};
+use rdrive::{DeviceWeak, block::*};
 
 #[cfg(target_arch = "aarch64")]
 mod rockchip_dwcmshc_sdhci;
 
-pub struct Block(DeviceWeak<Box<dyn block::Interface + 'static>>);
+pub struct Block(DeviceWeak<Box<dyn Interface + 'static>>);
 
 impl BaseDriverOps for Block {
     fn device_type(&self) -> DeviceType {
@@ -20,7 +20,7 @@ impl BaseDriverOps for Block {
 
 impl BlockDriverOps for Block {
     fn num_blocks(&self) -> u64 {
-        self.0.spin_try_borrow_by(0.into()).unwrap().num_blocks()
+        self.0.spin_try_borrow_by(0.into()).unwrap().num_blocks() as _
     }
     fn block_size(&self) -> usize {
         self.0.spin_try_borrow_by(0.into()).unwrap().block_size()
@@ -37,7 +37,7 @@ impl BlockDriverOps for Block {
         self.0
             .spin_try_borrow_by(0.into())
             .unwrap()
-            .read_block(block_id, buf)
+            .read_block(block_id as _, buf)
             .map_err(convert_error)
     }
 
@@ -45,24 +45,28 @@ impl BlockDriverOps for Block {
         self.0
             .spin_try_borrow_by(0.into())
             .unwrap()
-            .write_block(block_id, buf)
+            .write_block(block_id as _, buf)
             .map_err(convert_error)
     }
 }
 
-impl From<DeviceWeak<Box<dyn block::Interface + 'static>>> for Block {
-    fn from(base: DeviceWeak<Box<dyn block::Interface + 'static>>) -> Self {
+impl From<DeviceWeak<Box<dyn Interface + 'static>>> for Block {
+    fn from(base: DeviceWeak<Box<dyn Interface + 'static>>) -> Self {
         Self(base)
     }
 }
 
-fn convert_error(err: ErrorBase) -> DevError {
-    match err {
-        ErrorBase::Io => DevError::Io,
-        ErrorBase::NoMem => DevError::NoMemory,
-        ErrorBase::Again => DevError::Again,
-        ErrorBase::Busy => DevError::ResourceBusy,
-        ErrorBase::BadAddr(_) => DevError::BadState,
-        ErrorBase::InvalidArg { .. } => DevError::InvalidParam,
+fn convert_error(err: io::Error) -> DevError {
+    match err.kind {
+        io::ErrorKind::Other(_error) => DevError::Io,
+        io::ErrorKind::NotAvailable => DevError::BadState,
+        io::ErrorKind::BrokenPipe => DevError::BadState,
+        io::ErrorKind::InvalidParameter { name: _ } => DevError::InvalidParam,
+        io::ErrorKind::InvalidData => DevError::InvalidParam,
+        io::ErrorKind::TimedOut => DevError::Io,
+        io::ErrorKind::Interrupted => DevError::Again,
+        io::ErrorKind::Unsupported => DevError::Unsupported,
+        io::ErrorKind::OutOfMemory => DevError::NoMemory,
+        io::ErrorKind::WriteZero => DevError::InvalidParam,
     }
 }
