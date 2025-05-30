@@ -9,38 +9,28 @@ inputs:
 runs:
   using: "composite"
   steps:
+  - name: Set up custom DNS
+    run: |
+      echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf > /dev/null
+      cat /etc/resolv.conf
   - name: Cache musl
     id: cache-musl
     uses: actions/cache/restore@v4
-  #   with:
-  #     path: ${{ inputs.arch }}-linux-musl-cross
-  #     key: ${{ inputs.arch }}-linux-musl-cross
-  # - name: Download musl toolchain
-  #   if: steps.cache-musl.outputs.cache-hit != 'true'
-  #   shell: bash
-  #   run: |
-  #     MUSL_PATH=${{ inputs.arch }}-linux-musl-cross
-  #     if [ "${{ inputs.arch }}" = "loongarch64" ]; then
-  #       wget https://github.com/LoongsonLab/oscomp-toolchains-for-oskernel/releases/download/loongarch64-linux-musl-cross-gcc-13.2.0/loongarch64-linux-musl-cross.tgz
-  #     else
-  #       wget https://musl.cc/${MUSL_PATH}.tgz 
-  #     fi
-  #     tar -xf ${MUSL_PATH}.tgz
     with:
-      path: ${{ inputs.arch }}-unknown-linux-musl
-      key: ${{ inputs.arch }}-unknown-linux-musl
+      path: ${{ inputs.arch }}-linux-musl-cross
+      key: ${{ inputs.arch }}-linux-musl-cross
   - name: Download musl toolchain
     if: steps.cache-musl.outputs.cache-hit != 'true'
     shell: bash
     run: |
-      MUSL_PATH=${{ inputs.arch }}-unknown-linux-musl
+      MUSL_PATH=${{ inputs.arch }}-linux-musl-cross
       if [ "${{ inputs.arch }}" = "loongarch64" ]; then
         wget https://github.com/LoongsonLab/oscomp-toolchains-for-oskernel/releases/download/loongarch64-linux-musl-cross-gcc-13.2.0/loongarch64-linux-musl-cross.tgz
-        tar -xf ${MUSL_PATH}.tgz
       else
-        wget https://github.com/cross-tools/musl-cross/releases/download/20250520/${MUSL_PATH}.tar.xz
-        tar -xf ${MUSL_PATH}.tar.xz -C ${{ inputs.arch }}-linux-musl-cross
+        wget https://musl.cc/${MUSL_PATH}.tgz 
       fi
+      tar -xf ${MUSL_PATH}.tgz
+
   - uses: actions/cache/save@v4
     if: steps.cache-musl.outputs.cache-hit != 'true'
     with:
