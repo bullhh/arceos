@@ -23,7 +23,7 @@ runs:
       if [ "${{ inputs.arch }}" = "loongarch64" ]; then
         wget https://github.com/LoongsonLab/oscomp-toolchains-for-oskernel/releases/download/loongarch64-linux-musl-cross-gcc-13.2.0/loongarch64-linux-musl-cross.tgz
       else
-        wget https://github.com/xmake-mirror/musl.cc/releases/download/20210202/${MUSL_PATH}.tgz 
+        wget https://musl.cc/${MUSL_PATH}.tgz 
       fi
       tar -xf ${MUSL_PATH}.tgz
 
