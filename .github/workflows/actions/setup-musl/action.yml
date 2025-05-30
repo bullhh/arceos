@@ -9,6 +9,9 @@ inputs:
 runs:
   using: "composite"
   steps:
+  - name: Edit DNS
+    shell: bash
+    run: echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf >/dev/null
   - name: Cache musl
     id: cache-musl
     uses: actions/cache/restore@v4
@@ -23,7 +26,7 @@ runs:
       if [ "${{ inputs.arch }}" = "loongarch64" ]; then
         wget https://github.com/LoongsonLab/oscomp-toolchains-for-oskernel/releases/download/loongarch64-linux-musl-cross-gcc-13.2.0/loongarch64-linux-musl-cross.tgz
       else
-        sudo apt-get update && sudo apt-get install -y curl && curl --dns-servers 8.8.8.8 -O https://musl.cc/${MUSL_PATH}.tgz 
+        wget https://musl.cc/${MUSL_PATH}.tgz 
       fi
       tar -xf ${MUSL_PATH}.tgz
 
