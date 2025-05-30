@@ -2,6 +2,8 @@ pub use axplat_dyn::driver;
 #[allow(unused)]
 pub use axplat_dyn::driver::intc::IrqConfig;
 
+#[cfg(target_arch = "aarch64")]
+mod aarch64_timer;
 #[cfg(feature = "irq")]
 pub(crate) mod irq;
 

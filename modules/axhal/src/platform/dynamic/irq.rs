@@ -1,6 +1,3 @@
-pub use crate::arch::dispatch_irq;
-pub use crate::arch::fetch_irq;
-
 use crate::irq::IrqHandler;
 use axplat_dyn::driver::intc::*;
 use axplat_dyn::mem::cpu_idx_to_id;
@@ -82,4 +79,31 @@ pub fn set_enable(irq: IrqConfig, enabled: bool) {
 pub fn register_handler(irq_config: IrqConfig, handler: IrqHandler) -> bool {
     debug!("register handler irq {:?}", irq_config);
     crate::irq::register_handler_common(irq_config, handler)
+}
+
+/// Dispatches the IRQ.
+///
+/// This function is called by the common interrupt handler. It looks
+/// up in the IRQ handler table and calls the corresponding handler. If
+/// necessary, it also acknowledges the interrupt controller after handling.
+pub fn dispatch_irq(irq_no: usize) {
+    let icc = cpu_interface();
+    let intid = if irq_no == 0 {
+        match icc.ack() {
+            Some(v) => v,
+            None => return,
+        }
+    } else {
+        axplat_dyn::driver::IrqId::from(irq_no)
+    };
+    crate::irq::dispatch_irq_common(intid.into());
+    icc.eoi(intid);
+    if icc.get_eoi_mode() {
+        icc.dir(intid);
+    }
+}
+
+pub fn fetch_irq() -> usize {
+    let icc = cpu_interface();
+    icc.ack().map(|o| o.into()).unwrap_or_default()
 }

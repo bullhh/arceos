@@ -1,11 +1,5 @@
 mod context;
 
-#[cfg(plat_dyn)]
-mod driver;
-#[allow(unused)]
-#[cfg(plat_dyn)]
-pub use driver::*;
-
 #[cfg(target_os = "none")]
 mod trap;
 
