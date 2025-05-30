@@ -59,6 +59,7 @@ pub fn busy_wait_until(deadline: TimeValue) {
 pub use crate::platform::timer_irq_config as irq_config;
 
 #[cfg(feature = "irq")]
+///  Enables the timer IRQ.
 pub fn enable_irq() {
     crate::irq::set_enable(irq_config(), true);
 }

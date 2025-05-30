@@ -7,7 +7,6 @@ use axhal::{
     mem::{MemoryAddr, PhysAddr, phys_to_virt},
     paging::MappingFlags,
 };
-pub use rdrive::dev_list;
 
 #[cfg(feature = "block")]
 pub mod block;

@@ -76,7 +76,7 @@ mod structs;
 mod virtio;
 
 #[cfg(feature = "dyn")]
-pub mod drivers_dyn;
+mod drivers_dyn;
 
 #[cfg(feature = "ixgbe")]
 mod ixgbe;
