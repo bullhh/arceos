@@ -12,10 +12,8 @@ cfg_if::cfg_if! {
     }
 }
 
-use axerrno::AxError;
 #[doc(no_inline)]
 pub use memory_addr::{MemoryAddr, PAGE_SIZE_4K, PhysAddr, VirtAddr};
-use page_table_entry::MappingFlags;
 
 bitflags::bitflags! {
     /// The flags of a physical memory region.

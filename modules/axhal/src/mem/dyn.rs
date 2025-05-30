@@ -1,13 +1,10 @@
 extern crate alloc;
 
-use core::ptr::NonNull;
-
 use axplat_dyn::mem::{
     percpu_data,
     region::{AccessFlags, MemRegionKind},
 };
-use memory_addr::{MemoryAddr, PhysAddr, VirtAddr};
-use page_table_entry::MappingFlags;
+use memory_addr::{PhysAddr, VirtAddr};
 
 use super::{MemRegion, MemRegionFlags};
 
