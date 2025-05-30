@@ -160,7 +160,12 @@ pub extern "C" fn rust_main(cpu_id: usize) -> ! {
     #[cfg(feature = "multitask")]
     axtask::init_scheduler();
 
-    #[cfg(any(feature = "fs", feature = "net", feature = "display"))]
+    #[cfg(any(
+        feature = "fs",
+        feature = "net",
+        feature = "display",
+        all(feature = "irq", feature = "alloc")
+    ))]
     {
         #[allow(unused_variables)]
         let all_devices = axdriver::init_drivers();
@@ -242,7 +247,6 @@ fn init_allocator() {
 #[cfg(feature = "irq")]
 fn init_interrupt() {
     // Setup timer interrupt handler
-    extern crate axdriver;
 
     #[percpu::def_percpu]
     static NEXT_DEADLINE: u64 = 0;

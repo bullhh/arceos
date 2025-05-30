@@ -13,7 +13,7 @@ repository = "https://github.com/arceos-org/arceos/tree/main/modules/axdriver"
 documentation = "https://arceos-org.github.io/arceos/axdriver/index.html"
 
 [features]
-dyn = ["axhal/alloc", "dep:rdrive", "dep:axmm"]
+dyn = ["axhal/alloc", "dep:rdrive", "dep:axmm", "dep:axalloc", "dep:arm-gic-driver"]
 intc = []
 bus-mmio = []
 bus-pci = ["dep:axdriver_pci", "dep:axhal", "dep:axconfig"]
@@ -30,7 +30,14 @@ virtio-net = ["net", "virtio", "axdriver_virtio/net"]
 virtio-gpu = ["display", "virtio", "axdriver_virtio/gpu"]
 ramdisk = ["block", "axdriver_block/ramdisk"]
 bcm2835-sdhci = ["block", "axdriver_block/bcm2835-sdhci"]
-rk3568-emmc = ["block", "dyn", "dep:rk3568_driver_block"]
+rk3568-emmc = [
+    "block",
+    "dyn",
+    "dep:rk3568_driver_block",
+    "dep:rk3568_driver_clk",
+    "rk3568-cru"
+]
+rk3568-cru = ["dep:rk3568_driver_clk"]
 ixgbe = ["net", "axdriver_net/ixgbe", "dep:axalloc", "dep:axhal", "dep:axdma"]
 fxmac = ["net", "axdriver_net/fxmac", "dep:axalloc", "dep:axhal", "dep:axdma"]
 # more devices example: e1000 = ["net", "axdriver_net/e1000"]
@@ -55,6 +62,6 @@ rdrive = { workspace = true, optional = true }
 axmm = { workspace = true, optional = true }
 
 [target.'cfg(target_arch = "aarch64")'.dependencies]
-arm-gic-driver = "0.13"
-rk3568_driver_clk = { git = "https://github.com/arceos-hypervisor/rk3568_driver_crates.git", tag = "v0.1.1" }
+arm-gic-driver = { version = "0.13", optional = true }
+rk3568_driver_clk = { git = "https://github.com/arceos-hypervisor/rk3568_driver_crates.git", tag = "v0.1.1", optional = true }
 rk3568_driver_block = { git = "https://github.com/arceos-hypervisor/rk3568_driver_crates.git", tag = "v0.1.1", optional = true }

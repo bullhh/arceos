@@ -2,6 +2,8 @@
 
 use crate::platform;
 
+pub use platform::cpu_count;
+
 #[percpu::def_percpu]
 static CPU_ID: usize = 0;
 
@@ -15,22 +17,6 @@ static CURRENT_TASK_PTR: usize = 0;
 #[inline]
 pub fn this_cpu_id() -> usize {
     CPU_ID.read_current()
-}
-
-/// Returns the number of CPUs.
-pub fn cpu_count() -> usize {
-    #[cfg(plat_dyn)]
-    {
-        if cfg!(feature = "smp") {
-            axplat_dyn::mp::cpu_list().count()
-        } else {
-            1
-        }
-    }
-    #[cfg(not(plat_dyn))]
-    {
-        axconfig::SMP
-    }
 }
 
 /// Returns whether the current CPU is the primary CPU (aka the bootstrap

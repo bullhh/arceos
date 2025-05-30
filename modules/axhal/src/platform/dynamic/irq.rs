@@ -44,16 +44,20 @@ fn modify_chip<F: Fn(&mut Boxed)>(f: F) {
 }
 
 /// Enables or disables the given IRQ.
-pub fn set_enable(irq: IrqConfig, enabled: bool, is_cpu_local: bool) {
+pub fn set_enable(irq: IrqConfig, enabled: bool) {
     // ArceOS cpu_id is actually cpu_idx
     let cpu_idx = crate::cpu::this_cpu_id();
 
     trace!("cpu[{:?}] Irq set enable: {:?} {}", cpu_idx, irq, enabled);
 
-    if is_cpu_local {
+    if irq.is_private {
         if let local::Capability::ConfigLocalIrq(cpu) = cpu_interface().capability() {
-            cpu.irq_enable(irq.irq).unwrap();
-            cpu.set_trigger(irq.irq, irq.trigger).unwrap();
+            if enabled {
+                cpu.set_trigger(irq.irq, irq.trigger).unwrap();
+                cpu.irq_enable(irq.irq).unwrap();
+            } else {
+                cpu.irq_disable(irq.irq).unwrap();
+            }
             return;
         }
     }
@@ -61,9 +65,9 @@ pub fn set_enable(irq: IrqConfig, enabled: bool, is_cpu_local: bool) {
     let cpu_hard_id = cpu_idx_to_id(cpu_idx.into());
 
     modify_chip(|c| {
-        c.set_target_cpu(irq.irq, cpu_hard_id.raw().into()).unwrap();
-        c.set_trigger(irq.irq, irq.trigger).unwrap();
         if enabled {
+            c.set_target_cpu(irq.irq, cpu_hard_id.raw().into()).unwrap();
+            c.set_trigger(irq.irq, irq.trigger).unwrap();
             c.irq_enable(irq.irq).unwrap();
         } else {
             c.irq_disable(irq.irq).unwrap();

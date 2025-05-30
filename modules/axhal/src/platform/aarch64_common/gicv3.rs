@@ -1,4 +1,5 @@
 use crate::{arch::disable_irqs, irq::IrqHandler, mem::phys_to_virt};
+use alloc::boxed::Box;
 use arm_gic_driver::*;
 use axconfig::devices::{GICD_PADDR, GICR_PADDR, UART_IRQ};
 use core::ptr::NonNull;
@@ -23,7 +24,7 @@ const GICD_BASE: PhysAddr = pa!(GICD_PADDR);
 const GICC_BASE: PhysAddr = pa!(GICR_PADDR);
 
 static GICD: SpinNoIrq<Option<arm_gic_driver::v3::Gic>> = SpinNoIrq::new(None);
-static GICC: SpinNoIrq<Option<Box<dyn InterfaceCPU>>> = SpinNoIrq::new(None);
+static GICC: SpinNoIrq<Option<Box<dyn local::Interface>>> = SpinNoIrq::new(None);
 
 /// Enables or disables the given IRQ.
 pub fn set_enable(irq_num: usize, enabled: bool) {
@@ -84,7 +85,7 @@ pub(crate) fn init_primary() {
         NonNull::new(phys_to_virt(GICC_BASE).as_mut_ptr()).unwrap(),
         arm_gic_driver::v3::Security::OneNS,
     );
-    let interface = gicd.cpu_interface();
+    let interface = gicd.cpu_local().unwrap();
 
     GICD.lock().replace(gicd);
     GICC.lock().replace(interface);
@@ -95,7 +96,7 @@ pub(crate) fn init_primary() {
 /// Initializes GICC on secondary CPUs.
 #[cfg(feature = "smp")]
 pub(crate) fn init_secondary() {
-    let interface = GICD.lock().as_mut().unwrap().cpu_interface();
+    let interface = GICD.lock().as_mut().unwrap().cpu_local().unwrap();
     GICC.lock().replace(interface);
-    GICC.lock().as_mut().unwrap().setup();
+    GICC.lock().as_mut().unwrap().open().unwrap();
 }

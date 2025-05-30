@@ -46,10 +46,26 @@ cfg_if::cfg_if! {
 cfg_if::cfg_if! {
 
     if #[cfg(plat_dyn)]{
-        pub use axplat_dyn::mem::cpu_count;
+        /// Returns the number of CPUs.
+        #[inline]
+        pub fn cpu_count() -> usize{
+            axplat_dyn::mem::cpu_count()
+        }
+
+        /// The IRQ config of the timer.
+        #[cfg(feature = "irq")]
+        pub fn timer_irq_config() -> IrqConfig {
+            axplat_dyn::systick::get().irq()
+        }
     }else{
+        /// Returns the number of CPUs.
         pub fn cpu_count() -> usize {
             axconfig::SMP
+        }
+        /// The IRQ config of the timer.
+        #[cfg(feature = "irq")]
+        pub fn timer_irq_config() -> usize {
+            crate::platform::irq::TIMER_IRQ_NUM
         }
     }
 }

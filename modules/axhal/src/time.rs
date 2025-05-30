@@ -8,8 +8,6 @@ pub use core::time::Duration;
 /// represent a duration, but a clock time.
 pub type TimeValue = Duration;
 
-#[cfg(all(feature = "irq", not(plat_dyn)))]
-pub use crate::platform::irq::TIMER_IRQ_NUM;
 #[cfg(feature = "irq")]
 pub use crate::platform::time::set_oneshot_timer;
 pub use crate::platform::time::{current_ticks, epochoffset_nanos, nanos_to_ticks, ticks_to_nanos};
@@ -57,27 +55,10 @@ pub fn busy_wait_until(deadline: TimeValue) {
     }
 }
 
-#[cfg(plat_dyn)]
-pub fn irq_config() -> axplat_dyn::irq::IrqConfig {
-    axplat_dyn::systick::get().irq()
-}
-
-/// The IRQ config of the timer.
-#[cfg(not(plat_dyn))]
 #[cfg(feature = "irq")]
-pub fn irq_config() -> usize {
-    TIMER_IRQ_NUM
-}
+pub use crate::platform::timer_irq_config as irq_config;
 
-#[cfg(plat_dyn)]
 #[cfg(feature = "irq")]
 pub fn enable_irq() {
-    let cfg = axplat_dyn::systick::get().irq();
-    crate::irq::set_enable(cfg, true, true);
-}
-
-#[cfg(all(not(plat_dyn), feature = "irq"))]
-/// Enable the timer interrupt.
-pub fn enable_irq() {
-    crate::irq::set_enable(TIMER_IRQ_NUM, true);
+    crate::irq::set_enable(irq_config(), true);
 }

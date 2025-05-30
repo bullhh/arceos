@@ -17,6 +17,7 @@ pub mod clk;
 #[cfg(feature = "intc")]
 pub mod intc;
 
+#[allow(unused)]
 /// maps a mmio physical address to a virtual address.
 fn iomap(addr: PhysAddr, size: usize) -> Result<NonNull<u8>, Box<dyn Error>> {
     let end = (addr.as_usize() + size).align_up_4k();
