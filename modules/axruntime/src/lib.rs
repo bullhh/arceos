@@ -155,12 +155,7 @@ pub extern "C" fn rust_main(cpu_id: usize) -> ! {
 
     info!("Initialize platform devices...");
 
-    #[cfg(not(feature = "paging"))]
-    let map_liner_fn = None;
-    #[cfg(feature = "paging")]
-    let map_liner_fn: Option<axhal::mem::AddrMapFunc> = Some(map_liner);
-
-    axhal::platform_init(map_liner_fn);
+    axhal::platform_init();
 
     #[cfg(feature = "multitask")]
     axtask::init_scheduler();
@@ -215,18 +210,6 @@ pub extern "C" fn rust_main(cpu_id: usize) -> ! {
     }
 }
 
-#[cfg(feature = "paging")]
-fn map_liner(
-    virt: axhal::mem::VirtAddr,
-    phys: axhal::mem::PhysAddr,
-    size: usize,
-    flags: axhal::paging::MappingFlags,
-) -> Result<(), axhal::AxError> {
-    axmm::kernel_aspace()
-        .lock()
-        .map_linear(virt, phys, size, flags)
-}
-
 #[cfg(feature = "alloc")]
 fn init_allocator() {
     use axhal::mem::{MemRegionFlags, memory_regions, phys_to_virt};
@@ -259,6 +242,7 @@ fn init_allocator() {
 #[cfg(feature = "irq")]
 fn init_interrupt() {
     // Setup timer interrupt handler
+    extern crate axdriver;
 
     #[percpu::def_percpu]
     static NEXT_DEADLINE: u64 = 0;

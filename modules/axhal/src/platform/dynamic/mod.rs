@@ -2,8 +2,6 @@ pub use axplat_dyn::driver;
 #[allow(unused)]
 pub use axplat_dyn::driver::intc::IrqConfig;
 
-use crate::mem::{self, AddrMapFunc};
-
 #[cfg(feature = "irq")]
 pub(crate) mod irq;
 
@@ -88,9 +86,8 @@ pub mod misc {
 /// Initializes the platform devices for the primary CPU.
 ///
 /// For example, the interrupt controller and the timer.
-pub(crate) fn platform_init(map_func: AddrMapFunc) {
+pub fn platform_init() {
     unsafe {
-        mem::init_map_liner(map_func);
         axplat_dyn::init();
         #[cfg(feature = "irq")]
         irq::init();
