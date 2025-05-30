@@ -36,11 +36,11 @@ runs:
       MUSL_PATH=${{ inputs.arch }}-unknown-linux-musl
       if [ "${{ inputs.arch }}" = "loongarch64" ]; then
         wget https://github.com/LoongsonLab/oscomp-toolchains-for-oskernel/releases/download/loongarch64-linux-musl-cross-gcc-13.2.0/loongarch64-linux-musl-cross.tgz
+        tar -xf ${MUSL_PATH}.tgz
       else
-        wget https://musl.cc/${MUSL_PATH}.tgz 
         wget https://github.com/cross-tools/musl-cross/releases/download/20250520/${MUSL_PATH}.tar.xz
+        tar -xf ${MUSL_PATH}.tar.xz -C ${{ inputs.arch }}-linux-musl-cross
       fi
-      tar -xf ${MUSL_PATH}.tar.xz -C ${{ inputs.arch }}-linux-musl-cross
   - uses: actions/cache/save@v4
     if: steps.cache-musl.outputs.cache-hit != 'true'
     with:
