@@ -99,6 +99,7 @@ fn probe_timer(_node: FdtInfo<'_>, _desc: &Descriptor) -> Result<HardwareKind, B
     let irq = IrqConfig {
         irq: 0.into(),
         trigger: Trigger::EdgeBoth,
+        is_private: true,
     };
     #[cfg(feature = "irq")]
     let irq = {
