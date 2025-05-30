@@ -1439,8 +1439,8 @@ dependencies = [
 
 [[package]]
 name = "kmem-region"
-version = "0.2.2"
-source = "git+https://github.com/rcore-os/somehal.git?tag=v0.2.2#e8dd4178ffa12a5335d6c9b38b587ea64b01f2aa"
+version = "0.2.3"
+source = "git+https://github.com/rcore-os/somehal.git?tag=v0.2.3#2199e36639f47c0aedb55d586443660395a471e5"
 dependencies = [
  "bitflags 2.9.1",
  "prettyplease",
@@ -1664,7 +1664,7 @@ checksum = "a4895175b425cb1f87721b59f0f286c2092bd4af812243672510e1ac53e2e0ad"
 [[package]]
 name = "page-table-generic"
 version = "0.6.0"
-source = "git+https://github.com/rcore-os/somehal.git?tag=v0.2.2#e8dd4178ffa12a5335d6c9b38b587ea64b01f2aa"
+source = "git+https://github.com/rcore-os/somehal.git?tag=v0.2.3#2199e36639f47c0aedb55d586443660395a471e5"
 dependencies = [
  "bitflags 2.9.1",
  "log",
@@ -1727,8 +1727,8 @@ dependencies = [
 
 [[package]]
 name = "pie-boot"
-version = "0.2.2"
-source = "git+https://github.com/rcore-os/somehal.git?tag=v0.2.2#e8dd4178ffa12a5335d6c9b38b587ea64b01f2aa"
+version = "0.2.3"
+source = "git+https://github.com/rcore-os/somehal.git?tag=v0.2.3#2199e36639f47c0aedb55d586443660395a471e5"
 dependencies = [
  "aarch64-cpu 10.0.0",
  "bitflags 2.9.1",
@@ -2247,8 +2247,8 @@ dependencies = [
 
 [[package]]
 name = "somehal"
-version = "0.2.2"
-source = "git+https://github.com/rcore-os/somehal.git?tag=v0.2.2#e8dd4178ffa12a5335d6c9b38b587ea64b01f2aa"
+version = "0.2.3"
+source = "git+https://github.com/rcore-os/somehal.git?tag=v0.2.3#2199e36639f47c0aedb55d586443660395a471e5"
 dependencies = [
  "aarch64-cpu 10.0.0",
  "acpi",
@@ -2281,8 +2281,8 @@ dependencies = [
 
 [[package]]
 name = "somehal-macros"
-version = "0.2.2"
-source = "git+https://github.com/rcore-os/somehal.git?tag=v0.2.2#e8dd4178ffa12a5335d6c9b38b587ea64b01f2aa"
+version = "0.2.3"
+source = "git+https://github.com/rcore-os/somehal.git?tag=v0.2.3#2199e36639f47c0aedb55d586443660395a471e5"
 dependencies = [
  "abi-singleton",
  "darling",
