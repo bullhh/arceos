@@ -51,7 +51,7 @@ pub fn set_enable(irq: IrqConfig, enabled: bool, is_cpu_local: bool) {
     trace!("cpu[{:?}] Irq set enable: {:?} {}", cpu_idx, irq, enabled);
 
     if is_cpu_local {
-        if let local::Capability::LocalIrq(cpu) = cpu_interface().capability() {
+        if let local::Capability::ConfigLocalIrq(cpu) = cpu_interface().capability() {
             cpu.irq_enable(irq.irq).unwrap();
             cpu.set_trigger(irq.irq, irq.trigger).unwrap();
             return;
