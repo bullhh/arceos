@@ -1,6 +1,8 @@
 use core::sync::atomic::{AtomicUsize, Ordering};
 
-static ENTERED_CPUS: AtomicUsize = AtomicUsize::new(1);
+use axhal::Cache;
+
+static ENTERED_CPUS: Cache<AtomicUsize> = Cache::new(AtomicUsize::new(1));
 
 #[allow(clippy::absurd_extreme_comparisons)]
 pub fn start_secondary_cpus(primary_cpu_id: usize) {
@@ -25,6 +27,8 @@ pub fn start_secondary_cpus(primary_cpu_id: usize) {
 #[unsafe(no_mangle)]
 pub extern "C" fn rust_main_secondary(cpu_id: usize) -> ! {
     ENTERED_CPUS.fetch_add(1, Ordering::Relaxed);
+    ENTERED_CPUS.flush();
+
     info!("Secondary CPU {:x} started.", cpu_id);
 
     #[cfg(feature = "paging")]
@@ -32,15 +36,23 @@ pub extern "C" fn rust_main_secondary(cpu_id: usize) -> ! {
 
     axhal::platform_init_secondary();
 
-    #[cfg(feature = "multitask")]
-    axtask::init_scheduler_secondary();
-
     info!("Secondary CPU {:x} init OK.", cpu_id);
     super::INITED_CPUS.fetch_add(1, Ordering::Relaxed);
+    super::INITED_CPUS.flush();
 
     while !super::is_init_ok() {
         core::hint::spin_loop();
     }
+
+    // move from
+    //
+    //    axhal::platform_init_secondary();
+    //    #[cfg(feature = "multitask")]
+    //    axtask::init_scheduler_secondary();
+    //
+    // to here, because on phytium pi, this method will block cpu2 start, don't know why.
+    #[cfg(feature = "multitask")]
+    axtask::init_scheduler_secondary();
 
     #[cfg(feature = "irq")]
     axhal::arch::enable_irqs();

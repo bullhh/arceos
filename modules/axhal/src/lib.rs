@@ -73,6 +73,8 @@ pub mod misc {
 #[cfg(feature = "smp")]
 pub mod mp;
 
+use core::ops::Deref;
+
 pub use platform::platform_init;
 
 #[cfg(feature = "smp")]
@@ -82,3 +84,35 @@ pub use self::platform::platform_init_secondary;
 pub use self::platform::driver;
 
 pub use axerrno::AxError;
+
+/// A cache-aligned type.
+#[repr(align(64))]
+pub struct Cache<T>(T);
+
+impl<T> Cache<T> {
+    pub const fn new(t: T) -> Self {
+        Cache(t)
+    }
+
+    pub fn flush(&self) {
+        #[cfg(target_arch = "aarch64")]
+        unsafe{
+            let addr = self as *const _ as usize;
+            crate::arch::cache::dcache_all(arch::cache::DcacheOp::CleanAndInvalidate);
+            crate::arch::cache::flush_invalidate_range(addr, addr + 64);
+        }
+    }
+}
+
+impl<T> Deref for Cache<T> {
+    type Target = T;
+
+    fn deref(&self) -> &Self::Target {
+        #[cfg(target_arch = "aarch64")]
+        {
+            let addr = self as *const _ as usize;
+            crate::arch::cache::flush_invalidate_range(addr, addr + 64);
+        }
+        &self.0
+    }
+}

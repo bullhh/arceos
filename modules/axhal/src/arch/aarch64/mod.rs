@@ -1,5 +1,6 @@
 mod context;
 
+pub mod cache;
 #[cfg(target_os = "none")]
 mod trap;
 

@@ -28,6 +28,8 @@ mod lang_items;
 #[cfg(feature = "smp")]
 mod mp;
 
+use axhal::Cache;
+
 #[cfg(feature = "smp")]
 pub use self::mp::rust_main_secondary;
 
@@ -85,7 +87,7 @@ impl axlog::LogIf for LogIfImpl {
 
 use core::sync::atomic::{AtomicUsize, Ordering};
 
-static INITED_CPUS: AtomicUsize = AtomicUsize::new(0);
+static INITED_CPUS: Cache<AtomicUsize> = Cache::new(AtomicUsize::new(0));
 
 #[allow(unreachable_code)]
 fn is_init_ok() -> bool {
