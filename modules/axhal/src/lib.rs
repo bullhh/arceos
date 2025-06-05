@@ -98,7 +98,7 @@ impl<T> Cache<T> {
     /// Flush the cache.
     pub fn flush(&self) {
         #[cfg(target_arch = "aarch64")]
-        unsafe{
+        unsafe {
             let addr = self as *const _ as usize;
             crate::arch::cache::dcache_all(arch::cache::DcacheOp::CleanAndInvalidate);
             crate::arch::cache::flush_invalidate_range(addr, addr + 64);
