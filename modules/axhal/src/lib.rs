@@ -90,10 +90,12 @@ pub use axerrno::AxError;
 pub struct Cache<T>(T);
 
 impl<T> Cache<T> {
+    /// Create a new cache-aligned type.
     pub const fn new(t: T) -> Self {
         Cache(t)
     }
 
+    /// Flush the cache.
     pub fn flush(&self) {
         #[cfg(target_arch = "aarch64")]
         unsafe{
