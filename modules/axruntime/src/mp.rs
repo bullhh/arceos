@@ -36,6 +36,9 @@ pub extern "C" fn rust_main_secondary(cpu_id: usize) -> ! {
 
     axhal::platform_init_secondary();
 
+    #[cfg(feature = "multitask")]
+    axtask::init_scheduler_secondary();
+
     info!("Secondary CPU {:x} init OK.", cpu_id);
     super::INITED_CPUS.fetch_add(1, Ordering::Relaxed);
     super::INITED_CPUS.flush();
@@ -43,16 +46,6 @@ pub extern "C" fn rust_main_secondary(cpu_id: usize) -> ! {
     while !super::is_init_ok() {
         core::hint::spin_loop();
     }
-
-    // move from
-    //
-    //    axhal::platform_init_secondary();
-    //    #[cfg(feature = "multitask")]
-    //    axtask::init_scheduler_secondary();
-    //
-    // to here, because on phytium pi, this method will block cpu2 start, don't know why.
-    #[cfg(feature = "multitask")]
-    axtask::init_scheduler_secondary();
 
     #[cfg(feature = "irq")]
     axhal::arch::enable_irqs();
