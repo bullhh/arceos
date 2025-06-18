@@ -1,8 +1,8 @@
 use core::sync::atomic::{AtomicUsize, Ordering};
 
-use axhal::Cache;
+use axhal::CacheAlign;
 
-static ENTERED_CPUS: Cache<AtomicUsize> = Cache::new(AtomicUsize::new(1));
+static ENTERED_CPUS: CacheAlign<AtomicUsize> = CacheAlign::new(AtomicUsize::new(1));
 
 #[allow(clippy::absurd_extreme_comparisons)]
 pub fn start_secondary_cpus(primary_cpu_id: usize) {
@@ -26,8 +26,7 @@ pub fn start_secondary_cpus(primary_cpu_id: usize) {
 /// It is called from the bootstrapping code in [axhal].
 #[unsafe(no_mangle)]
 pub extern "C" fn rust_main_secondary(cpu_id: usize) -> ! {
-    ENTERED_CPUS.fetch_add(1, Ordering::Relaxed);
-    ENTERED_CPUS.flush();
+    ENTERED_CPUS.fetch_add(1, Ordering::Release);
 
     info!("Secondary CPU {:x} started.", cpu_id);
 
@@ -40,8 +39,7 @@ pub extern "C" fn rust_main_secondary(cpu_id: usize) -> ! {
     axtask::init_scheduler_secondary();
 
     info!("Secondary CPU {:x} init OK.", cpu_id);
-    super::INITED_CPUS.fetch_add(1, Ordering::Relaxed);
-    super::INITED_CPUS.flush();
+    super::INITED_CPUS.fetch_add(1, Ordering::Release);
 
     while !super::is_init_ok() {
         core::hint::spin_loop();

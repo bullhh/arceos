@@ -28,7 +28,7 @@ mod lang_items;
 #[cfg(feature = "smp")]
 mod mp;
 
-use axhal::Cache;
+use axhal::CacheAlign;
 
 #[cfg(feature = "smp")]
 pub use self::mp::rust_main_secondary;
@@ -87,7 +87,7 @@ impl axlog::LogIf for LogIfImpl {
 
 use core::sync::atomic::{AtomicUsize, Ordering};
 
-static INITED_CPUS: Cache<AtomicUsize> = Cache::new(AtomicUsize::new(0));
+static INITED_CPUS: CacheAlign<AtomicUsize> = CacheAlign::new(AtomicUsize::new(0));
 
 #[allow(unreachable_code)]
 fn is_init_ok() -> bool {
@@ -200,7 +200,7 @@ pub extern "C" fn rust_main(cpu_id: usize) -> ! {
     ctor_bare::call_ctors();
 
     info!("Primary CPU {} init OK.", cpu_id);
-    INITED_CPUS.fetch_add(1, Ordering::Relaxed);
+    INITED_CPUS.fetch_add(1, Ordering::Release);
 
     while !is_init_ok() {
         core::hint::spin_loop();

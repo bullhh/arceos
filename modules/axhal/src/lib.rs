@@ -87,34 +87,19 @@ pub use axerrno::AxError;
 
 /// A cache-aligned type.
 #[repr(align(64))]
-pub struct Cache<T>(T);
+pub struct CacheAlign<T>(T);
 
-impl<T> Cache<T> {
+impl<T> CacheAlign<T> {
     /// Create a new cache-aligned type.
     pub const fn new(t: T) -> Self {
-        Cache(t)
-    }
-
-    /// Flush the cache.
-    pub fn flush(&self) {
-        #[cfg(target_arch = "aarch64")]
-        unsafe {
-            let addr = self as *const _ as usize;
-            crate::arch::cache::dcache_all(arch::cache::DcacheOp::CleanAndInvalidate);
-            crate::arch::cache::flush_invalidate_range(addr, addr + 64);
-        }
+        CacheAlign(t)
     }
 }
 
-impl<T> Deref for Cache<T> {
+impl<T> Deref for CacheAlign<T> {
     type Target = T;
 
     fn deref(&self) -> &Self::Target {
-        #[cfg(target_arch = "aarch64")]
-        {
-            let addr = self as *const _ as usize;
-            crate::arch::cache::flush_invalidate_range(addr, addr + 64);
-        }
         &self.0
     }
 }
