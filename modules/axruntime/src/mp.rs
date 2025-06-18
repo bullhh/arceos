@@ -27,7 +27,6 @@ pub fn start_secondary_cpus(primary_cpu_id: usize) {
 #[unsafe(no_mangle)]
 pub extern "C" fn rust_main_secondary(cpu_id: usize) -> ! {
     ENTERED_CPUS.fetch_add(1, Ordering::Release);
-
     info!("Secondary CPU {:x} started.", cpu_id);
 
     #[cfg(feature = "paging")]
