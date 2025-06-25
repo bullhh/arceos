@@ -11,7 +11,6 @@ impl BaseDriverOps for Block {
     fn device_type(&self) -> DeviceType {
         DeviceType::Block
     }
-
     fn device_name(&self) -> &str {
         self.0.descriptor().name
     }
