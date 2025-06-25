@@ -132,7 +132,9 @@ dependencies = [
 [[package]]
 name = "arm-gic-driver"
 version = "0.15.8"
+version = "0.15.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f251a1a74133f802b55eaf5e340107b0024457aa9b2ac3c72074501bfa8509a5"
 checksum = "f251a1a74133f802b55eaf5e340107b0024457aa9b2ac3c72074501bfa8509a5"
 dependencies = [
  "aarch64-cpu 10.0.0",
@@ -140,6 +142,7 @@ dependencies = [
  "enum_dispatch",
  "log",
  "paste",
+ "rdif-intc",
  "tock-registers 0.9.0",
 ]
 
@@ -323,9 +326,11 @@ dependencies = [
  "axdriver_net",
  "axdriver_pci",
  "axdriver_virtio",
+ "axerrno",
  "axhal",
  "cfg-if",
  "crate_interface",
+ "lazyinit",
  "log",
  "printf-compat",
 ]
@@ -824,6 +829,7 @@ checksum = "2b645c5c09a7d4035949cfce1a915785aaad6f17800c35fda8a8c311c491f284"
 
 [[package]]
 name = "bit_field"
+version = "0.10.3"
 version = "0.10.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1e4b40c7323adcfc0a41c4b88143ed58346ff65a288fc144329c5c45e05d70c6"
@@ -1501,7 +1507,9 @@ checksum = "b9e0384b61958566e926dc50660321d12159025e767c18e043daf26b70104c39"
 [[package]]
 name = "indexmap"
 version = "2.11.0"
+version = "2.11.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f2481980430f9f78649238835720ddccc57e52df14ffce1c6f37391d61b563e9"
 checksum = "f2481980430f9f78649238835720ddccc57e52df14ffce1c6f37391d61b563e9"
 dependencies = [
  "equivalent",
@@ -2051,7 +2059,9 @@ dependencies = [
 [[package]]
 name = "regex"
 version = "1.11.2"
+version = "1.11.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "23d7fd106d8c02486a8d64e778353d1cffe08ce79ac2e82f540c86d0facf6912"
 checksum = "23d7fd106d8c02486a8d64e778353d1cffe08ce79ac2e82f540c86d0facf6912"
 dependencies = [
  "aho-corasick",
@@ -2063,7 +2073,9 @@ dependencies = [
 [[package]]
 name = "regex-automata"
 version = "0.4.10"
+version = "0.4.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6b9458fa0bfeeac22b5ca447c63aaf45f28439a709ccd244698632f9aa6394d6"
 checksum = "6b9458fa0bfeeac22b5ca447c63aaf45f28439a709ccd244698632f9aa6394d6"
 dependencies = [
  "aho-corasick",
@@ -2073,6 +2085,7 @@ dependencies = [
 
 [[package]]
 name = "regex-syntax"
+version = "0.8.6"
 version = "0.8.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "caf4aa5b0f434c91fe5c7f1ecb6a5ece2130b02ad2a590589dda5146df959001"
@@ -2305,6 +2318,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d5fe4ccb98d9c292d56fec89a5e07da7fc4cf0dc11e156b41793132775d3e591"
 dependencies = [
  "lock_api",
+]
+
+[[package]]
+name = "spin_on"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "076e103ed41b9864aa838287efe5f4e3a7a0362dd00671ae62a212e5e4612da2"
+dependencies = [
+ "pin-utils",
 ]
 
 [[package]]
@@ -2743,7 +2765,9 @@ checksum = "271414315aff87387382ec3d271b52d7ae78726f5d44ac98b4f4030c91880486"
 [[package]]
 name = "winnow"
 version = "0.7.13"
+version = "0.7.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "21a0236b59786fed61e2a80582dd500fe61f18b5dca67a4a067d0bc9039339cf"
 checksum = "21a0236b59786fed61e2a80582dd500fe61f18b5dca67a4a067d0bc9039339cf"
 dependencies = [
  "memchr",
