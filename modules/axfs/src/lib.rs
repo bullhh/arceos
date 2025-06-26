@@ -36,11 +36,77 @@ pub mod fops;
 
 use axdriver::{AxDeviceContainer, prelude::*};
 
-/// Initializes filesystems by block devices.
-pub fn init_filesystems(mut blk_devs: AxDeviceContainer<AxBlockDevice>) {
-    info!("Initialize filesystems...");
+use alloc::rc::Rc;
+use core::cell::RefCell;
+pub use partman::BootArgsFileSystem;
+use partman::{PartBlock, PartManError, PartManager};
 
-    let dev = blk_devs.take_one().expect("No block device found!");
+/// Initializes filesystems by block devices.
+pub fn init_filesystems(
+    mut blk_devs: AxDeviceContainer<AxBlockDevice>,
+    rootargs: BootArgsFileSystem,
+) {
+    info!("Initialize filesystems...");
+    let dev: AxBlockDevice = blk_devs.take_one().expect("No block device found!");
+
     info!("  use block device 0: {:?}", dev.device_name());
-    self::root::init_rootfs(self::dev::Disk::new(dev));
+
+    let dev_rc = Rc::new(RefCell::new(dev));
+
+    let part_offset = {
+        let mut block_device_wrapper = BlockDeviceWrapper::new(dev_rc.clone());
+        match PartManager::new(&mut block_device_wrapper, rootargs) {
+            Ok(mut partman) => partman.part_offset().unwrap_or(0),
+            Err(_) => 0,
+        }
+    };
+
+    let dev = Rc::try_unwrap(dev_rc)
+        .map_err(|_| "Failed to unwrap device")
+        .unwrap()
+        .into_inner();
+
+    self::root::init_rootfs(self::dev::Disk::new(dev), part_offset);
+}
+
+/// Wrapper around AxBlockDevice to implement the PartBlock trait
+pub struct BlockDeviceWrapper {
+    /// The wrapped AxBlockDevice instance
+    pub inner: Rc<RefCell<AxBlockDevice>>,
+}
+
+impl BlockDeviceWrapper {
+    /// Create a new BlockDeviceWrapper around an existing AxBlockDevice
+    pub fn new(device: Rc<RefCell<AxBlockDevice>>) -> Self {
+        Self { inner: device }
+    }
+}
+
+/// Implementation of PartBlock trait for BlockDeviceWrapper
+impl PartBlock for BlockDeviceWrapper {
+    /// Read a block of data from the device
+    fn read_block(&mut self, block_id: u64, buf: &mut [u8]) -> Result<(), PartManError> {
+        self.inner
+            .borrow_mut() // Get mutable access to the inner device
+            .read_block(block_id, buf) // Forward the read operation
+            .map_err(|_| PartManError::InvalidData) // Convert any error to InvalidData
+    }
+
+    /// Write a block of data to the device
+    fn write_block(&mut self, block_id: u64, buf: &[u8]) -> Result<(), PartManError> {
+        self.inner
+            .borrow_mut() // Get mutable access to the inner device
+            .write_block(block_id, buf) // Forward the write operation
+            .map_err(|_| PartManError::InvalidData) // Convert any error to InvalidData
+    }
+
+    /// Get the size of a single block in bytes
+    fn block_size(&self) -> usize {
+        self.inner.borrow().block_size()
+    }
+
+    /// Get the total number of blocks available on the device
+    fn num_blocks(&self) -> u64 {
+        self.inner.borrow().num_blocks()
+    }
 }
