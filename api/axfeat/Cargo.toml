@@ -83,6 +83,7 @@ driver-fxmac = ["axdriver?/fxmac"]                          # fxmac ethernet dri
 driver-bcm2835-sdhci = ["axdriver?/bcm2835-sdhci"]
 driver-rk3568-emmc = ["axdriver?/rk3568-emmc"]
 driver-phytium-sdcard = ["axdriver?/phytium-sdcard"]
+driver-igb = ["axdriver?/igb"]
 
 # Hypervisor support 
 hv = ["axhal/hv"]

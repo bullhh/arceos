@@ -1,4 +1,4 @@
-const NET_DEV_FEATURES: &[&str] = &["fxmac", "ixgbe", "virtio-net"];
+const NET_DEV_FEATURES: &[&str] = &["fxmac", "ixgbe", "igb", "virtio-net"];
 const BLOCK_DEV_FEATURES: &[&str] = &[
     "ramdisk",
     "bcm2835-sdhci",

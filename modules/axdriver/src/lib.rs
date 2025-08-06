@@ -81,6 +81,9 @@ mod drivers_dyn;
 #[cfg(feature = "ixgbe")]
 mod ixgbe;
 
+#[cfg(feature = "igb")]
+mod igb;
+
 pub mod prelude;
 
 #[allow(unused_imports)]

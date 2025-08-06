@@ -41,6 +41,7 @@ rk3568-cru = ["block", "dyn", "dep:rk3568_driver_clk"]
 phytium-sdcard = ["block", "dyn", "dep:phytium_driver_block"]
 ixgbe = ["net", "axdriver_net/ixgbe", "dep:axalloc", "dep:axhal", "dep:axdma"]
 fxmac = ["net", "axdriver_net/fxmac", "dep:axalloc", "dep:axhal", "dep:axdma"]
+igb = ["net", "dep:axalloc", "dep:axhal", "dep:axdma", "dep:igb_driver"]
 # more devices example: e1000 = ["net", "axdriver_net/e1000"]
 
 default = ["bus-pci"]
@@ -61,6 +62,7 @@ axconfig = { workspace = true, optional = true }
 axdma = { workspace = true, optional = true }
 rdrive = { workspace = true, optional = true }
 axmm = { workspace = true, optional = true }
+igb_driver = { path = "../../igb_driver", optional = true }
 
 [target.'cfg(target_arch = "aarch64")'.dependencies]
 arm-gic-driver = { version = "0.13", optional = true }

@@ -69,5 +69,10 @@ macro_rules! for_each_drivers {
             type $drv_type = crate::drivers::FXmacDriver;
             $code
         }
+        #[cfg(net_dev = "igb")]
+        {
+            type $drv_type = crate::drivers::IgbDriver;
+            $code
+        }
     }};
 }

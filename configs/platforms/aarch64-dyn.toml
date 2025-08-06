@@ -12,3 +12,6 @@ family = "aarch64-dyn" # str
 
 # Not used.
 kernel-base-vaddr = "0x0"     # uint
+
+# if no will: cannot find value `PHYS_BUS_OFFSET` in module `axconfig::plat`
+phys-bus-offset = 0
