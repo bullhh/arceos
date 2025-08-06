@@ -1430,11 +1430,13 @@ name = "igb_driver"
 version = "0.1.0"
 dependencies = [
  "axdriver_base",
+ "axdriver_net",
  "bit_field",
  "core_detect",
  "log",
  "smoltcp",
  "spin 0.9.8",
+ "virtio-drivers",
  "volatile 0.3.0",
 ]
 
