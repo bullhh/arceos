@@ -44,6 +44,10 @@ const CONTENT: &str = r#"<html>
   <center>
     <i>Powered by <a href="https://github.com/arceos-org/arceos/tree/main/examples/httpserver">ArceOS example HTTP server</a> v0.1.0</i>
   </center>
+    <hr>
+  <center>
+  <i>This is a test for SMMUV3</i>
+  </center>
 </body>
 </html>
 "#;

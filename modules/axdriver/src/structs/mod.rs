@@ -1,4 +1,4 @@
-#[cfg_attr(feature = "dyn", path = "dyn.rs")]
+#[cfg_attr(feature = "dyn", path = "static.rs")]
 #[cfg_attr(not(feature = "dyn"), path = "static.rs")]
 mod imp;
 
