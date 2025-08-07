@@ -158,6 +158,7 @@ cfg_if::cfg_if! {
                                 size,
                                 ..
                             } => {
+                                info!{ "igb: BAR0 is of Memory type, address={:#x}, size={:#x}", address, size};
                                 let igb_nic = IgbNic::<IgbHalImpl, QS, QN>::init(
                                     phys_to_virt((address as usize).into()).into(),
                                     size as usize
