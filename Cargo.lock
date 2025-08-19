@@ -185,6 +185,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "arm-gic-driver"
+version = "0.7.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e233ce5f0f51ff96685a9a094918f827fef4d78abb6c2861e23424c77956ba93"
+dependencies = [
+ "aarch64-cpu 10.0.0",
+ "bitflags 2.8.0",
+ "enum_dispatch",
+ "log",
+ "rdif-intc",
+ "tock-registers 0.9.0",
+]
+
+[[package]]
 name = "arm_gicv2"
 version = "0.1.0"
 source = "git+https://github.com/arceos-hypervisor/arm_gicv2#dfe5f164b94cdd07081c2fe74a0cfe4bef2852c9"
@@ -452,6 +466,7 @@ name = "axhal"
 version = "0.1.0"
 dependencies = [
  "aarch64-cpu 10.0.0",
+ "arm-gic-driver",
  "arm_gicv2",
  "arm_pl011",
  "arm_pl031",
@@ -951,6 +966,18 @@ name = "embedded-hal"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "361a90feb7004eca4019fb28352a9465666b24f840f5c3cddf0ff13920590b89"
+
+[[package]]
+name = "enum_dispatch"
+version = "0.3.13"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "aa18ce2bc66555b3218614519ac839ddb759a7d6720732f979ef8d13be147ecd"
+dependencies = [
+ "once_cell",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.98",
+]
 
 [[package]]
 name = "equivalent"
@@ -1476,6 +1503,21 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "529468c1335c1c03919960dfefdb1b3648858c20d7ec2d0663e728e4a717efbc"
 dependencies = [
  "bitflags 2.8.0",
+]
+
+[[package]]
+name = "rdif-base"
+version = "0.1.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f1525e2b3fb72098cb2b882ded25829fb68f153f6408fa4a27fbba5098f890ac"
+
+[[package]]
+name = "rdif-intc"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b99ea6f537664cb853acf4f265a3167edab285e866fc596fca52796d2ce8b114"
+dependencies = [
+ "rdif-base",
 ]
 
 [[package]]
