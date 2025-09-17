@@ -1,6 +1,7 @@
 extern crate alloc;
 
 use alloc::format;
+
 use axdriver_base::DeviceType;
 use axdriver_block::BlockDriverOps;
 use axdriver_virtio::MmioTransport;
@@ -10,9 +11,10 @@ use rdrive::{
     register::FdtInfo,
 };
 
-use crate::dyn_drivers::blk::maping_dev_err_to_io_err;
-use crate::dyn_drivers::iomap;
-use crate::virtio::VirtIoHalImpl;
+use crate::{
+    dyn_drivers::{blk::maping_dev_err_to_io_err, iomap},
+    virtio::VirtIoHalImpl,
+};
 
 type Device<T> = axdriver_virtio::VirtIoBlkDev<VirtIoHalImpl, T>;
 
@@ -88,11 +90,13 @@ impl rdrive::driver::block::Interface for BlockDivce {
             .read_block(block_id as u64, buf)
             .map_err(maping_dev_err_to_io_err)
     }
+
     fn write_block(&mut self, block_id: usize, buf: &[u8]) -> Result<(), io::Error> {
         self.0
             .write_block(block_id as u64, buf)
             .map_err(maping_dev_err_to_io_err)
     }
+
     fn flush(&mut self) -> Result<(), io::Error> {
         self.0.flush().map_err(maping_dev_err_to_io_err)
     }

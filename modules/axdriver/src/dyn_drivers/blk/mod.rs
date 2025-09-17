@@ -11,6 +11,7 @@ impl BaseDriverOps for Block {
     fn device_type(&self) -> DeviceType {
         DeviceType::Block
     }
+
     fn device_name(&self) -> &str {
         self.0.descriptor().name
     }
@@ -20,9 +21,11 @@ impl BlockDriverOps for Block {
     fn num_blocks(&self) -> u64 {
         self.0.lock().unwrap().num_blocks() as _
     }
+
     fn block_size(&self) -> usize {
         self.0.lock().unwrap().block_size()
     }
+
     fn flush(&mut self) -> DevResult {
         self.0
             .lock()

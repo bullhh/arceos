@@ -1,6 +1,6 @@
+use alloc::{boxed::Box, format, string::ToString};
 use core::{error::Error, ops::Deref, ptr::NonNull};
 
-use alloc::{boxed::Box, format, string::ToString};
 use axerrno::{LinuxError, LinuxResult};
 use axhal::mem::{PhysAddr, VirtAddr, phys_to_virt};
 use lazyinit::LazyInit;
@@ -12,7 +12,8 @@ mod intc;
 #[cfg(feature = "block")]
 pub mod blk;
 
-/// A function type that maps a physical address to a virtual address. map flags should be read/write/device.
+/// A function type that maps a physical address to a virtual address. map flags
+/// should be read/write/device.
 pub type IoMapFunc = fn(PhysAddr, usize) -> LinuxResult<VirtAddr>;
 
 static IO_MAP_FUNC: LazyInit<IoMapFunc> = LazyInit::new();
