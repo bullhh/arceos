@@ -2,7 +2,7 @@
 
 use core::time::Duration;
 
-pub use axerrno::AxResult;
+pub use axerrno::LinuxResult;
 pub type IrqHandler = fn();
 pub use memory_addr::{PhysAddr, VirtAddr};
 
@@ -13,7 +13,7 @@ pub trait Klib {
     /// Maps a physical memory region to a virtual address space and returns the virtual address.
     ///
     /// The returned virtual address is guaranteed to be page-aligned.
-    fn mem_iomap(addr: PhysAddr, size: usize) -> AxResult<VirtAddr>;
+    fn mem_iomap(addr: PhysAddr, size: usize) -> LinuxResult<VirtAddr>;
 
     fn time_busy_wait(dur: Duration);
 

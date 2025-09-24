@@ -8,7 +8,7 @@ struct KlibImpl;
 
 impl_trait! {
     impl Klib for KlibImpl {
-        fn mem_iomap(addr: PhysAddr, size: usize) -> AxResult<VirtAddr> {
+        fn mem_iomap(addr: PhysAddr, size: usize) -> LinuxResult<VirtAddr> {
             mem::iomap(addr, size)
         }
 
