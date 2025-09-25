@@ -3,7 +3,7 @@
 use core::time::Duration;
 
 pub use axerrno::LinuxResult;
-pub type IrqHandler = fn();
+pub type IrqHandler = fn(usize);
 pub use memory_addr::{PhysAddr, VirtAddr};
 
 use trait_ffi::*;
