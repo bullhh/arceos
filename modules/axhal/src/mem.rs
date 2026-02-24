@@ -101,7 +101,7 @@ pub fn init() {
     // Remove all reserved ranges from RAM ranges, and push the remaining as free memory
     reserved_ranges.sort_unstable_by_key(|&(start, _size)| start);
 
-    info!("reserved_ranges: {:#?}", reserved_ranges);
+    info!("reserved_ranges: {:#x?}", reserved_ranges);
     ranges_difference(phys_ram_ranges(), &reserved_ranges, |(start, size)| {
         push(PhysMemRegion::new_ram(start, size, "free memory"));
     })
