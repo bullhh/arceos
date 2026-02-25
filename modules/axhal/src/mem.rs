@@ -110,6 +110,7 @@ pub fn init() {
 
     // Check overlapping
     all_regions.sort_unstable_by_key(|r| r.paddr);
+    info!("all_regions: {:#x?}", all_regions);
     check_sorted_ranges_overlap(all_regions.iter().map(|r| (r.paddr.into(), r.size)))
         .inspect_err(|(a, b)| error!("Physical memory region {a:#x?} overlaps with {b:#x?}"))
         .unwrap();
